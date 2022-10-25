@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return inertia('index');
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('/signin', [LoginController::class, 'index'])->name('login');
 });

@@ -1,7 +1,16 @@
 <script setup lang="ts">
-import { NButton } from 'naive-ui';
+import Navbar from '@/views/components/navbar.vue';
+
+import {
+    NLayout,
+    NLayoutHeader
+} from 'naive-ui';
+
 </script>
 <template layout="default">
-    <h1>Hello World!</h1>
-    <n-button type="primary" strong>Hello World!</n-button>
+    <n-layout>
+        <n-layout-header bordered>
+            <navbar active="home" />
+        </n-layout-header>
+    </n-layout>
 </template>
