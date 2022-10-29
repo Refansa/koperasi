@@ -1,10 +1,18 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/inertia-vue3';
 
-import { NBadge, NButton } from "naive-ui";
 import { Cart } from "@vicons/ionicons5";
 
-defineProps<{ value?: number | string }>();
+import {
+    NBadge,
+    NButton,
+} from "naive-ui";
+
+interface CartButtonProps {
+    value?: number | string,
+}
+
+defineProps<CartButtonProps>();
 
 </script>
 <template>

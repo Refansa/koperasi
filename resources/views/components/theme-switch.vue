@@ -1,17 +1,25 @@
 <script setup lang="ts">
 import { inject } from 'vue';
 
-import { SunnySharp, Moon } from '@vicons/ionicons5';
-
 import { setTheme } from '@/scripts/composables/theme';
 
-import { NSwitch, NIcon, NTooltip } from 'naive-ui';
+import {
+    Moon,
+    Sunny,
+} from '@vicons/ionicons5';
+
+import {
+    NIcon,
+    NSwitch,
+    NTooltip,
+} from 'naive-ui';
 
 const theme: any = inject('theme');
 
 const toggleTheme = () => {
     setTheme(theme);
 };
+
 </script>
 <template>
     <n-tooltip trigger="hover">
@@ -21,7 +29,7 @@ const toggleTheme = () => {
                     <n-icon :component="Moon" />
                 </template>
                 <template #unchecked-icon>
-                    <n-icon :component="SunnySharp" />
+                    <n-icon :component="Sunny" />
                 </template>
             </n-switch>
         </template>

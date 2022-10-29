@@ -38,9 +38,20 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'versions' => [
-            	'php' => PHP_VERSION,
-            	'laravel' => \Illuminate\Foundation\Application::VERSION
+                'php' => PHP_VERSION,
+                'laravel' => \Illuminate\Foundation\Application::VERSION
             ],
+            'auth' => [
+                'user' => fn () => $request->user()
+                    ? $request->user()->only('id', 'name', 'email')
+                    : null,
+            ],
+            'flash' => [
+                'alert' => [
+                    'content' => fn () => $request->session()->get('alert.content'),
+                    'type' => fn () => $request->session()->get('alert.type'),
+                ]
+            ]
         ]);
     }
 }
