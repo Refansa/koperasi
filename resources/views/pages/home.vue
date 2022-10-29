@@ -1,23 +1,17 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/inertia-vue3';
 
-import { onMounted } from 'vue';
-
-import { useAlert } from '@/scripts/composables/alert';
-
 import Navbar from '@/views/components/navbar/navbar.vue';
+import Messenger from '@/views/components/messenger.vue';
 
 import {
     NLayout,
     NLayoutHeader
 } from 'naive-ui';
 
-onMounted(() => {
-    useAlert();
-});
-
 </script>
 <template layout="default">
+    <messenger />
 
     <Head>
         <title>Halaman Utama</title>

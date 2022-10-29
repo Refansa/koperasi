@@ -4,11 +4,9 @@ import { Head } from '@inertiajs/inertia-vue3';
 import {
     ref,
     provide,
-    onMounted,
 } from 'vue';
 
-import { useAlert } from '@/scripts/composables/alert';
-
+import Messenger from '@/views/components/messenger.vue';
 import SignInWrapper from "@/views/components/signin/signin-wrapper.vue";
 import SignInBackground from "@/views/components/signin/signin-background.vue";
 
@@ -16,12 +14,9 @@ const title = ref('Masuk');
 
 provide('title', title);
 
-onMounted(() => {
-    useAlert();
-});
-
 </script>
 <template layout="default">
+    <messenger />
 
     <Head>
         <title>{{ title }}</title>
