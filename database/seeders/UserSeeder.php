@@ -22,6 +22,18 @@ class UserSeeder extends Seeder
             'name'      => 'Muhammad Refansa Ali Muzky',
             'email'     => 'm.refansa.am@gmail.com',
             'password'  => Hash::make('@nomadbush123'),
+            'address'   => 'Jl. Jln',
+            'contact'   => 'm.refansa.am@gmail.com',
+            'role'      => 'admin',
+        ]);
+
+        User::factory()->create([
+            'name'      => 'Fauzan Gusdani',
+            'email'     => 'fauzan.gg@gmail.com',
+            'password'  => Hash::make('progamer'),
+            'address'   => 'Jl. Jln',
+            'contact'   => 'fauzan.gg@gmail.com',
+            'role'      => 'anggota',
         ]);
     }
 }

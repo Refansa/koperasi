@@ -4,6 +4,7 @@ interface UserProperties {
     id: string | number,
     name: string,
     email: string,
+    role: string,
 }
 
 interface AuthProperties {

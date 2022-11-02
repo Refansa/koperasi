@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\SignOutController;
@@ -23,6 +24,10 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::middleware('admin')->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    });
+
     Route::get('/', [RouteController::class, 'home'])->name('home');
 
     Route::post('/signout', [SignOutController::class, 'signOut'])->name('signout');

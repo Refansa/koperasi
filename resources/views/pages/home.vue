@@ -18,7 +18,7 @@ import {
     </Head>
     <n-layout>
         <n-layout-header bordered>
-            <navbar active="home" />
+            <navbar />
         </n-layout-header>
     </n-layout>
 </template>
