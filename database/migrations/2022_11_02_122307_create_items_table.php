@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Supplier::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Supplier::class)->nullable()->constrained()->nullOnDelete();
             $table->string('name');
             $table->integer('stock');
             $table->integer('price');

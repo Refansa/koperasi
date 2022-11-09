@@ -11,8 +11,7 @@ const cardStyle: CSSProperties = {
     borderRadius: '1rem',
     overflow: 'hidden',
     boxShadow: 'var(--box-shadow-1)',
-}
-
+};
 </script>
 <template>
     <div>

@@ -1,23 +1,14 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/inertia-vue3';
-
-import {
-    ref,
-    provide,
-} from 'vue';
-
-import Messenger from '@/views/components/messenger.vue';
-import SignInWrapper from "@/views/components/signin/signin-wrapper.vue";
-import SignInBackground from "@/views/components/signin/signin-background.vue";
+import { ref, provide } from 'vue';
+import SignInWrapper from '@/views/components/signin/signin-wrapper.vue';
+import SignInBackground from '@/views/components/signin/signin-background.vue';
 
 const title = ref('Masuk');
 
 provide('title', title);
-
 </script>
 <template layout="default">
-    <messenger />
-
     <Head>
         <title>{{ title }}</title>
     </Head>

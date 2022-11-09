@@ -48,8 +48,8 @@ class HandleInertiaRequests extends Middleware
             ],
             'flash' => [
                 'alert' => [
-                    'content' => fn () => $request->session()->get('alert.content'),
-                    'type' => fn () => $request->session()->get('alert.type'),
+                    'content'   => fn () => $request->session()->get('alert.content'),
+                    'type'      => fn () => $request->session()->get('alert.type'),
                 ]
             ]
         ]);

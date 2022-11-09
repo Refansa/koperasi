@@ -31,7 +31,10 @@ class SignInController extends Controller
             $request->session()->regenerate();
 
             if (auth()->user()->role === 'admin') {
-                return redirect()->route('admin');
+                return redirect()->route('admin.home')->with([
+                    'alert.content' => 'Selamat datang, ' . auth()->user()->name . '!',
+                    'alert.type'    => 'info',
+                ]);
             }
 
             return redirect()->route('home')->with([

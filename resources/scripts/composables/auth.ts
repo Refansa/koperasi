@@ -1,23 +1,14 @@
-import { usePage } from "@inertiajs/inertia-vue3";
-
-interface UserProperties {
-    id: string | number,
-    name: string,
-    email: string,
-    role: string,
-}
-
+import { usePage } from '@inertiajs/inertia-vue3';
+import { UserProperties } from '@/scripts/composables/model';
 interface AuthProperties {
-    user: UserProperties,
+    user: UserProperties;
 }
 
 function useAuth() {
     const page = usePage();
-    const auth = page.props.value.auth;
+    const auth = page.props.value.auth as AuthProperties;
 
-    return auth as AuthProperties;
+    return auth;
 }
 
-export {
-    useAuth,
-}
+export { useAuth, AuthProperties };

@@ -1,12 +1,12 @@
-import { usePage } from "@inertiajs/inertia-vue3";
+import { usePage } from '@inertiajs/inertia-vue3';
 
-interface AlertPropeties {
-    content: string,
-    type?: 'info' | 'success' | 'error' | 'warning',
+interface AlertProperties {
+    content: string;
+    type?: 'info' | 'success' | 'error' | 'warning';
 }
 
 interface FlashProperties {
-    alert: AlertPropeties,
+    alert: AlertProperties;
 }
 
 function useFlash() {
@@ -16,6 +16,4 @@ function useFlash() {
     return flash as FlashProperties;
 }
 
-export {
-    useFlash,
-}
+export { useFlash, AlertProperties, FlashProperties };

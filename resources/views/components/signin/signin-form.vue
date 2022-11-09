@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { useForm } from '@inertiajs/inertia-vue3';
-
-import {
-    ref,
-    Transition,
-} from 'vue';
+import { ref } from 'vue';
 
 import {
     NH1,
@@ -26,15 +22,15 @@ const signInRef = ref<FormInst | null>(null);
 const signUpRef = ref<FormInst | null>(null);
 
 interface SignInType {
-    email?: string,
-    password?: string,
-    rememberMe?: boolean,
+    email?: string;
+    password?: string;
+    rememberMe?: boolean;
 }
 
 interface SignUpType {
-    email?: string,
-    password?: string,
-    reenteredPassword?: string,
+    email?: string;
+    password?: string;
+    reenteredPassword?: string;
 }
 
 const signInForm = useForm<SignInType>({
@@ -49,10 +45,7 @@ const signUpForm = useForm<SignUpType>({
     reenteredPassword: '',
 });
 
-function validatePasswordStartWith(
-    rule: FormItemRule,
-    value: string
-): boolean {
+function validatePasswordStartWith(rule: FormItemRule, value: string): boolean {
     return (
         !!signUpForm.password &&
         signUpForm.password.startsWith(value) &&
@@ -62,7 +55,6 @@ function validatePasswordStartWith(
 function validatePasswordSame(rule: FormItemRule, value: string): boolean {
     return value === signUpForm.password;
 }
-
 
 const signInRules: FormRules = {
     email: [
@@ -92,9 +84,9 @@ const signInRules: FormRules = {
             max: 24,
             message: 'Maksimal 24 karakter',
             trigger: ['input', 'blur'],
-        }
+        },
     ],
-}
+};
 
 const signUpRules: FormRules = {
     email: [
@@ -125,7 +117,7 @@ const signUpRules: FormRules = {
             max: 24,
             message: 'Maksimal 24 karakter',
             trigger: ['input', 'blur'],
-        }
+        },
     ],
     reenteredPassword: [
         {
@@ -136,91 +128,150 @@ const signUpRules: FormRules = {
         {
             validator: validatePasswordStartWith,
             message: 'Password tidak sama dengan yang diulangi!',
-            trigger: 'input'
+            trigger: 'input',
         },
         {
             validator: validatePasswordSame,
             message: 'Password tidak sama dengan yang diulangi!',
-            trigger: ['blur', 'password-input']
-        }
+            trigger: ['blur', 'password-input'],
+        },
     ],
-}
+};
 
-const emailOptions = (model: any) => {
+const emailOptions = (model: SignInType | SignUpType) => {
     return [
         ['Google', '@gmail.com'],
         ['Yahoo', '@yahoo.com'],
         ['Outlook', '@outlook.com'],
-    ].map(emailInfo => {
+    ].map((emailInfo) => {
         return {
             type: 'group',
             label: emailInfo[0],
             key: emailInfo[0],
             children: [model.email?.split('@')[0] + emailInfo[1]],
-        }
+        };
     });
-}
+};
 
-const signIn = (e: Event) => {
+const signIn = () => {
     signInRef.value?.validate((errors) => {
         if (!errors) {
             signInForm.post('/signin');
         }
-    })
-}
+    });
+};
 
-const signUp = (e: Event) => {
+const signUp = () => {
     signUpRef.value?.validate((errors) => {
         if (!errors) {
             signUpForm.post('/signup');
         }
-    })
-}
-
+    });
+};
 </script>
 <template>
-    <Transition :name="tab === 'signin' ? 'slide-right' : 'slide-left'" mode="out-in">
-        <n-form @submit.prevent="signIn" class="w-72 sm:w-80 lg:w-96" size="large" ref="signInRef" :model="signInForm"
-            :rules="signInRules" v-if="tab === 'signin'">
+    <Transition
+        :name="tab === 'signin' ? 'slide-right' : 'slide-left'"
+        mode="out-in">
+        <n-form
+            v-if="tab === 'signin'"
+            ref="signInRef"
+            class="w-72 sm:w-80 lg:w-96"
+            size="large"
+            :model="signInForm"
+            :rules="signInRules"
+            @submit.prevent="signIn">
             <n-h1 class="text-center">Masuk</n-h1>
-            <n-form-item path="email" label="Email">
-                <n-auto-complete :options="emailOptions(signInForm)" placeholder="budi@contoh.com"
-                    v-model:value="signInForm.email" type="text">
+            <n-form-item
+                path="email"
+                label="Email">
+                <n-auto-complete
+                    v-model:value="signInForm.email"
+                    :options="emailOptions(signInForm)"
+                    placeholder="budi@contoh.com"
+                    type="text">
                 </n-auto-complete>
             </n-form-item>
-            <n-form-item path="password" label="Password">
-                <n-input placeholder="Password" show-password-on="click" v-model:value="signInForm.password"
+            <n-form-item
+                path="password"
+                label="Password">
+                <n-input
+                    v-model:value="signInForm.password"
+                    placeholder="Password"
+                    show-password-on="click"
                     type="password" />
             </n-form-item>
             <div class="flex flex-col gap-4">
-                <n-text v-if="signInForm.errors.email" type="error">
+                <n-text
+                    v-if="signInForm.errors.email"
+                    type="error">
                     {{ signInForm.errors.email }}
                 </n-text>
-                <n-checkbox size="large" v-model:checked="signInForm.rememberMe">Remember Me</n-checkbox>
+                <n-checkbox
+                    v-model:checked="signInForm.rememberMe"
+                    size="large"
+                    >Remember Me</n-checkbox
+                >
             </div>
             <div class="mt-8">
-                <n-button :disabled="signInForm.processing" attr-type="submit" size="large" block type="success">Masuk
+                <n-button
+                    :disabled="signInForm.processing"
+                    :loading="signInForm.processing"
+                    attr-type="submit"
+                    size="large"
+                    block
+                    type="success"
+                    >Masuk
                 </n-button>
             </div>
         </n-form>
-        <n-form @submit.prevent="signUp" class="w-72 sm:w-80 lg:w-96" size="large" ref="signUpRef" :model="signUpForm"
-            :rules="signUpRules" v-else-if="tab === 'signup'">
+        <n-form
+            v-else-if="tab === 'signup'"
+            ref="signUpRef"
+            class="w-72 sm:w-80 lg:w-96"
+            size="large"
+            :model="signUpForm"
+            :rules="signUpRules"
+            @submit.prevent="signUp">
             <n-h1 class="text-center">Daftar</n-h1>
-            <n-form-item path="email" label="Email">
-                <n-auto-complete :options="emailOptions(signUpForm)" placeholder="budi@contoh.com"
-                    v-model:value="signUpForm.email" type="text">
+            <n-form-item
+                path="email"
+                label="Email">
+                <n-auto-complete
+                    v-model:value="signUpForm.email"
+                    :options="emailOptions(signUpForm)"
+                    placeholder="budi@contoh.com"
+                    type="text">
                 </n-auto-complete>
             </n-form-item>
-            <n-form-item path="password" label="Password">
-                <n-input placeholder="Password" show-password-on="click" v-model:value="signUpForm.password"
+            <n-form-item
+                path="password"
+                label="Password">
+                <n-input
+                    v-model:value="signUpForm.password"
+                    placeholder="Password"
+                    show-password-on="click"
                     type="password" />
             </n-form-item>
-            <n-form-item first path="reenteredPassword" label="Ulangi Password">
-                <n-input placeholder="Ulangi Password" show-password-on="click"
-                    v-model:value="signUpForm.reenteredPassword" type="password" />
+            <n-form-item
+                first
+                path="reenteredPassword"
+                label="Ulangi Password">
+                <n-input
+                    v-model:value="signUpForm.reenteredPassword"
+                    placeholder="Ulangi Password"
+                    show-password-on="click"
+                    type="password" />
             </n-form-item>
             <div>
-                <n-button :disabled="signUpForm.processing" attr-type="submit" size="large" block type="success">Daftar
+                <n-button
+                    :disabled="signUpForm.processing"
+                    :loading="signUpForm.processing"
+                    attr-type="submit"
+                    size="large"
+                    block
+                    type="success"
+                    >Daftar
                 </n-button>
             </div>
         </n-form>

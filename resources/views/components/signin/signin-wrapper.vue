@@ -1,47 +1,40 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/inertia-vue3';
-
-import {
-    ref,
-    inject,
-    CSSProperties,
-} from 'vue';
-
+import { ref, Ref, inject, CSSProperties } from 'vue';
 import KoperasiLogo from '@/views/components/koperasi-logo.vue';
 import SignInCard from '@/views/components/signin/signin-card.vue';
 import SignInForm from '@/views/components/signin/signin-form.vue';
 import SignInIllustration from '@/views/components/signin/signin-illustration.vue';
-
-import {
-    NTab,
-    NTabs,
-    NCard,
-    NSpace,
-    NElement,
-} from 'naive-ui';
+import { NTab, NTabs, NCard, NSpace, NElement } from 'naive-ui';
 
 const tab = ref('signin');
 
-const title: any = inject('title');
+const title: Ref<string> | undefined = inject('title');
 
 const tabsStyle: CSSProperties = {
     '--n-tab-gap': '20px',
     '--n-tab-font-size': '16px',
+};
+
+if (title) {
+    title.value = tab.value === 'signin' ? 'Masuk' : 'Daftar';
 }
-
-title.value = tab.value === 'signin'
-    ? 'Masuk'
-    : 'Daftar';
-
 </script>
 <template>
     <sign-in-card>
         <n-element>
-            <n-space class="p-8" justify="space-between" align="center">
+            <n-space
+                class="p-8"
+                justify="space-between"
+                align="center">
                 <Link href="/">
-                <koperasi-logo />
+                    <koperasi-logo />
                 </Link>
-                <n-tabs :style="tabsStyle" default-value="signin" v-model:value="tab" animated>
+                <n-tabs
+                    v-model:value="tab"
+                    :style="tabsStyle"
+                    default-value="signin"
+                    animated>
                     <n-tab name="signin">
                         <span class="font-bold">Masuk</span>
                     </n-tab>

@@ -11,7 +11,7 @@ const backgroundStyle: CSSProperties = {
 
     backgroundSize: 'cover',
     backgroundImage: "url('/images/Sprinkle.svg')",
-}
+};
 </script>
 <template>
     <div :style="backgroundStyle">

@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\SignOutController;
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,15 +20,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::middleware('guest')->group(function () {
     Route::get('/signin', [SignInController::class, 'index'])->name('signin');
     Route::post('/signin', [SignInController::class, 'signIn'])->name('signin.post');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::middleware('admin')->group(function () {
-        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('home');
+
+        Route::resource('users', UserController::class);
+        Route::resource('suppliers', SupplierController::class);
+        Route::resource('items', ItemController::class);
     });
 
     Route::get('/', [RouteController::class, 'home'])->name('home');

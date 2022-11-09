@@ -1,0 +1,11 @@
+app
+bootstrap
+config
+database
+lang
+node_modules
+public
+routes
+storage
+tests
+vendor
