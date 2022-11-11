@@ -100,8 +100,8 @@ class SupplierController extends Controller
         Supplier::destroy($supplier->id);
 
         return back()->with([
+            'alert.content' => 'Supplier berhasil dihapus',
             'alert.type' => 'success',
-            'alert.content' => 'Supplier berhasil dihapus'
         ]);
     }
 }

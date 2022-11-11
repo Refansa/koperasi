@@ -47,12 +47,12 @@ class UserController extends Controller
             'email'     => ['required', 'email', 'unique:users', 'max:255'],
             'password'  => ['required', 'string', 'min:8', 'max:24'],
             'role'      => ['required', 'string'],
-            'division'  => ['required', 'string'],
+            'division'  => ['required', 'numeric'],
             'address'   => ['required', 'string'],
             'contact'   => ['required', 'string'],
         ]);
 
-        $division = Division::where('position', $data['division'])->first();
+        $division = Division::find($data['division']);
         unset($data['division']);
 
         $data['password'] = Hash::make($data['password']);
@@ -107,7 +107,7 @@ class UserController extends Controller
         $rules = [
             'name'      => ['required', 'string'],
             'role'      => ['required', 'string'],
-            'division'  => ['required', 'string'],
+            'division'  => ['required', 'numeric'],
             'address'   => ['required', 'string'],
             'contact'   => ['required', 'string'],
         ];
@@ -122,9 +122,9 @@ class UserController extends Controller
 
         $data = $request->validate($rules);
 
-        $division = Division::where('position', $data['division'])->first();
-        unset($data['division']);
+        $division = Division::find($data['division']);
         $data['division_id'] = $division->id;
+        unset($data['division']);
 
         if ($request->password) {
             $data['password'] = Hash::make($data['password']);
@@ -149,8 +149,8 @@ class UserController extends Controller
         User::destroy($user->id);
 
         return back()->with([
+            'alert.content' => 'Pengguna berhasil dihapus',
             'alert.type' => 'success',
-            'alert.content' => 'Pengguna berhasil dihapus'
         ]);
     }
 }

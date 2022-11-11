@@ -1,25 +1,18 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { h } from 'vue';
-import { UserProperties } from '@/scripts/composables/model';
+import { ItemProperties } from '@/scripts/composables/model';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import AdminDataAction from '@/views/components/admin/admin-data-action.vue';
-import {
-    NTag,
-    NH1,
-    NSpace,
-    NDataTable,
-    NButton,
-    DataTableColumns,
-} from 'naive-ui';
+import { NH1, NSpace, NDataTable, NButton, DataTableColumns } from 'naive-ui';
 
-defineProps<{ user: UserProperties[] }>();
+defineProps<{ items: ItemProperties[] }>();
 
-const active = 'user-data';
+const active = 'item-data';
 
-const createColumns = (): DataTableColumns<UserProperties> => {
+const createColumns = (): DataTableColumns<ItemProperties> => {
     return [
         {
             title: '#',
@@ -31,42 +24,29 @@ const createColumns = (): DataTableColumns<UserProperties> => {
             },
         },
         {
-            title: 'Nama',
+            title: 'Nama Barang',
             key: 'name',
             sorter: 'default',
         },
         {
-            title: 'Bagian',
-            key: 'division.position',
+            title: 'Nama Supplier',
+            key: 'supplier.name',
             sorter: (a, b) => {
-                const x = (a.division?.position ?? '').toLowerCase();
-                const y = (b.division?.position ?? '').toLowerCase();
+                const x = (a.supplier?.name ?? '').toLowerCase();
+                const y = (b.supplier?.name ?? '').toLowerCase();
                 if (x < y) return -1;
                 if (x > y) return 1;
                 return 0;
             },
-            render(u) {
-                return h(NTag, [u.division?.position]);
-            },
         },
         {
-            title: 'Email',
-            key: 'email',
+            title: 'Stok Barang',
+            key: 'stock',
             sorter: 'default',
         },
         {
-            title: 'Alamat',
-            key: 'address',
-            sorter: 'default',
-        },
-        {
-            title: 'Kontak',
-            key: 'contact',
-            sorter: 'default',
-        },
-        {
-            title: 'Role',
-            key: 'role',
+            title: 'Harga Barang',
+            key: 'price',
             sorter: 'default',
         },
         {
@@ -75,8 +55,8 @@ const createColumns = (): DataTableColumns<UserProperties> => {
             align: 'center',
             render(u) {
                 return h(AdminDataAction, {
-                    editHref: `/admin/users/${u.id}/edit`,
-                    deleteHref: `/admin/users/${u.id}`,
+                    editHref: `/admin/items/${u.id}/edit`,
+                    deleteHref: `/admin/items/${u.id}`,
                 });
             },
         },
@@ -87,7 +67,7 @@ const columns = createColumns();
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Data Pengguna</title>
+        <title>Admin | Data Barang</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -98,16 +78,16 @@ const columns = createColumns();
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Data Pengguna</n-h1>
-                <Link href="/admin/users/create">
-                    <n-button type="primary">Pengguna Baru</n-button>
+                <n-h1 align="center">Data Barang</n-h1>
+                <Link href="/admin/items/create">
+                    <n-button type="primary">Barang Baru</n-button>
                 </Link>
                 <n-data-table
                     :bordered="false"
                     :single-line="false"
                     :columns="columns"
-                    :data="user"
-                    :scroll-x="1800"
+                    :data="items"
+                    :scroll-x="1200"
                     :pagination="{ pageSize: 10 }" />
             </n-space>
         </template>

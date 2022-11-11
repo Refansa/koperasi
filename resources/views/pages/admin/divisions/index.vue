@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { h } from 'vue';
-import { UserProperties } from '@/scripts/composables/model';
+import { DivisionProperties } from '@/scripts/composables/model';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import AdminDataAction from '@/views/components/admin/admin-data-action.vue';
 import {
-    NTag,
     NH1,
     NSpace,
     NDataTable,
@@ -15,11 +14,11 @@ import {
     DataTableColumns,
 } from 'naive-ui';
 
-defineProps<{ user: UserProperties[] }>();
+defineProps<{ divisions: DivisionProperties[] }>();
 
-const active = 'user-data';
+const active = 'division-data';
 
-const createColumns = (): DataTableColumns<UserProperties> => {
+const createColumns = (): DataTableColumns<DivisionProperties> => {
     return [
         {
             title: '#',
@@ -31,52 +30,24 @@ const createColumns = (): DataTableColumns<UserProperties> => {
             },
         },
         {
-            title: 'Nama',
-            key: 'name',
+            title: 'ID',
+            key: 'id',
             sorter: 'default',
         },
         {
             title: 'Bagian',
-            key: 'division.position',
-            sorter: (a, b) => {
-                const x = (a.division?.position ?? '').toLowerCase();
-                const y = (b.division?.position ?? '').toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            },
-            render(u) {
-                return h(NTag, [u.division?.position]);
-            },
-        },
-        {
-            title: 'Email',
-            key: 'email',
-            sorter: 'default',
-        },
-        {
-            title: 'Alamat',
-            key: 'address',
-            sorter: 'default',
-        },
-        {
-            title: 'Kontak',
-            key: 'contact',
-            sorter: 'default',
-        },
-        {
-            title: 'Role',
-            key: 'role',
+            key: 'position',
             sorter: 'default',
         },
         {
             title: 'Aksi',
             key: 'actions',
             align: 'center',
+            width: 200,
             render(u) {
                 return h(AdminDataAction, {
-                    editHref: `/admin/users/${u.id}/edit`,
-                    deleteHref: `/admin/users/${u.id}`,
+                    editHref: `/admin/divisions/${u.id}/edit`,
+                    deleteHref: `/admin/divisions/${u.id}`,
                 });
             },
         },
@@ -87,7 +58,7 @@ const columns = createColumns();
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Data Pengguna</title>
+        <title>Admin | Data Bagian</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -98,16 +69,16 @@ const columns = createColumns();
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Data Pengguna</n-h1>
-                <Link href="/admin/users/create">
-                    <n-button type="primary">Pengguna Baru</n-button>
+                <n-h1 align="center">Data Bagian</n-h1>
+                <Link href="/admin/divisions/create">
+                    <n-button type="primary">Bagian Baru</n-button>
                 </Link>
                 <n-data-table
                     :bordered="false"
                     :single-line="false"
                     :columns="columns"
-                    :data="user"
-                    :scroll-x="1800"
+                    :data="divisions"
+                    :scroll-x="800"
                     :pagination="{ pageSize: 10 }" />
             </n-space>
         </template>

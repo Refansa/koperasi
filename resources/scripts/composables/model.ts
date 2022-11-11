@@ -24,8 +24,8 @@ interface ItemProperties {
     id: string | number | null;
     supplier: SupplierProperties | null;
     name: string | null;
-    stock: string | number | null;
-    price: string | number | null;
+    stock: number | null;
+    price: number | null;
 }
 
 export { UserProperties, DivisionProperties, SupplierProperties, ItemProperties };

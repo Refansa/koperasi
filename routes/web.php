@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SignInController;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('users', UserController::class);
         Route::resource('suppliers', SupplierController::class);
         Route::resource('items', ItemController::class);
+        Route::resource('divisions', DivisionController::class);
     });
 
     Route::get('/', [RouteController::class, 'home'])->name('home');

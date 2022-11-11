@@ -81,6 +81,7 @@ const formRules: FormRules = {
     ],
     division: [
         {
+            type: 'number',
             required: true,
             message: 'Divisi diperlukan',
             trigger: 'blur',
@@ -105,7 +106,7 @@ const formRules: FormRules = {
 const divisionOptions: SelectMixedOption[] = props.divisions.map((v) => {
     return {
         label: v.position,
-        value: v.position,
+        value: v.id,
     } as SelectMixedOption;
 });
 

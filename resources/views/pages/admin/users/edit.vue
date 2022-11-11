@@ -36,7 +36,7 @@ const form = useForm({
     email: props.user.email as string,
     password: '',
     role: props.user.role,
-    division: props.user.division?.position,
+    division: props.user.division?.id,
     address: props.user.address,
     contact: props.user.contact,
 });
@@ -82,6 +82,7 @@ const formRules: FormRules = {
     ],
     division: [
         {
+            type: 'number',
             required: true,
             message: 'Divisi diperlukan',
             trigger: 'blur',
@@ -106,7 +107,7 @@ const formRules: FormRules = {
 const divisionOptions: SelectMixedOption[] = props.divisions.map((v) => {
     return {
         label: v.position,
-        value: v.position,
+        value: v.id,
     } as SelectMixedOption;
 });
 

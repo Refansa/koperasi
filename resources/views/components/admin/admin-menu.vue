@@ -7,7 +7,7 @@ import { NMenu } from 'naive-ui';
 import { NIcon } from 'naive-ui';
 import type { MenuOption } from 'naive-ui';
 import { DashboardFilled } from '@vicons/material';
-import { Person } from '@vicons/ionicons5';
+import { Person, IdCard } from '@vicons/ionicons5';
 import { PersonCall20Filled, Box20Filled } from '@vicons/fluent';
 
 function renderIcon(icon: Component) {
@@ -25,9 +25,21 @@ const menuOptions: MenuOption[] = [
         icon: renderIcon(DashboardFilled),
     },
     {
-        label: renderLink('/admin/users', 'Data Pengguna'),
-        key: 'user-data',
+        label: 'Pengguna',
+        key: 'user',
         icon: renderIcon(Person),
+        children: [
+            {
+                label: renderLink('/admin/users', 'Data Pengguna'),
+                key: 'user-data',
+                icon: renderIcon(Person),
+            },
+            {
+                label: renderLink('/admin/divisions', 'Data Bagian'),
+                key: 'division-data',
+                icon: renderIcon(IdCard),
+            },
+        ],
     },
     {
         label: renderLink('/admin/suppliers', 'Data Supplier'),

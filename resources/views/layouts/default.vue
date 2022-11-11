@@ -4,7 +4,12 @@
 import { provide } from 'vue';
 import { useTheme } from '@/scripts/composables/theme';
 import Messenger from '@/views/components/messenger.vue';
-import { NGlobalStyle, NConfigProvider, NMessageProvider } from 'naive-ui';
+import {
+    NGlobalStyle,
+    NConfigProvider,
+    NMessageProvider,
+    NDialogProvider,
+} from 'naive-ui';
 
 const theme = useTheme();
 provide('theme', theme);
@@ -12,9 +17,11 @@ provide('theme', theme);
 <template>
     <n-config-provider :theme="theme">
         <n-global-style />
-        <n-message-provider>
-            <messenger />
-            <slot />
-        </n-message-provider>
+        <n-dialog-provider>
+            <n-message-provider>
+                <messenger />
+                <slot />
+            </n-message-provider>
+        </n-dialog-provider>
     </n-config-provider>
 </template>
