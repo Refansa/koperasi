@@ -17,6 +17,7 @@ import {
     FormInst,
     NElement,
 } from 'naive-ui';
+import route from 'ziggy-js';
 
 const props = defineProps<{ supplier: SupplierProperties }>();
 
@@ -55,7 +56,7 @@ const formRules: FormRules = {
 const submitForm = () => {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.put(`/admin/suppliers/${props.supplier.id}`);
+            form.put(route('admin.suppliers.update', props.supplier.id));
         }
     });
 };
@@ -76,7 +77,7 @@ const active = 'supplier-data';
         <template #default>
             <n-space vertical>
                 <n-h1 align="center">Edit Supplier</n-h1>
-                <Link href="/admin/suppliers">
+                <Link :href="route('admin.suppliers.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>
                 <n-card>

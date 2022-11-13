@@ -23,6 +23,7 @@ import {
     NElement,
 } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
+import route from 'ziggy-js';
 
 const props = defineProps<{
     divisions: DivisionProperties[];
@@ -140,7 +141,7 @@ const emailOptions = (form: { email: string }) => {
 const submitForm = () => {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.put(`/admin/users/${props.user.id}`);
+            form.put(route('admin.users.update', props.user.id));
         }
     });
 };
@@ -161,7 +162,7 @@ const active = 'user-data';
         <template #default>
             <n-space vertical>
                 <n-h1 align="center">Edit Pengguna</n-h1>
-                <Link href="/admin/users">
+                <Link :href="route('admin.users.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>
                 <n-card>

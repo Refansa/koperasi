@@ -4,6 +4,7 @@ import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import { NSpace, NAlert, NGrid, NGridItem, NCard, NButton } from 'naive-ui';
+import route from 'ziggy-js';
 
 defineProps<{ user: number; supplier: number; item: number }>();
 
@@ -42,7 +43,7 @@ const active = 'dashboard';
                             title="Data Pengguna">
                             {{ user }} Pengguna
                             <template #action>
-                                <Link href="/admin/users">
+                                <Link :href="route('admin.users.index')">
                                     <n-button
                                         type="info"
                                         block
@@ -58,7 +59,7 @@ const active = 'dashboard';
                             title="Data Supplier">
                             {{ supplier }} Supplier
                             <template #action>
-                                <Link href="/admin/suppliers">
+                                <Link :href="route('admin.suppliers.index')">
                                     <n-button
                                         type="info"
                                         block
@@ -74,7 +75,7 @@ const active = 'dashboard';
                             title="Data Barang">
                             {{ item }} Barang
                             <template #action>
-                                <Link href="/admin/items">
+                                <Link :href="route('admin.items.index')">
                                     <n-button
                                         type="info"
                                         block

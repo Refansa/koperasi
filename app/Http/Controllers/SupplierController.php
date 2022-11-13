@@ -86,7 +86,18 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $data = $request->validate([
+            'name'      => ['required', 'string'],
+            'address'   => ['required', 'string'],
+            'contact'   => ['required', 'string'],
+        ]);
+
+        $supplier->update($data);
+
+        return redirect()->route('admin.suppliers.index')->with([
+            'alert.content' => 'Supplier berhasil diubah',
+            'alert.type'    => 'success',
+        ]);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ItemCategory;
 use App\Models\Supplier;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,10 +19,11 @@ class ItemFactory extends Factory
     public function definition()
     {
         return [
-            'supplier_id'   => Supplier::factory(),
-            'name'          => fake()->name(),
-            'stock'         => fake()->randomNumber(),
-            'price'         => fake()->randomNumber(),
+            'supplier_id'           => Supplier::factory(),
+            'item_category_id'      => ItemCategory::factory(),
+            'name'                  => fake()->name(),
+            'stock'                 => fake()->randomNumber(),
+            'price'                 => fake()->randomNumber(),
         ];
     }
 }

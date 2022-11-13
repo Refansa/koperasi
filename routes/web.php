@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SignInController;
@@ -31,12 +32,22 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('home');
 
         Route::resource('users', UserController::class);
-        Route::resource('suppliers', SupplierController::class);
-        Route::resource('items', ItemController::class);
         Route::resource('divisions', DivisionController::class);
+
+        Route::resource('suppliers', SupplierController::class);
+
+        Route::resource('items/categories', ItemCategoryController::class)
+            ->names('items.categories')
+            ->parameter('categories', 'itemCategory');
+        Route::resource('items', ItemController::class);
+
+        Route::get('deposit', [RouteController::class, 'deposit_index'])->name('deposit.index');
     });
 
     Route::get('/', [RouteController::class, 'home'])->name('home');
 
     Route::post('/signout', [SignOutController::class, 'signOut'])->name('signout');
 });
+
+// Development Purpose, used as a placeholder unspecified routes.
+Route::any('/stub', fn () => abort(404))->name('stub');

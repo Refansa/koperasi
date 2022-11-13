@@ -14,10 +14,16 @@ class Item extends Model
         'supplier_id',
         'stock',
         'price',
+        'item_category_id',
     ];
 
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function item_category()
+    {
+        return $this->belongsTo(ItemCategory::class);
     }
 }

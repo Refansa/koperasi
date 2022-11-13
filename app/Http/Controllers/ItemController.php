@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\ItemCategory;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+
+use function GuzzleHttp\Promise\all;
 
 class ItemController extends Controller
 {
@@ -17,6 +20,7 @@ class ItemController extends Controller
     {
         $items = Item::all();
         $items->load('supplier');
+        $items->load('item_category');
 
         return inertia('admin.items.index', [
             'items' => $items,
@@ -30,10 +34,12 @@ class ItemController extends Controller
      */
     public function create()
     {
-        $suppliers = Supplier::all();
+        $suppliers  = Supplier::all();
+        $categories = ItemCategory::all();
 
         return inertia('admin.items.create', [
-            'suppliers' => $suppliers,
+            'suppliers'     => $suppliers,
+            'categories'    => $categories,
         ]);
     }
 
@@ -46,18 +52,14 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'      => ['required', 'string'],
-            'supplier'  => ['required', 'numeric'],
-            'stock'     => ['required', 'numeric'],
-            'price'     => ['required', 'numeric'],
+            'name'              => ['required', 'string'],
+            'supplier_id'       => ['required', 'numeric'],
+            'stock'             => ['required', 'numeric'],
+            'price'             => ['required', 'numeric'],
+            'item_category_id'  => [],
         ]);
 
-        $supplier = Supplier::find($data['supplier']);
-        unset($data['supplier']);
-
-        $item = new Item($data);
-
-        $supplier->items()->save($item);
+        Item::create($data);
 
         return redirect()->route('admin.items.index')->with([
             'alert.content' => 'Barang berhasil dibuat',
@@ -84,12 +86,15 @@ class ItemController extends Controller
      */
     public function edit(Item $item)
     {
-        $suppliers = Supplier::all();
         $item->load('supplier');
+        $item->load('item_category');
+        $suppliers  = Supplier::all();
+        $categories = ItemCategory::all();
 
         return inertia('admin.items.edit', [
-            'item' => $item,
-            'suppliers' => $suppliers,
+            'item'          => $item,
+            'suppliers'     => $suppliers,
+            'categories'    => $categories,
         ]);
     }
 
@@ -103,15 +108,12 @@ class ItemController extends Controller
     public function update(Request $request, Item $item)
     {
         $data = $request->validate([
-            'name'      => ['required', 'string'],
-            'supplier'  => ['required', 'numeric'],
-            'stock'     => ['required', 'numeric'],
-            'price'     => ['required', 'numeric'],
+            'name'              => ['required', 'string'],
+            'supplier_id'       => ['required', 'numeric'],
+            'price'             => ['required', 'numeric'],
+            'stock'             => ['required', 'numeric'],
+            'item_category_id'  => [],
         ]);
-
-        $supplier = Supplier::find($data['supplier']);
-        $data['supplier_id'] = $supplier->id;
-        unset($data['supplier']);
 
         $item->update($data);
 

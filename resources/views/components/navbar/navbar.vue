@@ -7,6 +7,7 @@ import CartButton from '@/views/components/navbar/navbar-cart.vue';
 import AvatarDropdown from '@/views/components/navbar/navbar-avatar.vue';
 import { Search } from '@vicons/ionicons5';
 import { NTag, NIcon, NInput, NSpace } from 'naive-ui';
+import route from 'ziggy-js';
 
 defineProps<{ type?: 'admin' }>();
 const search = ref(null);
@@ -24,7 +25,7 @@ function performSearch(e: KeyboardEvent) {
             align="center"
             :wrap="false">
             <div class="flex items-center gap-4">
-                <Link href="/">
+                <Link :href="route('home')">
                     <logo class="flex sm:hidden" />
                     <koperasi-logo class="hidden sm:flex" />
                 </Link>

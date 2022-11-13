@@ -6,6 +6,7 @@ import SignInCard from '@/views/components/signin/signin-card.vue';
 import SignInForm from '@/views/components/signin/signin-form.vue';
 import SignInIllustration from '@/views/components/signin/signin-illustration.vue';
 import { NTab, NTabs, NCard, NSpace, NElement } from 'naive-ui';
+import route from 'ziggy-js';
 
 const tab = ref('signin');
 
@@ -27,7 +28,7 @@ if (title) {
                 class="p-8"
                 justify="space-between"
                 align="center">
-                <Link href="/">
+                <Link :href="route('home')">
                     <koperasi-logo />
                 </Link>
                 <n-tabs

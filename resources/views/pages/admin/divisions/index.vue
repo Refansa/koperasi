@@ -6,13 +6,8 @@ import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import AdminDataAction from '@/views/components/admin/admin-data-action.vue';
-import {
-    NH1,
-    NSpace,
-    NDataTable,
-    NButton,
-    DataTableColumns,
-} from 'naive-ui';
+import { NH1, NSpace, NDataTable, NButton, DataTableColumns } from 'naive-ui';
+import route from 'ziggy-js';
 
 defineProps<{ divisions: DivisionProperties[] }>();
 
@@ -46,8 +41,8 @@ const createColumns = (): DataTableColumns<DivisionProperties> => {
             width: 200,
             render(u) {
                 return h(AdminDataAction, {
-                    editHref: `/admin/divisions/${u.id}/edit`,
-                    deleteHref: `/admin/divisions/${u.id}`,
+                    editHref: route('admin.divisions.edit', u.id),
+                    deleteHref: route('admin.divisions.destroy', u.id),
                 });
             },
         },
@@ -58,7 +53,7 @@ const columns = createColumns();
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Data Bagian</title>
+        <title>Admin | Bagian Pengguna</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -69,8 +64,8 @@ const columns = createColumns();
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Data Bagian</n-h1>
-                <Link href="/admin/divisions/create">
+                <n-h1 align="center">Bagian Pengguna</n-h1>
+                <Link :href="route('admin.divisions.create')">
                     <n-button type="primary">Bagian Baru</n-button>
                 </Link>
                 <n-data-table

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { Head, Link, useForm } from '@inertiajs/inertia-vue3';
-import { SupplierProperties } from '@/scripts/composables/model';
+import {
+    SupplierProperties,
+    ItemCategoryProperties,
+} from '@/scripts/composables/model';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
@@ -21,21 +24,35 @@ import {
 } from 'naive-ui';
 
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
+import route from 'ziggy-js';
 
-const props = defineProps<{ suppliers: SupplierProperties[] }>();
+const props = defineProps<{
+    suppliers: SupplierProperties[];
+    categories: ItemCategoryProperties[];
+}>();
+
+const active = 'item-data';
 
 const formRef = ref<FormInst | null>(null);
 
 const form = useForm({
     name: null,
-    supplier: null,
+    supplier_id: null,
     stock: null,
     price: null,
+    item_category_id: null,
 });
 
 const supplierOptions: SelectMixedOption[] = props.suppliers.map((v) => {
     return {
         label: v.name,
+        value: v.id,
+    } as SelectMixedOption;
+});
+
+const categoryOptions: SelectMixedOption[] = props.categories.map((v) => {
+    return {
+        label: v.category,
         value: v.id,
     } as SelectMixedOption;
 });
@@ -48,7 +65,7 @@ const formRules: FormRules = {
             trigger: ['input', 'blur'],
         },
     ],
-    supplier: [
+    supplier_id: [
         {
             type: 'number',
             required: true,
@@ -87,12 +104,10 @@ const formRules: FormRules = {
 const submitForm = () => {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.post('/admin/items');
+            form.post(route('admin.items.store'));
         }
     });
 };
-
-const active = 'item-data';
 </script>
 <template layout="default">
     <Head>
@@ -108,7 +123,7 @@ const active = 'item-data';
         <template #default>
             <n-space vertical>
                 <n-h1 align="center">Barang Baru</n-h1>
-                <Link href="/admin/items">
+                <Link :href="route('admin.items.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>
                 <n-card>
@@ -131,18 +146,18 @@ const active = 'item-data';
                             {{ form.errors.name }}
                         </n-element>
                         <n-form-item
-                            path="supplier"
+                            path="supplier_id"
                             label="Supplier Barang">
                             <n-select
-                                v-model:value="form.supplier"
+                                v-model:value="form.supplier_id"
                                 filterable
                                 :options="supplierOptions"
                                 placeholder="Supplier Barang" />
                         </n-form-item>
                         <n-element
-                            v-if="form.errors.supplier"
+                            v-if="form.errors.supplier_id"
                             class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.supplier }}
+                            {{ form.errors.supplier_id }}
                         </n-element>
                         <n-form-item
                             path="stock"
@@ -169,6 +184,19 @@ const active = 'item-data';
                             v-if="form.errors.price"
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.price }}
+                        </n-element>
+                        <n-form-item label="Kategori">
+                            <n-select
+                                v-model:value="form.item_category_id"
+                                filterable
+                                clearable
+                                :options="categoryOptions"
+                                placeholder="Kategori Barang" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.item_category_id"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.item_category_id }}
                         </n-element>
                         <n-button
                             :disabled="form.processing"

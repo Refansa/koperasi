@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\ItemCategory;
-use App\Models\Supplier;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('items', function (Blueprint $table) {
+        Schema::create('item_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Supplier::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(ItemCategory::class)->nullable()->constrained()->nullOnDelete();
-            $table->string('name');
-            $table->integer('stock');
-            $table->integer('price');
+            $table->string('category')->unique();
             $table->timestamps();
         });
     }
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('items');
+        Schema::dropIfExists('item_categories');
     }
 };

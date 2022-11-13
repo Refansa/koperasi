@@ -16,6 +16,8 @@ import {
     NAutoComplete,
 } from 'naive-ui';
 
+import route from 'ziggy-js';
+
 defineProps<{ tab?: string }>();
 
 const signInRef = ref<FormInst | null>(null);
@@ -156,7 +158,7 @@ const emailOptions = (model: SignInType | SignUpType) => {
 const signIn = () => {
     signInRef.value?.validate((errors) => {
         if (!errors) {
-            signInForm.post('/signin');
+            signInForm.post(route('signin.post'));
         }
     });
 };
@@ -164,7 +166,7 @@ const signIn = () => {
 const signUp = () => {
     signUpRef.value?.validate((errors) => {
         if (!errors) {
-            signUpForm.post('/signup');
+            signUpForm.post(route('signin.post'));
         }
     });
 };

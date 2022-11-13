@@ -14,6 +14,7 @@ import {
     NButton,
     DataTableColumns,
 } from 'naive-ui';
+import route from 'ziggy-js';
 
 defineProps<{ user: UserProperties[] }>();
 
@@ -46,7 +47,9 @@ const createColumns = (): DataTableColumns<UserProperties> => {
                 return 0;
             },
             render(u) {
-                return h(NTag, [u.division?.position]);
+                return h(NTag, { bordered: false, type: 'primary' }, [
+                    u.division?.position,
+                ]);
             },
         },
         {
@@ -65,7 +68,7 @@ const createColumns = (): DataTableColumns<UserProperties> => {
             sorter: 'default',
         },
         {
-            title: 'Role',
+            title: 'Hak Akses',
             key: 'role',
             sorter: 'default',
         },
@@ -75,8 +78,8 @@ const createColumns = (): DataTableColumns<UserProperties> => {
             align: 'center',
             render(u) {
                 return h(AdminDataAction, {
-                    editHref: `/admin/users/${u.id}/edit`,
-                    deleteHref: `/admin/users/${u.id}`,
+                    editHref: route('admin.users.edit', u.id),
+                    deleteHref: route('admin.users.destroy', u.id),
                 });
             },
         },
@@ -99,7 +102,7 @@ const columns = createColumns();
         <template #default>
             <n-space vertical>
                 <n-h1 align="center">Data Pengguna</n-h1>
-                <Link href="/admin/users/create">
+                <Link :href="route('admin.users.create')">
                     <n-button type="primary">Pengguna Baru</n-button>
                 </Link>
                 <n-data-table

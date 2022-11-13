@@ -16,6 +16,9 @@ import {
     FormInst,
     NElement,
 } from 'naive-ui';
+import route from 'ziggy-js';
+
+const active = 'division-data';
 
 const formRef = ref<FormInst | null>(null);
 
@@ -36,12 +39,10 @@ const formRules: FormRules = {
 const submitForm = () => {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.post('/admin/divisions');
+            form.post(route('admin.divisions.store'));
         }
     });
 };
-
-const active = 'division-data';
 </script>
 <template layout="default">
     <Head>
@@ -57,7 +58,7 @@ const active = 'division-data';
         <template #default>
             <n-space vertical>
                 <n-h1 align="center">Bagian Baru</n-h1>
-                <Link href="/admin/divisions">
+                <Link :href="route('admin.divisions.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>
                 <n-card>

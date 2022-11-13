@@ -15,6 +15,8 @@ import {
     NDivider,
     GlobalTheme,
 } from 'naive-ui';
+import route from 'ziggy-js';
+
 const theme: Ref<GlobalTheme> | undefined = inject('theme');
 const auth = useAuth();
 function toggleTheme() {
@@ -43,7 +45,7 @@ function toggleTheme() {
         <n-space vertical>
             <Link
                 v-if="auth.user.role === 'admin'"
-                href="/admin">
+                :href="route('admin.home')">
                 <n-button
                     style="justify-content: left"
                     size="large"
@@ -60,7 +62,7 @@ function toggleTheme() {
             </Link>
             <Link
                 v-else
-                href="/account">
+                :href="route('stub')">
                 <n-button
                     style="justify-content: left"
                     size="large"
@@ -96,7 +98,7 @@ function toggleTheme() {
             <Link
                 as="button"
                 class="w-full"
-                href="/signout"
+                :href="route('signout')"
                 method="post">
                 <n-button
                     style="justify-content: left"

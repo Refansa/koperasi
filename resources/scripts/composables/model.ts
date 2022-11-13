@@ -20,12 +20,23 @@ interface SupplierProperties {
     contact: string | null;
 }
 
+interface ItemCategoryProperties {
+    id: string | number | null;
+    category: string | null;
+}
 interface ItemProperties {
     id: string | number | null;
     supplier: SupplierProperties | null;
+    item_category: ItemCategoryProperties | null;
     name: string | null;
     stock: number | null;
     price: number | null;
 }
 
-export { UserProperties, DivisionProperties, SupplierProperties, ItemProperties };
+export {
+    UserProperties,
+    DivisionProperties,
+    SupplierProperties,
+    ItemProperties,
+    ItemCategoryProperties,
+};

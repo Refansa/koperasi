@@ -20,8 +20,11 @@ import {
     NElement,
 } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
+import route from 'ziggy-js';
 
 const props = defineProps<{ divisions: DivisionProperties[] }>();
+
+const active = 'user-data';
 
 const formRef = ref<FormInst | null>(null);
 
@@ -30,7 +33,7 @@ const form = useForm({
     email: '',
     password: '',
     role: null,
-    division: null,
+    division_id: null,
     address: null,
     contact: null,
 });
@@ -79,7 +82,7 @@ const formRules: FormRules = {
             trigger: 'blur',
         },
     ],
-    division: [
+    division_id: [
         {
             type: 'number',
             required: true,
@@ -139,12 +142,10 @@ const emailOptions = (form: { email: string }) => {
 const submitForm = () => {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.post('/admin/users');
+            form.post(route('admin.users.store'));
         }
     });
 };
-
-const active = 'user-data';
 </script>
 <template layout="default">
     <Head>
@@ -160,7 +161,7 @@ const active = 'user-data';
         <template #default>
             <n-space vertical>
                 <n-h1 align="center">Pengguna Baru</n-h1>
-                <Link href="/admin/users">
+                <Link :href="route('admin.users.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>
                 <n-card>
@@ -215,15 +216,15 @@ const active = 'user-data';
                             path="division"
                             label="Divisi">
                             <n-select
-                                v-model:value="form.division"
+                                v-model:value="form.division_id"
                                 filterable
                                 :options="divisionOptions"
                                 placeholder="Divisi Pengguna" />
                         </n-form-item>
                         <n-element
-                            v-if="form.errors.division"
+                            v-if="form.errors.division_id"
                             class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.division }}
+                            {{ form.errors.division_id }}
                         </n-element>
                         <n-form-item
                             path="role"

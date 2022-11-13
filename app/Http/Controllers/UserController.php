@@ -43,23 +43,18 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name'      => ['required', 'string'],
-            'email'     => ['required', 'email', 'unique:users', 'max:255'],
-            'password'  => ['required', 'string', 'min:8', 'max:24'],
-            'role'      => ['required', 'string'],
-            'division'  => ['required', 'numeric'],
-            'address'   => ['required', 'string'],
-            'contact'   => ['required', 'string'],
+            'name'          => ['required', 'string'],
+            'email'         => ['required', 'email', 'unique:users', 'max:255'],
+            'password'      => ['required', 'string', 'min:8', 'max:24'],
+            'role'          => ['required', 'string'],
+            'division_id'   => ['required', 'numeric'],
+            'address'       => ['required', 'string'],
+            'contact'       => ['required', 'string'],
         ]);
-
-        $division = Division::find($data['division']);
-        unset($data['division']);
 
         $data['password'] = Hash::make($data['password']);
 
-        $user = new User($data);
-
-        $division->users()->save($user);
+        User::create($data);
 
         return redirect()->route('admin.users.index')->with([
             'alert.content' => 'Pengguna berhasil dibuat',

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/inertia-vue3';
 import { h } from 'vue';
-import { SupplierProperties } from '@/scripts/composables/model';
+import { ItemCategoryProperties } from '@/scripts/composables/model';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
@@ -9,11 +9,11 @@ import AdminDataAction from '@/views/components/admin/admin-data-action.vue';
 import { NH1, NSpace, NDataTable, NButton, DataTableColumns } from 'naive-ui';
 import route from 'ziggy-js';
 
-defineProps<{ suppliers: SupplierProperties[] }>();
+defineProps<{ categories: ItemCategoryProperties[] }>();
 
-const active = 'supplier-data';
+const active = 'item-category-data';
 
-const createColumns = (): DataTableColumns<SupplierProperties> => {
+const createColumns = (): DataTableColumns<ItemCategoryProperties> => {
     return [
         {
             title: '#',
@@ -25,28 +25,24 @@ const createColumns = (): DataTableColumns<SupplierProperties> => {
             },
         },
         {
-            title: 'Nama',
-            key: 'name',
+            title: 'ID',
+            key: 'id',
             sorter: 'default',
         },
         {
-            title: 'Alamat',
-            key: 'address',
-            sorter: 'default',
-        },
-        {
-            title: 'Kontak',
-            key: 'contact',
+            title: 'Kategori',
+            key: 'category',
             sorter: 'default',
         },
         {
             title: 'Aksi',
             key: 'actions',
             align: 'center',
+            width: 200,
             render(u) {
                 return h(AdminDataAction, {
-                    editHref: route('admin.suppliers.edit', u.id),
-                    deleteHref: route('admin.suppliers.destroy', u.id),
+                    editHref: route('admin.items.categories.edit', u.id),
+                    deleteHref: route('admin.items.categories.destroy', u.id),
                 });
             },
         },
@@ -57,7 +53,7 @@ const columns = createColumns();
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Data Supplier</title>
+        <title>Admin | Kategori Barang</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -68,16 +64,16 @@ const columns = createColumns();
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Data Supplier</n-h1>
-                <Link :href="route('admin.suppliers.create')">
-                    <n-button type="primary">Supplier Baru</n-button>
+                <n-h1 align="center">Kategori Barang</n-h1>
+                <Link :href="route('admin.items.categories.create')">
+                    <n-button type="primary">Kategori Baru</n-button>
                 </Link>
                 <n-data-table
                     :bordered="false"
                     :single-line="false"
                     :columns="columns"
-                    :data="suppliers"
-                    :scroll-x="1200"
+                    :data="categories"
+                    :scroll-x="800"
                     :pagination="{ pageSize: 10 }" />
             </n-space>
         </template>

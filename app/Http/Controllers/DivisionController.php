@@ -39,7 +39,16 @@ class DivisionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'position' => ['required', 'string', 'unique:divisions'],
+        ]);
+
+        Division::create($data);
+
+        return redirect()->route('admin.divisions.index')->with([
+            'alert.content' => 'Bagian berhasil dibuat',
+            'alert.type'    => 'success',
+        ]);
     }
 
     /**
@@ -61,7 +70,9 @@ class DivisionController extends Controller
      */
     public function edit(Division $division)
     {
-        //
+        return inertia('admin.divisions.edit', [
+            'division' => $division,
+        ]);
     }
 
     /**
@@ -73,7 +84,16 @@ class DivisionController extends Controller
      */
     public function update(Request $request, Division $division)
     {
-        //
+        $data = $request->validate([
+            'position' => ['required', 'string', 'unique:divisions'],
+        ]);
+
+        $division->update($data);
+
+        return redirect()->route('admin.divisions.index')->with([
+            'alert.content' => 'Bagian berhasil diubah',
+            'alert.type'    => 'success',
+        ]);
     }
 
     /**

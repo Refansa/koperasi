@@ -10,8 +10,8 @@ import 'vfonts/FiraCode.css';
 
 createInertiaApp({
     title: (title) => `Koperasi - ${title}`,
-    resolve: (name) =>
-        resolvePageComponent(
+    resolve: async (name) =>
+        await resolvePageComponent(
             name,
             import.meta.glob('../views/pages/**/*.vue'),
             'default'
