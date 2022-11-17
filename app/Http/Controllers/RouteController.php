@@ -14,12 +14,4 @@ class RouteController extends Controller
     {
         return inertia('home');
     }
-
-    public function deposit_index()
-    {
-        $users = User::all();
-        return inertia('admin.transaction.deposit', [
-            'users' => $users,
-        ]);
-    }
 }

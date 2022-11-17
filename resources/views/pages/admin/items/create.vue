@@ -164,6 +164,7 @@ const submitForm = () => {
                             label="Stok Barang">
                             <n-input-number
                                 v-model:value="form.stock"
+                                :min="0"
                                 placeholder="Stok Barang"
                                 style="display: flex; flex: 1" />
                         </n-form-item>
@@ -177,6 +178,7 @@ const submitForm = () => {
                             label="Harga Barang">
                             <n-input-number
                                 v-model:value="form.price"
+                                :min="0"
                                 placeholder="Harga Barang"
                                 style="display: flex; flex: 1" />
                         </n-form-item>

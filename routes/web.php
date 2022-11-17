@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\DepositController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\ItemController;
@@ -41,7 +42,8 @@ Route::middleware('auth')->group(function () {
             ->parameter('categories', 'itemCategory');
         Route::resource('items', ItemController::class);
 
-        Route::get('deposit', [RouteController::class, 'deposit_index'])->name('deposit.index');
+        Route::get('deposit', [DepositController::class, 'index'])->name('deposit.index');
+        Route::post('deposit', [DepositController::class, 'store'])->name('deposit.store');
     });
 
     Route::get('/', [RouteController::class, 'home'])->name('home');

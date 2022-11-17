@@ -13,4 +13,9 @@ export default defineConfig({
             postcss: [tailwindcss(), autoprefixer()],
         }),
     ],
+    build: {
+        rollupOptions: {
+            external: ['/images/Daftar.svg'],
+        },
+    },
 });

@@ -54,7 +54,10 @@ class UserController extends Controller
 
         $data['password'] = Hash::make($data['password']);
 
-        User::create($data);
+        User::create($data)->m_saving()->create([
+            'deposit_amount'    => 0,
+            'loan_amount'       => 0,
+        ]);
 
         return redirect()->route('admin.users.index')->with([
             'alert.content' => 'Pengguna berhasil dibuat',

@@ -34,7 +34,7 @@ const form = useForm({
 
 const userOptions: SelectMixedOption[] = props.users.map((v) => {
     return {
-        label: v.name,
+        label: `${v.name} - (${v.email})`,
         value: v.id,
     } as SelectMixedOption;
 });
@@ -48,7 +48,7 @@ const formRules: FormRules = {
             trigger: ['input', 'blur'],
         },
     ],
-    price: [
+    amount: [
         {
             type: 'number',
             required: true,
@@ -66,7 +66,7 @@ const formRules: FormRules = {
 const submitForm = () => {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.post(route('stub'));
+            form.post(route('admin.deposit.store'));
         }
     });
 };
@@ -111,8 +111,11 @@ const submitForm = () => {
                             label="Jumlah Simpanan">
                             <n-input-number
                                 v-model:value="form.amount"
+                                :min="0"
                                 placeholder="Jumlah Simpanan"
-                                style="display: flex; flex: 1" />
+                                style="display: flex; flex: 1">
+                                <template #prefix> Rp. </template>
+                            </n-input-number>
                         </n-form-item>
                         <n-element
                             v-if="form.errors.amount"

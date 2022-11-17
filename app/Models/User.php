@@ -50,4 +50,19 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Division::class);
     }
+
+    public function m_saving()
+    {
+        return $this->hasOne(Saving::class);
+    }
+
+    public function deposits()
+    {
+        return $this->hasMany(Deposit::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
 }
