@@ -23,4 +23,9 @@ class Transaction extends Model
     {
         return $this->hasOne(Deposit::class);
     }
+
+    public function withdraw()
+    {
+        return $this->hasOne(Withdraw::class);
+    }
 }

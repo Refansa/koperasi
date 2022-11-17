@@ -9,8 +9,16 @@ interface UserProperties {
     email: string | null;
     role: string | null;
     division: DivisionProperties | null;
+    m_saving: SavingProperties | null;
     address: string | null;
     contact: string | null;
+}
+
+interface SavingProperties {
+    id: number | null;
+    user: UserProperties | null;
+    deposit_amount: number | null;
+    loan_amount: number | null;
 }
 
 interface SupplierProperties {
@@ -39,4 +47,5 @@ export {
     SupplierProperties,
     ItemProperties,
     ItemCategoryProperties,
+    SavingProperties,
 };

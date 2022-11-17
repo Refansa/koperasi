@@ -90,7 +90,7 @@ const menuOptions: MenuOption[] = [
                 icon: renderIcon(ArrowCircleDown24Filled),
             },
             {
-                label: renderLink(route('stub'), 'Tarik'),
+                label: renderLink(route('admin.withdraw.index'), 'Tarik'),
                 key: 'withdraw',
                 icon: renderIcon(ArrowCircleUp24Filled),
             },

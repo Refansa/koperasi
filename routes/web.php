@@ -10,6 +10,7 @@ use App\Http\Controllers\SignInController;
 use App\Http\Controllers\SignOutController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WithdrawController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +45,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('deposit', [DepositController::class, 'index'])->name('deposit.index');
         Route::post('deposit', [DepositController::class, 'store'])->name('deposit.store');
+        Route::get('withdraw', [WithdrawController::class, 'index'])->name('withdraw.index');
+        Route::post('withdraw', [WithdrawController::class, 'store'])->name('withdraw.store');
     });
 
     Route::get('/', [RouteController::class, 'home'])->name('home');
