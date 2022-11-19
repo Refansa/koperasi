@@ -98,12 +98,13 @@ const menuOptions: MenuOption[] = [
     },
 ];
 
-defineProps<{ active: string }>();
+const props = defineProps<{ active: string }>();
+
 const collapsed = inject('sidebarCollapsed') as Ref<boolean> | undefined;
 </script>
 <template>
     <n-menu
-        v-model:value="active"
+        v-model:value="props.active"
         :options="menuOptions"
         :collapsed-width="64"
         :collapsed="collapsed" />

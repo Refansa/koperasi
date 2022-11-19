@@ -6,6 +6,7 @@ use App\Models\Deposit;
 use App\Models\Saving;
 use App\Models\Transaction;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class DepositController extends Controller
@@ -51,9 +52,36 @@ class DepositController extends Controller
             'deposit_amount' => $saving->deposit_amount + $data['amount'],
         ]);
 
-        return back()->with([
+        return redirect()->route('admin.deposit.receipt', $transaction->deposit->id)->with([
             'alert.content' => 'Simpan berhasil',
             'alert.type'    => 'success',
         ]);
+    }
+
+    public function receipt(Deposit $deposit)
+    {
+        $deposit->load('user');
+        $deposit->load('transaction');
+
+        return inertia('admin.transaction.deposit.receipt', [
+            'deposit' => $deposit,
+        ]);
+    }
+
+    public function print(Request $request)
+    {
+        // TODO: Refactor the code to only retrieve deposit id.
+        if ($request->has([
+            'created_at',
+            'printed_at',
+            'user',
+            'transaction',
+        ])) {
+            $receipt = $request->query();
+            $pdf = Pdf::loadView('blade.receipt.deposit', ['receipt' => (object)$receipt]);
+            return $pdf->stream('receipt.pdf');
+        }
+
+        return abort(404);
     }
 }
