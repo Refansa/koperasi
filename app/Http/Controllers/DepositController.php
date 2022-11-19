@@ -68,20 +68,9 @@ class DepositController extends Controller
         ]);
     }
 
-    public function print(Request $request)
+    public function print(Deposit $deposit)
     {
-        // TODO: Refactor the code to only retrieve deposit id.
-        if ($request->has([
-            'created_at',
-            'printed_at',
-            'user',
-            'transaction',
-        ])) {
-            $receipt = $request->query();
-            $pdf = Pdf::loadView('blade.receipt.deposit', ['receipt' => (object)$receipt]);
-            return $pdf->stream('receipt.pdf');
-        }
-
-        return abort(404);
+        $pdf = Pdf::loadView('blade.receipt.deposit', ['deposit' => $deposit]);
+        return $pdf->stream('receipt.pdf');
     }
 }

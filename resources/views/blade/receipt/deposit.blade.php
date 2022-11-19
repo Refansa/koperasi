@@ -29,11 +29,11 @@
     <div style="float: right; text-align: right;">
       <div style="margin-bottom: 0.25rem;">
         <span style="font-weight: 600;">Tanggal Transaksi: </span>
-        <span>{{ $receipt->created_at }}</span>
+        <span>{{ $deposit->created_at }}</span>
       </div>
       <div>
         <span style="font-weight: 600;">Tanggal Print: </span>
-        <span>{{ $receipt->printed_at }}</span>
+        <span>{{ date('Y-m-d H:i:s') }}</span>
       </div>
     </div>
   </div>
@@ -46,18 +46,18 @@
   </div>
   <div style="margin-bottom: 2.5rem;">
     <div style="text-decoration: underline;">To:</div>
-    <div style="font-weight: 600;">{{ $receipt->user['name'] }}</div>
-    <div>Email: {{ $receipt->user['email'] }}</div>
-    <div>Kontak: {{ $receipt->user['contact'] }}</div>
+    <div style="font-weight: 600;">{{ $deposit->user->name }}</div>
+    <div>Email: {{ $deposit->user->email }}</div>
+    <div>Kontak: {{ $deposit->user->contact }}</div>
   </div>
   <div style="margin-bottom: 4rem;">
-    <div style="font-weight: 600;">No Transaksi# D-{{ $receipt->transaction['id'] }}</div>
-    <div style="font-weight: 600;">ID User: {{ $receipt->user['id'] }}</div>
+    <div style="font-weight: 600;">No Transaksi# D-{{ $deposit->transaction->id }}</div>
+    <div style="font-weight: 600;">ID User: {{ $deposit->user->id }}</div>
   </div>
   <table style="width: 100%;">
     <tr>
       <td>Jumlah Simpan:</td>
-      <td>Rp. {{ number_format($receipt->transaction['amount'], 0, ',', '.') }}</td>
+      <td>Rp. {{ number_format($deposit->transaction->amount, 0, ',', '.') }}</td>
     </tr>
   </table>
 </body>

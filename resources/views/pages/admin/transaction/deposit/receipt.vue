@@ -11,15 +11,8 @@ import route from 'ziggy-js';
 
 const props = defineProps<{ deposit: DepositProperties }>();
 
-const receipt = {
-    created_at: dayjs(props.deposit.created_at).format('YYYY-MM-DD HH:mm:ss'),
-    printed_at: dayjs().format('YYYY-MM-DD HH:mm:ss'),
-    user: props.deposit.user,
-    transaction: props.deposit.transaction,
-};
-
 function printPDF() {
-    window.open(route('admin.deposit.receipt.print', receipt));
+    window.open(route('admin.deposit.receipt.print', props.deposit.id));
 }
 
 const active = 'deposit';

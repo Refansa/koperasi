@@ -45,8 +45,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('deposit', [DepositController::class, 'index'])->name('deposit.index');
         Route::post('deposit', [DepositController::class, 'store'])->name('deposit.store');
-        Route::get('deposit/receipt/print', [DepositController::class, 'print'])->name('deposit.receipt.print');
         Route::get('deposit/receipt/{deposit}', [DepositController::class, 'receipt'])->name('deposit.receipt');
+        Route::get('deposit/receipt/{deposit}/print', [DepositController::class, 'print'])->name('deposit.receipt.print');
         Route::get('withdraw', [WithdrawController::class, 'index'])->name('withdraw.index');
         Route::post('withdraw', [WithdrawController::class, 'store'])->name('withdraw.store');
     });
