@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Withdraw;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class WithdrawController extends Controller
@@ -43,7 +44,7 @@ class WithdrawController extends Controller
                 'deposit_amount' => $user->m_saving->deposit_amount - $data['amount'],
             ]);
 
-            return back()->with([
+            return redirect()->route('admin.withdraw.receipt', $transaction->withdraw->id)->with([
                 'alert.content' => 'Tarik berhasil',
                 'alert.type'    => 'success',
             ]);
@@ -53,5 +54,21 @@ class WithdrawController extends Controller
             'alert.content' => 'Saldo tidak mencukupi!',
             'alert.type'    => 'error',
         ]);
+    }
+
+    public function receipt(Withdraw $withdraw)
+    {
+        $withdraw->load('user');
+        $withdraw->load('transaction');
+
+        return inertia('admin.transaction.withdraw.receipt', [
+            'withdraw' => $withdraw,
+        ]);
+    }
+
+    public function print(Withdraw $withdraw)
+    {
+        $pdf = Pdf::loadView('blade.receipt.withdraw', ['withdraw' => $withdraw]);
+        return $pdf->stream('receipt.pdf');
     }
 }

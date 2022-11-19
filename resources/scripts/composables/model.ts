@@ -46,7 +46,10 @@ interface DepositProperties extends CommonProperties {
     transaction: TransactionProperties | null;
 }
 
-type WithdrawProperties = CommonProperties
+interface WithdrawProperties extends CommonProperties {
+    user: UserProperties | null;
+    transaction: TransactionProperties | null;
+}
 
 interface TransactionProperties extends CommonProperties {
     user: UserProperties | null;
