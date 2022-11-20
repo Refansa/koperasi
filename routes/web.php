@@ -26,36 +26,43 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('/signin', [SignInController::class, 'index'])->name('signin');
-    Route::post('/signin', [SignInController::class, 'signIn'])->name('signin.post');
+    Route::post('/signin', [SignInController::class, 'signin'])->name('signin.post');
 });
 
 Route::middleware('auth')->group(function () {
     Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('home');
 
-        Route::resource('users', UserController::class);
-        Route::resource('divisions', DivisionController::class);
-
-        Route::resource('suppliers', SupplierController::class);
-
         Route::resource('items/categories', ItemCategoryController::class)
             ->names('items.categories')
             ->parameter('categories', 'itemCategory');
-        Route::resource('items', ItemController::class);
+
+        Route::resources([
+            'users'     => UserController::class,
+            'divisions' => DivisionController::class,
+            'suppliers' => SupplierController::class,
+            'items'     => ItemController::class,
+        ]);
 
         Route::get('deposit', [DepositController::class, 'index'])->name('deposit.index');
         Route::post('deposit', [DepositController::class, 'store'])->name('deposit.store');
         Route::get('deposit/receipt/{deposit}', [DepositController::class, 'receipt'])->name('deposit.receipt');
-        Route::get('deposit/receipt/{deposit}/print', [DepositController::class, 'print'])->name('deposit.receipt.print');
+        Route::get('deposit/print/{deposit}', [DepositController::class, 'print'])->name('deposit.print');
+
         Route::get('withdraw', [WithdrawController::class, 'index'])->name('withdraw.index');
         Route::post('withdraw', [WithdrawController::class, 'store'])->name('withdraw.store');
         Route::get('withdraw/receipt/{withdraw}', [WithdrawController::class, 'receipt'])->name('withdraw.receipt');
-        Route::get('withdraw/receipt/{withdraw}/print', [WithdrawController::class, 'print'])->name('withdraw.receipt.print');
+        Route::get('withdraw/print/{withdraw}', [WithdrawController::class, 'print'])->name('withdraw.print');
+
+        Route::name('transactions.')->prefix('transactions')->group(function () {
+            Route::get('deposit', [DepositController::class, 'data'])->name('deposit');
+            Route::get('withdraw', [WithdrawController::class, 'data'])->name('withdraw');
+        });
     });
 
     Route::get('/', [RouteController::class, 'home'])->name('home');
 
-    Route::post('/signout', [SignOutController::class, 'signOut'])->name('signout');
+    Route::post('/signout', [SignOutController::class, 'signout'])->name('signout');
 });
 
 // Development Purpose, used as a placeholder unspecified routes.

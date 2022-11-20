@@ -73,4 +73,15 @@ class DepositController extends Controller
         $pdf = Pdf::loadView('blade.receipt.deposit', ['deposit' => $deposit]);
         return $pdf->stream('receipt.pdf');
     }
+
+    public function data()
+    {
+        $deposits = Deposit::all();
+        $deposits->load('user');
+        $deposits->load('transaction');
+
+        return inertia('admin.transactions.deposit', [
+            'deposits' => $deposits,
+        ]);
+    }
 }

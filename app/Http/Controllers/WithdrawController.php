@@ -71,4 +71,15 @@ class WithdrawController extends Controller
         $pdf = Pdf::loadView('blade.receipt.withdraw', ['withdraw' => $withdraw]);
         return $pdf->stream('receipt.pdf');
     }
+
+    public function data()
+    {
+        $withdraws = Withdraw::all();
+        $withdraws->load('user');
+        $withdraws->load('transaction');
+
+        return inertia('admin.transactions.withdraw', [
+            'withdraws' => $withdraws,
+        ]);
+    }
 }

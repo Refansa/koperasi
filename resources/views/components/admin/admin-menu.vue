@@ -6,12 +6,15 @@ import { NMenu } from 'naive-ui';
 
 import { NIcon } from 'naive-ui';
 import type { MenuOption } from 'naive-ui';
-import { DashboardFilled } from '@vicons/material';
+import {
+    DashboardFilled,
+    BadgeFilled,
+    AssignmentFilled,
+} from '@vicons/material';
 import { Person } from '@vicons/ionicons5';
 import {
     PersonCall20Filled,
     Box20Filled,
-    PersonBoard20Filled,
     ArrowCircleDown24Filled,
     ArrowCircleUp24Filled,
 } from '@vicons/fluent';
@@ -50,7 +53,7 @@ const menuOptions: MenuOption[] = [
                     'Bagian Pengguna'
                 ),
                 key: 'division-data',
-                icon: renderIcon(PersonBoard20Filled),
+                icon: renderIcon(BadgeFilled),
             },
         ],
     },
@@ -92,6 +95,29 @@ const menuOptions: MenuOption[] = [
             {
                 label: renderLink(route('admin.withdraw.index'), 'Tarik'),
                 key: 'withdraw',
+                icon: renderIcon(ArrowCircleUp24Filled),
+            },
+        ],
+    },
+    {
+        label: 'Laporan',
+        key: 'report',
+        icon: renderIcon(AssignmentFilled),
+        children: [
+            {
+                label: renderLink(
+                    route('admin.transactions.deposit'),
+                    'Transaksi Simpan'
+                ),
+                key: 'deposit-data',
+                icon: renderIcon(ArrowCircleDown24Filled),
+            },
+            {
+                label: renderLink(
+                    route('admin.transactions.withdraw'),
+                    'Transaksi Tarik'
+                ),
+                key: 'withdraw-data',
                 icon: renderIcon(ArrowCircleUp24Filled),
             },
         ],

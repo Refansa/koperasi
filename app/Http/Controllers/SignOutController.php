@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class SignOutController extends Controller
 {
-    // Processing the signout request.
-    function signOut(Request $request)
+    /**
+     * Processing the Sign Out request.
+     */
+    function signout(Request $request)
     {
         Auth::logout();
 

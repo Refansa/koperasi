@@ -12,7 +12,7 @@ import route from 'ziggy-js';
 const props = defineProps<{ deposit: DepositProperties }>();
 
 function printPDF() {
-    window.open(route('admin.deposit.receipt.print', props.deposit.id));
+    window.open(route('admin.deposit.print', props.deposit.id));
 }
 
 const active = 'deposit';
@@ -103,8 +103,7 @@ const active = 'deposit';
                                 >Kembali (Deposit)
                             </n-button>
                         </Link>
-                        <!-- TODO: Set the route to the transaction data. -->
-                        <Link :href="route('stub')">
+                        <Link :href="route('admin.transactions.deposit')">
                             <n-button type="primary"
                                 >Kembali (Data Transaksi)
                             </n-button>

@@ -16,9 +16,9 @@ class SignInController extends Controller
     }
 
     /**
-     * Processing the signin request.
+     * Processing the Sign In request.
      */
-    function signIn(Request $request)
+    function signin(Request $request)
     {
         $credentials = $request->validate([
             'email'     => ['required', 'email', 'max:255'],

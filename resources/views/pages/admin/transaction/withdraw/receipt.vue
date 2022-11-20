@@ -12,7 +12,7 @@ import route from 'ziggy-js';
 const props = defineProps<{ withdraw: WithdrawProperties }>();
 
 function printPDF() {
-    window.open(route('admin.withdraw.receipt.print', props.withdraw.id));
+    window.open(route('admin.withdraw.print', props.withdraw.id));
 }
 
 const active = 'withdraw';
@@ -103,8 +103,7 @@ const active = 'withdraw';
                                 >Kembali (Withdraw)
                             </n-button>
                         </Link>
-                        <!-- TODO: Set the route to the transaction data. -->
-                        <Link :href="route('stub')">
+                        <Link :href="route('admin.transactions.withdraw')">
                             <n-button type="primary"
                                 >Kembali (Data Transaksi)
                             </n-button>
