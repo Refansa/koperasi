@@ -19,8 +19,13 @@ const createColumns = (): DataTableColumns<DepositProperties> => {
             key: 'id',
             sorter: 'default',
             render(u) {
-                return `D-${u.id}`;
+                return `S-${u.id}`;
             },
+        },
+        {
+            title: 'Jenis Simpanan',
+            key: 'type',
+            sorter: 'default',
         },
         {
             title: 'Nama Pengguna',

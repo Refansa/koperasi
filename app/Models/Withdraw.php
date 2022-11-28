@@ -12,6 +12,7 @@ class Withdraw extends Model
     protected $fillable = [
         'user_id',
         'transaction_id',
+        'type',
     ];
 
     public function user()

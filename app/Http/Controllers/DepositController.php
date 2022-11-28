@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cooperative;
 use App\Models\Deposit;
 use App\Models\Saving;
+use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,8 +16,10 @@ class DepositController extends Controller
     public function index()
     {
         $users = User::all();
+        $setting = Setting::first();
         return inertia('admin.transaction.deposit', [
-            'users' => $users,
+            'users'     => $users,
+            'setting'   => $setting,
         ]);
     }
 
@@ -24,17 +28,13 @@ class DepositController extends Controller
         $data = $request->validate([
             'user_id'   => ['required', 'numeric'],
             'amount'    => ['required', 'numeric'],
+            'type'      => ['required', 'string'],
         ]);
 
-        $user   = User::find($data['user_id']);
-        $saving = $user->m_saving;
+        $user           = User::find($data['user_id']);
+        $cooperative    = Cooperative::first();
 
-        if (is_null($saving)) {
-            $saving = $user->m_saving()->create([
-                'deposit_amount'    => 0,
-                'loan_amount'       => 0,
-            ]);
-        }
+        $saving = $user->m_saving;
 
         $transaction = $user->transactions()->save(
             new Transaction([
@@ -44,12 +44,31 @@ class DepositController extends Controller
 
         $transaction->deposit()->save(
             new Deposit([
-                'user_id' => $user->id,
+                'user_id'   => $user->id,
+                'type'      => $data['type'],
             ]),
         );
 
-        $user->m_saving()->update([
-            'deposit_amount' => $saving->deposit_amount + $data['amount'],
+        switch ($data['type']) {
+            case 'Pokok':
+                $user->m_saving()->update([
+                    'basic_amount'  => $saving->basic_amount + $data['amount'],
+                ]);
+                break;
+            case 'Wajib':
+                $user->m_saving()->update([
+                    'mandatory_amount'  => $saving->mandatory_amount + $data['amount'],
+                ]);
+                break;
+            case 'Sukarela':
+                $user->m_saving()->update([
+                    'voluntary_amount'  => $saving->voluntary_amount + $data['amount'],
+                ]);
+                break;
+        }
+
+        $cooperative->update([
+            'total_deposit_amount' => $cooperative->total_deposit_amount + $data['amount'],
         ]);
 
         return redirect()->route('admin.deposit.receipt', $transaction->deposit->id)->with([

@@ -5,7 +5,9 @@ use App\Http\Controllers\DepositController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\RouteController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\SignOutController;
 use App\Http\Controllers\SupplierController;
@@ -54,10 +56,19 @@ Route::middleware('auth')->group(function () {
         Route::get('withdraw/receipt/{withdraw}', [WithdrawController::class, 'receipt'])->name('withdraw.receipt');
         Route::get('withdraw/print/{withdraw}', [WithdrawController::class, 'print'])->name('withdraw.print');
 
+        Route::get('loan', [LoanController::class, 'index'])->name('loan.index');
+        Route::post('loan', [LoanController::class, 'store'])->name('loan.store');
+        // Route::get('loan/receipt/{loan}', [LoanController::class, 'receipt'])->name('loan.receipt');
+        // Route::get('loan/print/{loan}', [LoanController::class, 'print'])->name('loan.print');
+
         Route::name('transactions.')->prefix('transactions')->group(function () {
             Route::get('deposit', [DepositController::class, 'data'])->name('deposit');
             Route::get('withdraw', [WithdrawController::class, 'data'])->name('withdraw');
+            // Route::get('loan', [LoanController::class, 'data'])->name('loan');
         });
+
+        Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
+        Route::post('settings', [SettingsController::class, 'update'])->name('settings.update');
     });
 
     Route::get('/', [RouteController::class, 'home'])->name('home');

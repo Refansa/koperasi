@@ -4,10 +4,26 @@ import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import KoperasiLogo from '@/views/components/koperasi-logo.vue';
-import { NSpace, NAlert, NGrid, NGridItem, NCard, NButton } from 'naive-ui';
+import { CooperativeProperties } from '@/scripts/composables/model';
+import {
+    NSpace,
+    NAlert,
+    NGrid,
+    NGridItem,
+    NCard,
+    NButton,
+    NH1,
+    NH2,
+    NElement,
+} from 'naive-ui';
 import route from 'ziggy-js';
 
-defineProps<{ user: number; supplier: number; item: number }>();
+defineProps<{
+    user: number;
+    supplier: number;
+    item: number;
+    cooperative: CooperativeProperties;
+}>();
 
 const active = 'dashboard';
 </script>
@@ -26,7 +42,8 @@ const active = 'dashboard';
             <n-space vertical>
                 <n-alert
                     type="success"
-                    :show-icon="false">
+                    :show-icon="false"
+                    :bordered="false">
                     <div class="flex flex-col items-start gap-4">
                         <koperasi-logo />
                         <p>
@@ -37,116 +54,125 @@ const active = 'dashboard';
                         </p>
                     </div>
                 </n-alert>
-                <n-grid
-                    class="mt-10"
-                    :x-gap="40"
-                    :y-gap="40"
-                    cols="1 m:3"
-                    responsive="screen">
-                    <n-grid-item>
-                        <n-card
-                            class="shadow-md"
-                            title="Data Pengguna">
-                            {{ user }} Pengguna
-                            <template #action>
-                                <Link :href="route('admin.users.index')">
-                                    <n-button
-                                        type="info"
-                                        block
-                                        >Lihat</n-button
-                                    >
-                                </Link>
-                            </template>
-                        </n-card>
-                    </n-grid-item>
-                    <n-grid-item>
-                        <n-card
-                            class="shadow-md"
-                            title="Data Supplier">
-                            {{ supplier }} Supplier
-                            <template #action>
-                                <Link :href="route('admin.suppliers.index')">
-                                    <n-button
-                                        type="info"
-                                        block
-                                        >Lihat</n-button
-                                    >
-                                </Link>
-                            </template>
-                        </n-card>
-                    </n-grid-item>
-                    <n-grid-item>
-                        <n-card
-                            class="shadow-md"
-                            title="Data Barang">
-                            {{ item }} Barang
-                            <template #action>
-                                <Link :href="route('admin.items.index')">
-                                    <n-button
-                                        type="info"
-                                        block
-                                        >Lihat</n-button
-                                    >
-                                </Link>
-                            </template>
-                        </n-card>
-                    </n-grid-item>
-                </n-grid>
-                <n-grid
-                    class="mt-10"
-                    :x-gap="40"
-                    :y-gap="40"
-                    cols="1 m:3"
-                    responsive="screen">
-                    <n-grid-item>
-                        <n-card
-                            class="shadow-md"
-                            title="Data Pengguna">
-                            {{ user }} Pengguna
-                            <template #action>
-                                <Link :href="route('admin.users.index')">
-                                    <n-button
-                                        type="info"
-                                        block
-                                        >Lihat</n-button
-                                    >
-                                </Link>
-                            </template>
-                        </n-card>
-                    </n-grid-item>
-                    <n-grid-item>
-                        <n-card
-                            class="shadow-md"
-                            title="Data Supplier">
-                            {{ supplier }} Supplier
-                            <template #action>
-                                <Link :href="route('admin.suppliers.index')">
-                                    <n-button
-                                        type="info"
-                                        block
-                                        >Lihat</n-button
-                                    >
-                                </Link>
-                            </template>
-                        </n-card>
-                    </n-grid-item>
-                    <n-grid-item>
-                        <n-card
-                            class="shadow-md"
-                            title="Data Barang">
-                            {{ item }} Barang
-                            <template #action>
-                                <Link :href="route('admin.items.index')">
-                                    <n-button
-                                        type="info"
-                                        block
-                                        >Lihat</n-button
-                                    >
-                                </Link>
-                            </template>
-                        </n-card>
-                    </n-grid-item>
-                </n-grid>
+                <n-card :bordered="false">
+                    <n-h1>Total Keuangan Koperasi</n-h1>
+                    <n-grid
+                        :x-gap="40"
+                        :y-gap="40"
+                        cols="1 m:3"
+                        responsive="screen">
+                        <n-grid-item>
+                            <n-alert
+                                class="shadow-md"
+                                type="error"
+                                :show-icon="false"
+                                :bordered="false"
+                                title="Total Tabungan Koperasi (Kotor)">
+                                <n-h2>
+                                    Rp.
+                                    {{
+                                        cooperative.total_deposit_amount.toLocaleString(
+                                            'id-ID'
+                                        )
+                                    }}
+                                </n-h2>
+                            </n-alert>
+                        </n-grid-item>
+                        <n-grid-item>
+                            <n-alert
+                                type="warning"
+                                class="shadow-md"
+                                :show-icon="false"
+                                :bordered="false"
+                                title="Total Pinjaman Koperasi">
+                                <n-h2>
+                                    Rp.
+                                    {{
+                                        cooperative.total_loan_amount.toLocaleString(
+                                            'id-ID'
+                                        )
+                                    }}
+                                </n-h2>
+                            </n-alert>
+                        </n-grid-item>
+                        <n-grid-item>
+                            <n-alert
+                                type="info"
+                                class="shadow-md"
+                                :show-icon="false"
+                                :bordered="false"
+                                title="Total Tabungan Koperasi (Bersih)">
+                                <n-h2>
+                                    Rp.
+                                    {{
+                                        (
+                                            cooperative.total_deposit_amount -
+                                            cooperative.total_loan_amount
+                                        ).toLocaleString('id-ID')
+                                    }}
+                                </n-h2>
+                            </n-alert>
+                        </n-grid-item>
+                    </n-grid>
+                </n-card>
+                <div class="mt-10">
+                    <n-h1>Data Koperasi</n-h1>
+                    <n-grid
+                        :x-gap="40"
+                        :y-gap="40"
+                        cols="1 m:3"
+                        responsive="screen">
+                        <n-grid-item>
+                            <n-card
+                                class="shadow-md"
+                                title="Data Pengguna">
+                                {{ user }} Pengguna
+                                <template #action>
+                                    <Link :href="route('admin.users.index')">
+                                        <n-button
+                                            type="info"
+                                            block
+                                            >Lihat</n-button
+                                        >
+                                    </Link>
+                                </template>
+                            </n-card>
+                        </n-grid-item>
+                        <n-grid-item>
+                            <n-card
+                                class="shadow-md"
+                                title="Data Supplier">
+                                {{ supplier }} Supplier
+                                <template #action>
+                                    <Link
+                                        :href="route('admin.suppliers.index')">
+                                        <n-button
+                                            type="info"
+                                            block
+                                            >Lihat</n-button
+                                        >
+                                    </Link>
+                                </template>
+                            </n-card>
+                        </n-grid-item>
+                        <n-grid-item>
+                            <n-card
+                                class="shadow-md"
+                                title="Data Barang">
+                                {{ item }} Barang
+                                <template #action>
+                                    <Link :href="route('admin.items.index')">
+                                        <n-button
+                                            type="info"
+                                            block
+                                            >Lihat</n-button
+                                        >
+                                    </Link>
+                                </template>
+                            </n-card>
+                        </n-grid-item>
+                    </n-grid>
+                </div>
             </n-space>
         </template>
     </admin-layout>

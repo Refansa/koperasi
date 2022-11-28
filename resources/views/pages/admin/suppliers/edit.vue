@@ -80,7 +80,7 @@ const active = 'supplier-data';
                 <Link :href="route('admin.suppliers.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>
-                <n-card>
+                <n-card class="lg:py-10 lg:px-20">
                     <n-form
                         ref="formRef"
                         size="large"

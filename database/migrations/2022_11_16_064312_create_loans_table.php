@@ -19,6 +19,9 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Transaction::class)->constrained()->cascadeOnDelete();
+            $table->integer('loan_period');
+            $table->integer('interest');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

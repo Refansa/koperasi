@@ -48,6 +48,6 @@ if (title) {
                 <sign-in-form :tab="tab" />
             </n-card>
         </n-element>
-        <sign-in-illustration class="hidden lg:block" />
+        <sign-in-illustration class="hidden lg:grid" />
     </sign-in-card>
 </template>

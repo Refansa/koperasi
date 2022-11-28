@@ -9,7 +9,9 @@ class Saving extends Model
 {
     protected $fillable = [
         'user_id',
-        'deposit_amount',
+        'basic_amount',
+        'mandatory_amount',
+        'voluntary_amount',
         'loan_amount',
     ];
 

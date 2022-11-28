@@ -17,7 +17,9 @@ return new class extends Migration
         Schema::create('savings', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->bigInteger('deposit_amount');
+            $table->bigInteger('basic_amount');
+            $table->bigInteger('mandatory_amount');
+            $table->bigInteger('voluntary_amount');
             $table->bigInteger('loan_amount');
             $table->timestamps();
         });

@@ -51,10 +51,14 @@
     <div>Kontak: {{ $withdraw->user->contact }}</div>
   </div>
   <div style="margin-bottom: 4rem;">
-    <div style="font-weight: 600;">No Transaksi# W-{{ $withdraw->transaction->id }}</div>
+    <div style="font-weight: 600;">No Transaksi# T-{{ $withdraw->id }}</div>
     <div style="font-weight: 600;">ID User: {{ $withdraw->user->id }}</div>
   </div>
   <table style="width: 100%;">
+    <tr>
+      <td>Jenis Simpanan:</td>
+      <td>{{ $withdraw->type }}</td>
+    </tr>
     <tr>
       <td>Jumlah Tarik:</td>
       <td>Rp. {{ number_format($withdraw->transaction->amount, 0, ',', '.') }}</td>

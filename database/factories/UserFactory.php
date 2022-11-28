@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'address' => fake()->address(),
             'contact' => fake()->safeEmail(),
-            'role' => fake()->randomElement(['anggota', 'admin'])
+            'role' => 'anggota',
         ];
     }
 

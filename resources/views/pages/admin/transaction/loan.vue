@@ -17,6 +17,7 @@ import {
     NElement,
     NSelect,
     NInputNumber,
+    NInput,
 } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 import route from 'ziggy-js';
@@ -26,20 +27,24 @@ const props = defineProps<{
     setting: SettingProperties;
 }>();
 
-const active = 'deposit';
+const active = 'loan';
 
 const formRef = ref<FormInst | null>(null);
 
 interface FormProperties {
     user_id: number | null;
     amount: number | null;
-    type: string | null;
+    loan_period: number | null;
+    interest: number | null;
+    note: string | null;
 }
 
 const form = useForm<FormProperties>({
     user_id: null,
     amount: null,
-    type: null,
+    loan_period: null,
+    interest: null,
+    note: null,
 });
 
 const userOptions: SelectMixedOption[] = props.users.map((v) => {
@@ -49,15 +54,17 @@ const userOptions: SelectMixedOption[] = props.users.map((v) => {
     } as SelectMixedOption;
 });
 
-const typeOptions: SelectMixedOption[] = [
-    'Pokok',
-    'Wajib',
-    'Sukarela',
-    'Donasi',
+const periodOptions: SelectMixedOption[] = [
+    { label: '6 Bulan', value: 6 },
+    { label: '12 Bulan', value: 12 },
+    { label: '18 Bulan', value: 18 },
+    { label: '24 Bulan', value: 24 },
+    { label: '36 Bulan', value: 36 },
+    { label: '48 Bulan', value: 48 },
 ].map((v) => {
     return {
-        label: v,
-        value: v,
+        label: v.label,
+        value: v.value,
     } as SelectMixedOption;
 });
 
@@ -83,11 +90,25 @@ const formRules: FormRules = {
             trigger: 'blur',
         },
     ],
-    type: [
+    loan_period: [
         {
+            type: 'number',
             required: true,
-            message: 'Jenis Simpanan diperlukan',
+            message: 'Tenor diperlukan',
             trigger: ['blur', 'change'],
+        },
+    ],
+    interest: [
+        {
+            type: 'number',
+            required: true,
+            message: 'Bunga diperlukan',
+            trigger: ['input', 'blur'],
+        },
+        {
+            type: 'number',
+            message: 'Hanya menerima angka',
+            trigger: 'blur',
         },
     ],
 };
@@ -95,17 +116,13 @@ const formRules: FormRules = {
 const submitForm = () => {
     formRef.value?.validate((errors) => {
         if (!errors) {
-            form.post(route('admin.deposit.store'));
+            form.post(route('admin.loan.store'));
         }
     });
 };
 
-const autoAmount = (v: string) => {
-    if (v === 'Pokok') {
-        form.amount = props.setting.minimum_basic_cost;
-    } else if (v === 'Wajib') {
-        form.amount = props.setting.minimum_mandatory_cost;
-    }
+const autoInterest = (v: number) => {
+    form.interest = v <= 24 ? 2 : 4;
 };
 </script>
 <template layout="default">
@@ -143,26 +160,16 @@ const autoAmount = (v: string) => {
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.user_id }}
                         </n-element>
-                        <n-form-item path="type" label="Jenis Simpanan">
-                            <n-select
-                                v-model:value="form.type"
-                                @update:value="autoAmount"
-                                filterable
-                                :options="typeOptions"
-                                placeholder="Pilih Jenis Simpanan" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.type"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.type }}
-                        </n-element>
                         <n-form-item
                             path="amount"
-                            label="Jumlah Simpanan">
+                            :label="`Jumlah (Maks: Rp. ${setting.maximum_loan_amount.toLocaleString(
+                                'id-ID'
+                            )})`">
                             <n-input-number
                                 v-model:value="form.amount"
                                 :min="0"
-                                placeholder="Jumlah Simpanan"
+                                :max="setting.maximum_loan_amount"
+                                placeholder="Jumlah"
                                 style="display: flex; flex: 1">
                                 <template #prefix> Rp. </template>
                             </n-input-number>
@@ -171,6 +178,47 @@ const autoAmount = (v: string) => {
                             v-if="form.errors.amount"
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.amount }}
+                        </n-element>
+                        <n-form-item
+                            path="loan_period"
+                            label="Tenor">
+                            <n-select
+                                v-model:value="form.loan_period"
+                                @update:value="autoInterest"
+                                filterable
+                                :options="periodOptions"
+                                placeholder="Pilih" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.loan_period"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.loan_period }}
+                        </n-element>
+                        <n-form-item
+                            path="interest"
+                            label="Bunga % Per Bulan">
+                            <n-input-number
+                                v-model:value="form.interest"
+                                :min="0"
+                                placeholder="Dalam Persen %"
+                                style="display: flex; flex: 1">
+                                <template #suffix>%</template>
+                            </n-input-number>
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.interest"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.interest }}
+                        </n-element>
+                        <n-form-item label="Note">
+                            <n-input
+                                v-model:value="form.note"
+                                placeholder="Keterangan" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.note"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.note }}
                         </n-element>
                         <n-button
                             :disabled="form.processing"

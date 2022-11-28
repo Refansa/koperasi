@@ -19,8 +19,13 @@ const createColumns = (): DataTableColumns<WithdrawProperties> => {
             key: 'id',
             sorter: 'default',
             render(u) {
-                return `W-${u.id}`;
+                return `T-${u.id}`;
             },
+        },
+        {
+            title: 'Jenis Simpanan',
+            key: 'type',
+            sorter: 'default',
         },
         {
             title: 'Nama Pengguna',

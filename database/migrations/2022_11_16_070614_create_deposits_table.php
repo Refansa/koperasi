@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Transaction::class)->constrained()->cascadeOnDelete();
+            $table->enum('type', ['Pokok', 'Wajib', 'Sukarela', 'Donasi']);
             $table->timestamps();
         });
     }

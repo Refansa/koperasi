@@ -19,7 +19,9 @@ class SavingFactory extends Factory
     {
         return [
             'user_id'           => User::factory(),
-            'deposit_amount'    => 0,
+            'basic_amount'      => 0,
+            'mandatory_amount'  => 0,
+            'voluntary_amount'  => 0,
             'loan_amount'       => 0,
         ];
     }

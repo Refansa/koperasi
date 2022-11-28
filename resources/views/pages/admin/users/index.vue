@@ -71,6 +71,14 @@ const createColumns = (): DataTableColumns<UserProperties> => {
             title: 'Hak Akses',
             key: 'role',
             sorter: 'default',
+            render(u) {
+                if (u.role == 'admin') {
+                    return h(NTag, { bordered: false, type: 'info' }, [
+                        u.role,
+                    ]);
+                }
+                return h(NTag, { bordered: false, type: 'primary' }, [u.role]);
+            },
         },
         {
             title: 'Aksi',

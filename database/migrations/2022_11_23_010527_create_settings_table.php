@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Transaction;
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('withdraws', function (Blueprint $table) {
+        Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Transaction::class)->constrained()->cascadeOnDelete();
-            $table->enum('type', ['Pokok', 'Wajib', 'Sukarela', 'Semua']);
+            $table->bigInteger('minimum_basic_cost');
+            $table->bigInteger('minimum_mandatory_cost');
+            $table->bigInteger('maximum_loan_amount');
+            $table->bigInteger('saving_limit_for_loan');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('withdraws');
+        Schema::dropIfExists('settings');
     }
 };

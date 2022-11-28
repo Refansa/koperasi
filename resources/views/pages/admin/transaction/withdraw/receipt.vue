@@ -66,7 +66,7 @@ const active = 'withdraw';
                         </div>
                         <div>
                             <h3 class="font-black">
-                                No Transaksi# W-{{ withdraw.id }}
+                                No Transaksi# T-{{ withdraw.id }}
                             </h3>
                             <p>
                                 <span class="font-black">ID User:</span>
@@ -79,6 +79,10 @@ const active = 'withdraw';
                     <n-space justify="end">
                         <n-card size="small">
                             <table class="w-64">
+                                <tr class="font-bold">
+                                    <td>Jenis Simpanan:</td>
+                                    <td>{{ withdraw.type }}</td>
+                                </tr>
                                 <tr>
                                     <td class="font-bold">Jumlah tarik:</td>
                                     <td>

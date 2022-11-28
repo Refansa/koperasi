@@ -51,10 +51,14 @@
     <div>Kontak: {{ $deposit->user->contact }}</div>
   </div>
   <div style="margin-bottom: 4rem;">
-    <div style="font-weight: 600;">No Transaksi# D-{{ $deposit->transaction->id }}</div>
+    <div style="font-weight: 600;">No Transaksi# S-{{ $deposit->id }}</div>
     <div style="font-weight: 600;">ID User: {{ $deposit->user->id }}</div>
   </div>
   <table style="width: 100%;">
+    <tr>
+      <td>Jenis Simpanan:</td>
+      <td>{{ $deposit->type }}</td>
+    </tr>
     <tr>
       <td>Jumlah Simpan:</td>
       <td>Rp. {{ number_format($deposit->transaction->amount, 0, ',', '.') }}</td>

@@ -11,7 +11,7 @@ import {
     BadgeFilled,
     AssignmentFilled,
 } from '@vicons/material';
-import { Person } from '@vicons/ionicons5';
+import { Person, Settings } from '@vicons/ionicons5';
 import {
     PersonCall20Filled,
     Box20Filled,
@@ -19,7 +19,7 @@ import {
     ArrowCircleUp24Filled,
 } from '@vicons/fluent';
 import { Category } from '@vicons/carbon';
-import { MoneyCheckAlt } from '@vicons/fa';
+import { MoneyCheckAlt, MoneyBillWave } from '@vicons/fa';
 
 import route from 'ziggy-js';
 
@@ -97,6 +97,11 @@ const menuOptions: MenuOption[] = [
                 key: 'withdraw',
                 icon: renderIcon(ArrowCircleUp24Filled),
             },
+            {
+                label: renderLink(route('admin.loan.index'), 'Pinjam'),
+                key: 'loan',
+                icon: renderIcon(MoneyBillWave),
+            },
         ],
     },
     {
@@ -121,6 +126,11 @@ const menuOptions: MenuOption[] = [
                 icon: renderIcon(ArrowCircleUp24Filled),
             },
         ],
+    },
+    {
+        label: renderLink(route('admin.settings.index'), 'Pengaturan Koperasi'),
+        key: 'settings',
+        icon: renderIcon(Settings),
     },
 ];
 

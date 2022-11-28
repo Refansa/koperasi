@@ -66,7 +66,7 @@ const active = 'deposit';
                         </div>
                         <div>
                             <h3 class="font-black">
-                                No Transaksi# D-{{ deposit.id }}
+                                No Transaksi# S-{{ deposit.id }}
                             </h3>
                             <p>
                                 <span class="font-black">ID User:</span>
@@ -79,6 +79,10 @@ const active = 'deposit';
                     <n-space justify="end">
                         <n-card size="small">
                             <table class="w-64">
+                                <tr>
+                                    <td class="font-bold">Jenis Simpanan:</td>
+                                    <td>{{ deposit.type }}</td>
+                                </tr>
                                 <tr>
                                     <td class="font-bold">Jumlah simpan:</td>
                                     <td>
