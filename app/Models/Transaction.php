@@ -28,4 +28,9 @@ class Transaction extends Model
     {
         return $this->hasOne(Withdraw::class);
     }
+
+    public function loan()
+    {
+        return $this->hasOne(Loan::class);
+    }
 }

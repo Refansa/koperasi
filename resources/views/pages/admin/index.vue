@@ -40,10 +40,7 @@ const active = 'dashboard';
         </template>
         <template #default>
             <n-space vertical>
-                <n-alert
-                    type="success"
-                    :show-icon="false"
-                    :bordered="false">
+                <n-card :bordered="false">
                     <div class="flex flex-col items-start gap-4">
                         <koperasi-logo />
                         <p>
@@ -53,7 +50,7 @@ const active = 'dashboard';
                             dan cepat.
                         </p>
                     </div>
-                </n-alert>
+                </n-card>
                 <n-card :bordered="false">
                     <n-h1>Total Keuangan Koperasi</n-h1>
                     <n-grid

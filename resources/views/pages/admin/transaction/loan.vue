@@ -4,7 +4,11 @@ import { ref } from 'vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
-import { UserProperties, SettingProperties } from '@/scripts/composables/model';
+import {
+    UserProperties,
+    SettingProperties,
+    CooperativeProperties,
+} from '@/scripts/composables/model';
 import {
     NSpace,
     NButton,
@@ -18,6 +22,7 @@ import {
     NSelect,
     NInputNumber,
     NInput,
+    NAlert,
 } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 import route from 'ziggy-js';
@@ -25,6 +30,7 @@ import route from 'ziggy-js';
 const props = defineProps<{
     users: UserProperties[];
     setting: SettingProperties;
+    cooperative: CooperativeProperties;
 }>();
 
 const active = 'loan';
@@ -46,6 +52,11 @@ const form = useForm<FormProperties>({
     interest: null,
     note: null,
 });
+
+const isActivated = () =>
+    props.cooperative.total_deposit_amount -
+        props.cooperative.total_loan_amount <
+    props.setting.saving_limit_for_loan;
 
 const userOptions: SelectMixedOption[] = props.users.map((v) => {
     return {
@@ -138,13 +149,36 @@ const autoInterest = (v: number) => {
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Simpan</n-h1>
+                <n-alert
+                    v-if="isActivated()"
+                    type="error"
+                    title="Peminjaman dinonaktifkan karena tabungan koperasi dibawah limit peminjaman">
+                    <p>
+                        Limit tabungan untuk peminjaman:
+                        {{
+                            setting.saving_limit_for_loan.toLocaleString(
+                                'id-ID'
+                            )
+                        }}
+                    </p>
+                    <p>
+                        Tabungan koperasi:
+                        {{
+                            (
+                                cooperative.total_deposit_amount -
+                                cooperative.total_loan_amount
+                            ).toLocaleString('id-ID')
+                        }}
+                    </p>
+                </n-alert>
+                <n-h1 align="center">Pinjam</n-h1>
                 <n-card class="lg:py-10 lg:px-20">
                     <n-form
                         ref="formRef"
                         size="large"
                         :model="form"
                         :rules="formRules"
+                        :disabled="isActivated()"
                         @submit.prevent="submitForm">
                         <n-form-item
                             path="user_id"
@@ -210,7 +244,7 @@ const autoInterest = (v: number) => {
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.interest }}
                         </n-element>
-                        <n-form-item label="Note">
+                        <n-form-item label="Keterangan">
                             <n-input
                                 v-model:value="form.note"
                                 placeholder="Keterangan" />

@@ -125,6 +125,14 @@ const menuOptions: MenuOption[] = [
                 key: 'withdraw-data',
                 icon: renderIcon(ArrowCircleUp24Filled),
             },
+            {
+                label: renderLink(
+                    route('admin.transactions.loan'),
+                    'Transaksi Pinjam'
+                ),
+                key: 'loan-data',
+                icon: renderIcon(MoneyBillWave),
+            },
         ],
     },
     {

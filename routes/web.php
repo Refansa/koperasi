@@ -58,13 +58,13 @@ Route::middleware('auth')->group(function () {
 
         Route::get('loan', [LoanController::class, 'index'])->name('loan.index');
         Route::post('loan', [LoanController::class, 'store'])->name('loan.store');
-        // Route::get('loan/receipt/{loan}', [LoanController::class, 'receipt'])->name('loan.receipt');
-        // Route::get('loan/print/{loan}', [LoanController::class, 'print'])->name('loan.print');
+        Route::get('loan/receipt/{loan}', [LoanController::class, 'receipt'])->name('loan.receipt');
+        Route::get('loan/print/{loan}', [LoanController::class, 'print'])->name('loan.print');
 
         Route::name('transactions.')->prefix('transactions')->group(function () {
             Route::get('deposit', [DepositController::class, 'data'])->name('deposit');
             Route::get('withdraw', [WithdrawController::class, 'data'])->name('withdraw');
-            // Route::get('loan', [LoanController::class, 'data'])->name('loan');
+            Route::get('loan', [LoanController::class, 'data'])->name('loan');
         });
 
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');

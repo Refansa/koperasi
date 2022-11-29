@@ -71,6 +71,14 @@ interface WithdrawProperties extends CommonProperties {
     type: WithdrawType | null;
 }
 
+interface LoanProperties extends CommonProperties {
+    user: UserProperties | null;
+    transaction: TransactionProperties | null;
+    loan_period: number;
+    interest: number;
+    note: string | null;
+}
+
 interface TransactionProperties extends CommonProperties {
     user: UserProperties | null;
     amount: number | null;
@@ -90,6 +98,7 @@ export {
     DepositType,
     WithdrawProperties,
     WithdrawType,
+    LoanProperties,
     SettingProperties,
     CooperativeProperties,
 };
