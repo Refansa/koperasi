@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cooperative;
+use App\Models\InstallmentTracker;
 use App\Models\Loan;
 use App\Models\Setting;
 use App\Models\Transaction;
@@ -43,18 +44,36 @@ class LoanController extends Controller
                 $user   = User::find($data['user_id']);
                 $saving = $user->m_saving;
 
+                $isUserHasUnpaidLoan = $user->loans()->where('status', 'UNPAID')->count();
+
+                if ($isUserHasUnpaidLoan > 0) {
+                    return back()->with([
+                        'alert.content' => 'Pengguna ini masih belum melunasi pinjaman sebelumnya',
+                        'alert.type'    => 'error',
+                    ]);
+                }
+
                 $transaction = $user->transactions()->save(
                     new Transaction([
                         'amount' => $data['amount'],
                     ]),
                 );
 
-                $transaction->loan()->save(
+                $loan = $transaction->loan()->save(
                     new Loan([
                         'user_id'       => $user->id,
                         'loan_period'   => $data['loan_period'],
                         'interest'      => $data['interest'],
                         'note'          => $data['note'],
+                        'status'        => 'UNPAID',
+                    ]),
+                );
+
+                $loan->installment_tracker()->save(
+                    new InstallmentTracker([
+                        'user_id'               => $user->id,
+                        'installment_of'        => 1,
+                        'installment_needed'    => $data['loan_period'],
                     ]),
                 );
 
@@ -105,6 +124,7 @@ class LoanController extends Controller
         $loans = Loan::all();
         $loans->load('user');
         $loans->load('transaction');
+        $loans->load('installment_tracker');
 
         return inertia('admin.transactions.loan', [
             'loans' => $loans,

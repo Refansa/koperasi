@@ -33,4 +33,9 @@ class Transaction extends Model
     {
         return $this->hasOne(Loan::class);
     }
+
+    public function installment()
+    {
+        return $this->hasOne(Installment::class);
+    }
 }

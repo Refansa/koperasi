@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DepositController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\InstallmentController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoanController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\SignOutController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,10 +63,16 @@ Route::middleware('auth')->group(function () {
         Route::get('loan/receipt/{loan}', [LoanController::class, 'receipt'])->name('loan.receipt');
         Route::get('loan/print/{loan}', [LoanController::class, 'print'])->name('loan.print');
 
+        Route::get('installment', [InstallmentController::class, 'index'])->name('installment.index');
+        Route::post('installment', [InstallmentController::class, 'store'])->name('installment.store');
+        Route::get('installment/receipt/{installment}', [InstallmentController::class, 'receipt'])->name('installment.receipt');
+        Route::get('installment/print/{installment}', [InstallmentController::class, 'print'])->name('installment.print');
+
         Route::name('transactions.')->prefix('transactions')->group(function () {
             Route::get('deposit', [DepositController::class, 'data'])->name('deposit');
             Route::get('withdraw', [WithdrawController::class, 'data'])->name('withdraw');
             Route::get('loan', [LoanController::class, 'data'])->name('loan');
+            Route::get('installment', [InstallmentController::class, 'data'])->name('installment');
         });
 
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
@@ -78,3 +86,10 @@ Route::middleware('auth')->group(function () {
 
 // Development Purpose, used as a placeholder unspecified routes.
 Route::any('/stub', fn () => abort(404))->name('stub');
+Route::any('/test', function () {
+    $user = User::find(1);
+
+    $isUserHasUnpaidLoan = $user->installment_trackers()->where('status', 'UNPAID')->count();
+
+    dd($isUserHasUnpaidLoan);
+})->name('test');

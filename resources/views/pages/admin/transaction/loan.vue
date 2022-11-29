@@ -133,7 +133,7 @@ const submitForm = () => {
 };
 
 const autoInterest = (v: number) => {
-    form.interest = v <= 24 ? 2 : 4;
+    form.interest = v <= 24 ? 1 : 2;
 };
 </script>
 <template layout="default">
@@ -261,7 +261,7 @@ const autoInterest = (v: number) => {
                             size="large"
                             block
                             type="success"
-                            >Simpan
+                            >Pinjam
                         </n-button>
                     </n-form>
                 </n-card>

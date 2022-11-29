@@ -58,7 +58,7 @@
     <tr>
       <td>Jumlah Pinjam</td>
       <td>Tenor</td>
-      <td>Bunga Per Tahun</td>
+      <td>Bunga Per Bulan</td>
       <td>Total #</td>
       <td>Angsuran</td>
     </tr>
@@ -67,10 +67,10 @@
       <td>{{ $loan->loan_period }} Bulan</td>
       <td>{{ $loan->interest }}%</td>
       <td>Rp.
-        {{ number_format($loan->transaction->amount + ($loan->transaction->amount * $loan->interest) / 100, 0, ',', '.') }}
+        {{ number_format($loan->transaction->amount + ($loan->transaction->amount * ($loan->interest * $loan->loan_period)) / 100, 0, ',', '.') }}
       </td>
       <td>Rp.
-        {{ number_format(($loan->transaction->amount + ($loan->transaction->amount * $loan->interest) / 100) / $loan->loan_period, 0, ',', '.') }}
+        {{ number_format(($loan->transaction->amount + ($loan->transaction->amount * ($loan->interest * $loan->loan_period)) / 100) / $loan->loan_period, 0, ',', '.') }}
       </td>
     </tr>
   </table>
@@ -80,6 +80,8 @@
       <td>Rp. {{ number_format($loan->transaction->amount, 0, ',', '.') }}</td>
     </tr>
   </table>
+  <p>Keterangan:</p>
+  <p>{{ $loan->note }}</p>
 </body>
 
 </html>

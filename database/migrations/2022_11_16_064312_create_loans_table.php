@@ -22,6 +22,7 @@ return new class extends Migration
             $table->integer('loan_period');
             $table->integer('interest');
             $table->string('note')->nullable();
+            $table->enum('status', ['UNPAID', 'PAID']);
             $table->timestamps();
         });
     }

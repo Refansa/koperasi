@@ -5,7 +5,14 @@ import { LoanProperties } from '@/scripts/composables/model';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
-import { NH1, NSpace, NDataTable, DataTableColumns, NButton } from 'naive-ui';
+import {
+    NH1,
+    NSpace,
+    NDataTable,
+    DataTableColumns,
+    NButton,
+    NTag,
+} from 'naive-ui';
 import route from 'ziggy-js';
 
 defineProps<{ loans: LoanProperties[] }>();
@@ -40,7 +47,7 @@ const createColumns = (): DataTableColumns<LoanProperties> => {
             },
         },
         {
-            title: 'Bunga',
+            title: 'Bunga Per Bulan',
             key: 'interest',
             sorter: (a, b) => a.interest - b.interest,
             render: (u) => {
@@ -59,10 +66,97 @@ const createColumns = (): DataTableColumns<LoanProperties> => {
             },
         },
         {
+            title: 'Jumlah Total',
+            key: 'loan.total',
+            sorter: (a, b) => {
+                const total = (v: LoanProperties) => {
+                    return (
+                        (v.transaction?.amount ?? 0) +
+                        ((v.transaction?.amount ?? 0) *
+                            (v.interest * v.loan_period)) /
+                            100
+                    );
+                };
+                return total(a) - total(b);
+            },
+            render: (u) => {
+                const total = (v: LoanProperties) => {
+                    return (
+                        (v.transaction?.amount ?? 0) +
+                        ((v.transaction?.amount ?? 0) *
+                            (v.interest * v.loan_period)) /
+                            100
+                    );
+                };
+
+                return `Rp. ${total(u).toLocaleString('id-ID')}`;
+            },
+        },
+        {
+            title: 'Angsuran Per Bulan',
+            key: 'loan.installment',
+            sorter: (a, b) => {
+                const installment = (v: LoanProperties) => {
+                    return (
+                        ((v.transaction?.amount ?? 0) +
+                            ((v.transaction?.amount ?? 0) *
+                                (v.interest * v.loan_period)) /
+                                100) /
+                        v.loan_period
+                    );
+                };
+                return installment(a) - installment(b);
+            },
+            render: (u) => {
+                const installment = (v: LoanProperties) => {
+                    return (
+                        ((v.transaction?.amount ?? 0) +
+                            ((v.transaction?.amount ?? 0) *
+                                (v.interest * v.loan_period)) /
+                                100) /
+                        v.loan_period
+                    );
+                };
+
+                return `Rp. ${installment(u).toLocaleString('id-ID')}`;
+            },
+        },
+        {
+            title: 'Angsuran Ke',
+            key: 'installment_tracker.installment_of',
+            sorter: (a, b) =>
+                (a.installment_tracker?.installment_of ?? 0) -
+                (b.installment_tracker?.installment_of ?? 0),
+        },
+        {
+            title: 'Keterangan',
+            key: 'note',
+            sorter: 'default',
+        },
+        {
+            title: 'Status Peminjaman',
+            key: 'status',
+            align: 'center',
+            sorter: (a, b) => {
+                const x = (a.status ?? '').toLowerCase();
+                const y = (b.status ?? '').toLowerCase();
+                if (x < y) return -1;
+                if (x > y) return 1;
+                return 0;
+            },
+            render: (u) => {
+                return h(
+                    NTag,
+                    { type: u.status === 'PAID' ? 'success' : 'error' },
+                    () => u.status
+                );
+            },
+        },
+        {
             title: 'Aksi',
             key: 'actions',
             align: 'center',
-            width: 200,
+            width: 100,
             render(u) {
                 return h(
                     Link,
@@ -97,7 +191,7 @@ const columns = createColumns();
                     :single-line="false"
                     :columns="columns"
                     :data="loans"
-                    :scroll-x="800"
+                    :scroll-x="1600"
                     :pagination="{ pageSize: 10 }" />
             </n-space>
         </template>

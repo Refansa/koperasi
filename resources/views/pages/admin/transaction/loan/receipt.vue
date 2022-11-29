@@ -81,7 +81,7 @@ const active = 'loan';
                             <tr>
                                 <th>Jumlah Pinjam</th>
                                 <th>Tenor</th>
-                                <th>Bunga Per Tahun</th>
+                                <th>Bunga Per Bulan</th>
                                 <th>Total #</th>
                                 <th>Angsuran</th>
                             </tr>
@@ -104,7 +104,8 @@ const active = 'loan';
                                         (
                                             (loan.transaction?.amount ?? 0) +
                                             ((loan.transaction?.amount ?? 0) *
-                                                2) /
+                                                (loan.interest *
+                                                    loan.loan_period)) /
                                                 100
                                         ).toLocaleString('id-ID')
                                     }}
@@ -116,7 +117,8 @@ const active = 'loan';
                                             ((loan.transaction?.amount ?? 0) +
                                                 ((loan.transaction?.amount ??
                                                     0) *
-                                                    2) /
+                                                    (loan.interest *
+                                                        loan.loan_period)) /
                                                     100) /
                                             loan.loan_period
                                         ).toLocaleString('id-ID')
@@ -127,7 +129,11 @@ const active = 'loan';
                     </n-table>
                 </template>
                 <template #footer>
-                    <n-space justify="end">
+                    <n-space justify="space-between">
+                        <div>
+                            <p>Keterangan:</p>
+                            <p>{{ loan.note }}</p>
+                        </div>
                         <n-card size="small">
                             <table class="w-64">
                                 <tr>

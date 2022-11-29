@@ -71,12 +71,30 @@ interface WithdrawProperties extends CommonProperties {
     type: WithdrawType | null;
 }
 
+type LoanStatusType = 'PAID' | 'UNPAID';
+
 interface LoanProperties extends CommonProperties {
     user: UserProperties | null;
     transaction: TransactionProperties | null;
+    installment_tracker: InstallmentTrackerProperties | null;
     loan_period: number;
     interest: number;
     note: string | null;
+    status: LoanStatusType;
+}
+
+interface InstallmentProperties extends CommonProperties {
+    user: UserProperties | null;
+    transaction: TransactionProperties | null;
+    loan: LoanProperties | null;
+    installment_tracker: InstallmentTrackerProperties | null;
+}
+
+interface InstallmentTrackerProperties extends CommonProperties {
+    user: UserProperties | null;
+    loan: LoanProperties | null;
+    installment_of: number;
+    installment_needed: number;
 }
 
 interface TransactionProperties extends CommonProperties {
@@ -99,6 +117,9 @@ export {
     WithdrawProperties,
     WithdrawType,
     LoanProperties,
+    LoanStatusType,
     SettingProperties,
     CooperativeProperties,
+    InstallmentProperties,
+    InstallmentTrackerProperties,
 };

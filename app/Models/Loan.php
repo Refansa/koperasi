@@ -15,6 +15,7 @@ class Loan extends Model
         'loan_period',
         'interest',
         'note',
+        'status',
     ];
 
     public function user()
@@ -25,5 +26,15 @@ class Loan extends Model
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);
+    }
+
+    public function installments()
+    {
+        return $this->hasMany(Installment::class);
+    }
+
+    public function installment_tracker()
+    {
+        return $this->hasOne(InstallmentTracker::class);
     }
 }

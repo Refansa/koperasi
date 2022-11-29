@@ -17,6 +17,7 @@ import {
     Box20Filled,
     ArrowCircleDown24Filled,
     ArrowCircleUp24Filled,
+    MoneyHand24Filled,
 } from '@vicons/fluent';
 import { Category } from '@vicons/carbon';
 import { MoneyCheckAlt, MoneyBillWave } from '@vicons/fa';
@@ -101,6 +102,11 @@ const menuOptions: MenuOption[] = [
                 label: renderLink(route('admin.loan.index'), 'Pinjam'),
                 key: 'loan',
                 icon: renderIcon(MoneyBillWave),
+            },
+            {
+                label: renderLink(route('admin.installment.index'), 'Angsuran'),
+                key: 'installment',
+                icon: renderIcon(MoneyHand24Filled),
             },
         ],
     },
