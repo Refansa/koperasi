@@ -16,9 +16,8 @@ import {
     FormInst,
     NElement,
     NSelect,
-    NInputNumber,
+    NTable,
     NInput,
-    NAlert,
 } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 import route from 'ziggy-js';
@@ -31,23 +30,26 @@ const active = 'installment';
 
 const formRef = ref<FormInst | null>(null);
 
+const loanRef = ref<LoanProperties | null>(null);
+
 interface FormProperties {
     loan_id: number | null;
     amount: number | null;
     installment_of: number | null;
+    note: string | null;
 }
 
 const form = useForm<FormProperties>({
     loan_id: null,
     amount: null,
     installment_of: null,
+    note: null,
 });
 
 const loanOptions: SelectMixedOption[] = props.loans.map((v) => {
     return {
         label: `P-${v.id} | ${v.user?.name} (Rp. ${(
-            (v.transaction?.amount ?? 0) +
-            ((v.transaction?.amount ?? 0) * (v.interest * v.loan_period)) / 100
+            v.transaction?.amount ?? 0
         ).toLocaleString('id-ID')})`,
         value: v.id,
     } as SelectMixedOption;
@@ -100,6 +102,7 @@ const submitForm = () => {
 
 const autoFill = (v: number) => {
     const loan = props.loans.filter((l) => l.id === v)[0];
+    loanRef.value = loan;
     form.amount =
         ((loan.transaction?.amount ?? 0) +
             ((loan.transaction?.amount ?? 0) *
@@ -145,39 +148,80 @@ const autoFill = (v: number) => {
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.loan_id }}
                         </n-element>
-                        <n-form-item
-                            path="amount"
-                            :label="`Jumlah Angsuran`">
-                            <n-input-number
-                                v-model:value="form.amount"
-                                :min="0"
-                                disabled
-                                placeholder="Jumlah Angsuran"
-                                style="display: flex; flex: 1">
-                                <template #prefix> Rp. </template>
-                            </n-input-number>
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.amount"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.amount }}
-                        </n-element>
-                        <n-form-item
-                            path="installment_of"
-                            label="Angsuran Ke:">
-                            <n-input-number
-                                v-model:value="form.installment_of"
-                                :min="0"
-                                disabled
-                                placeholder="Angsuran Ke-?"
-                                style="display: flex; flex: 1">
-                            </n-input-number>
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.installment_of"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.installment_of }}
-                        </n-element>
+                        <div
+                            class="mb-10"
+                            v-if="loanRef">
+                            <n-table
+                                :bordered="false"
+                                :single-line="false">
+                                <thead>
+                                    <tr>
+                                        <th>No. Pinjam</th>
+                                        <th>ID User</th>
+                                        <th>Nama</th>
+                                        <th>Angsuran #</th>
+                                        <th>Sisa Tenor</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>P-{{ form.loan_id }}</td>
+                                        <td>{{ loanRef.user?.id }}</td>
+                                        <td>{{ loanRef.user?.name }}</td>
+                                        <td>
+                                            Rp.
+                                            {{
+                                                form.amount?.toLocaleString(
+                                                    'id-ID'
+                                                )
+                                            }}
+                                        </td>
+                                        <td>
+                                            {{
+                                                loanRef?.installment_tracker
+                                                    .installment_needed +
+                                                1 -
+                                                loanRef?.installment_tracker
+                                                    .installment_of
+                                            }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </n-table>
+                            <n-space
+                                class="mt-4"
+                                align="center"
+                                justify="space-between">
+                                <n-form-item label="Keterangan">
+                                    <n-input
+                                        type="textarea"
+                                        v-model:value="form.note"
+                                        placeholder="Keterangan (Optional)" />
+                                </n-form-item>
+                                <n-table class="font-bold">
+                                    <tr>
+                                        <td>Angsuran Ke:</td>
+                                        <td>
+                                            {{
+                                                loanRef.installment_tracker
+                                                    .installment_of
+                                            }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jumlah Bayar:</td>
+                                        <td>
+                                            Rp.
+                                            {{
+                                                form.amount?.toLocaleString(
+                                                    'id-ID'
+                                                )
+                                            }}
+                                        </td>
+                                    </tr>
+                                </n-table>
+                            </n-space>
+                        </div>
                         <n-button
                             :disabled="form.processing"
                             :loading="form.processing"

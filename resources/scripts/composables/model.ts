@@ -76,7 +76,7 @@ type LoanStatusType = 'PAID' | 'UNPAID';
 interface LoanProperties extends CommonProperties {
     user: UserProperties | null;
     transaction: TransactionProperties | null;
-    installment_tracker: InstallmentTrackerProperties | null;
+    installment_tracker: InstallmentTrackerProperties;
     loan_period: number;
     interest: number;
     note: string | null;

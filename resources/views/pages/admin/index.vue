@@ -59,11 +59,8 @@ const active = 'dashboard';
                         cols="1 m:3"
                         responsive="screen">
                         <n-grid-item>
-                            <n-alert
+                            <n-card
                                 class="shadow-md"
-                                type="error"
-                                :show-icon="false"
-                                :bordered="false"
                                 title="Total Tabungan Koperasi (Kotor)">
                                 <n-h2>
                                     Rp.
@@ -73,14 +70,11 @@ const active = 'dashboard';
                                         )
                                     }}
                                 </n-h2>
-                            </n-alert>
+                            </n-card>
                         </n-grid-item>
                         <n-grid-item>
-                            <n-alert
-                                type="warning"
+                            <n-card
                                 class="shadow-md"
-                                :show-icon="false"
-                                :bordered="false"
                                 title="Total Pinjaman Koperasi">
                                 <n-h2>
                                     Rp.
@@ -90,14 +84,11 @@ const active = 'dashboard';
                                         )
                                     }}
                                 </n-h2>
-                            </n-alert>
+                            </n-card>
                         </n-grid-item>
                         <n-grid-item>
-                            <n-alert
-                                type="info"
+                            <n-card
                                 class="shadow-md"
-                                :show-icon="false"
-                                :bordered="false"
                                 title="Total Tabungan Koperasi (Bersih)">
                                 <n-h2>
                                     Rp.
@@ -108,7 +99,7 @@ const active = 'dashboard';
                                         ).toLocaleString('id-ID')
                                     }}
                                 </n-h2>
-                            </n-alert>
+                            </n-card>
                         </n-grid-item>
                     </n-grid>
                 </n-card>

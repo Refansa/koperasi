@@ -19,4 +19,9 @@ class InstallmentController extends Controller
             'loans' => $loans,
         ]);
     }
+
+    public function store(Request $request)
+    {
+        dd($request->all());
+    }
 }
