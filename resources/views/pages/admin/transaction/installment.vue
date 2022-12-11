@@ -179,10 +179,17 @@ const autoFill = (v: number) => {
                                         <td>
                                             {{
                                                 loanRef?.installment_tracker
-                                                    .installment_needed +
-                                                1 -
-                                                loanRef?.installment_tracker
-                                                    .installment_of
+                                                    .installment_of == 1
+                                                    ? loanRef
+                                                          ?.installment_tracker
+                                                          .installment_needed
+                                                    : loanRef
+                                                          ?.installment_tracker
+                                                          .installment_needed +
+                                                      1 -
+                                                      loanRef
+                                                          ?.installment_tracker
+                                                          .installment_of
                                             }}
                                         </td>
                                     </tr>

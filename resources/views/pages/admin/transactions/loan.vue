@@ -47,7 +47,7 @@ const createColumns = (): DataTableColumns<LoanProperties> => {
             },
         },
         {
-            title: 'Bunga Per Bulan',
+            title: 'Bunga',
             key: 'interest',
             sorter: (a, b) => a.interest - b.interest,
             render: (u) => {

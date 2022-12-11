@@ -58,7 +58,7 @@
     <tr>
       <td>Jumlah Pinjam</td>
       <td>Tenor</td>
-      <td>Bunga Per Bulan</td>
+      <td>Bunga</td>
       <td>Total #</td>
       <td>Angsuran</td>
     </tr>

@@ -230,7 +230,7 @@ const autoInterest = (v: number) => {
                         </n-element>
                         <n-form-item
                             path="interest"
-                            label="Bunga % Per Bulan">
+                            label="Bunga %">
                             <n-input-number
                                 v-model:value="form.interest"
                                 :min="0"

@@ -14,6 +14,9 @@ class Installment extends Model
         'transaction_id',
         'loan_id',
         'installment_tracker_id',
+        'installment_of',
+        'installment_left',
+        'note',
     ];
 
     public function user()

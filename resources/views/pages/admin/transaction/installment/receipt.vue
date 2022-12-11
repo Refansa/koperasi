@@ -3,19 +3,19 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import AdminMenu from '@/views/components/admin/admin-menu.vue';
-import { LoanProperties } from '@/scripts/composables/model';
+import { InstallmentProperties } from '@/scripts/composables/model';
 import { NCard, NSpace, NButton, NTable } from 'naive-ui';
 import KoperasiLogo from '@/views/components/koperasi-logo.vue';
 import dayjs from 'dayjs';
 import route from 'ziggy-js';
 
-const props = defineProps<{ loan: LoanProperties }>();
+const props = defineProps<{ installment: InstallmentProperties }>();
 
 function printPDF() {
-    window.open(route('admin.loan.print', props.loan.id));
+    window.open(route('admin.installment.print', props.installment.id));
 }
 
-const active = 'loan';
+const active = 'installment';
 </script>
 <template layout="default">
     <Head>
@@ -40,7 +40,7 @@ const active = 'loan';
                         <span class="text-sm font-black"
                             >Tanggal Transaksi:
                             {{
-                                dayjs(loan.created_at).format(
+                                dayjs(installment.created_at).format(
                                     'YYYY-MM-DD HH:mm:ss'
                                 )
                             }}</span
@@ -59,18 +59,18 @@ const active = 'loan';
                         <div>
                             <h3 class="underline">To:</h3>
                             <p class="font-black">
-                                {{ loan.user?.name }}
+                                {{ installment.user?.name }}
                             </p>
-                            <p>Email: {{ loan.user?.email }}</p>
-                            <p>Kontak: {{ loan.user?.contact }}</p>
+                            <p>Email: {{ installment.user?.email }}</p>
+                            <p>Kontak: {{ installment.user?.contact }}</p>
                         </div>
                         <div>
                             <h3 class="font-black">
-                                No Transaksi# P-{{ loan.id }}
+                                No Transaksi# A-{{ installment.id }}
                             </h3>
                             <p>
                                 <span class="font-black">ID User:</span>
-                                {{ loan.user?.id }}
+                                {{ installment.user?.id }}
                             </p>
                         </div>
                     </div>
@@ -79,50 +79,28 @@ const active = 'loan';
                         :single-line="false">
                         <thead>
                             <tr>
-                                <th>Jumlah Pinjam</th>
-                                <th>Tenor</th>
-                                <th>Bunga</th>
-                                <th>Total #</th>
-                                <th>Angsuran</th>
+                                <th>No. Pinjam</th>
+                                <th>ID User</th>
+                                <th>Nama</th>
+                                <th>Angsuran #</th>
+                                <th>Sisa Tenor</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>P-{{ installment.loan?.id }}</td>
+                                <td>{{ installment.user?.id }}</td>
+                                <td>{{ installment.user?.name }}</td>
                                 <td>
                                     Rp.
                                     {{
-                                        (
-                                            loan.transaction?.amount ?? 0
-                                        ).toLocaleString('id-ID')
-                                    }}
-                                </td>
-                                <td>{{ loan.loan_period }} Bulan</td>
-                                <td>{{ loan.interest }}%</td>
-                                <td>
-                                    Rp.
-                                    {{
-                                        (
-                                            (loan.transaction?.amount ?? 0) +
-                                            ((loan.transaction?.amount ?? 0) *
-                                                (loan.interest *
-                                                    loan.loan_period)) /
-                                                100
-                                        ).toLocaleString('id-ID')
+                                        installment.transaction?.amount?.toLocaleString(
+                                            'id-ID'
+                                        )
                                     }}
                                 </td>
                                 <td>
-                                    Rp.
-                                    {{
-                                        (
-                                            ((loan.transaction?.amount ?? 0) +
-                                                ((loan.transaction?.amount ??
-                                                    0) *
-                                                    (loan.interest *
-                                                        loan.loan_period)) /
-                                                    100) /
-                                            loan.loan_period
-                                        ).toLocaleString('id-ID')
-                                    }}
+                                    {{ installment.installment_left }}
                                 </td>
                             </tr>
                         </tbody>
@@ -132,16 +110,22 @@ const active = 'loan';
                     <n-space justify="space-between">
                         <div>
                             <p>Keterangan:</p>
-                            <p>{{ loan.note }}</p>
+                            <p>{{ installment?.note }}</p>
                         </div>
                         <n-card size="small">
-                            <table class="w-64">
+                            <table class="w-64 font-bold">
                                 <tr>
-                                    <td class="font-bold">Jumlah Pinjam:</td>
+                                    <td>Angsuran Ke:</td>
+                                    <td>
+                                        {{ installment.installment_of }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jumlah Bayar:</td>
                                     <td>
                                         Rp.
                                         {{
-                                            loan.transaction?.amount?.toLocaleString(
+                                            installment.transaction?.amount?.toLocaleString(
                                                 'id-ID'
                                             )
                                         }}
@@ -155,10 +139,12 @@ const active = 'loan';
                     <n-space
                         id="no-print"
                         justify="end">
-                        <Link :href="route('admin.loan.index')">
-                            <n-button type="primary">Kembali (Loan) </n-button>
+                        <Link :href="route('admin.installment.index')">
+                            <n-button type="primary"
+                                >Kembali (Installment)
+                            </n-button>
                         </Link>
-                        <Link :href="route('admin.transactions.loan')">
+                        <Link :href="route('admin.transactions.installment')">
                             <n-button type="primary"
                                 >Kembali (Data Transaksi)
                             </n-button>

@@ -23,6 +23,9 @@ return new class extends Migration
             $table->foreignIdFor(Transaction::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Loan::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(InstallmentTracker::class)->constrained()->cascadeOnDelete();
+            $table->integer('installment_of');
+            $table->integer('installment_left');
+            $table->string('note')->nullable();
             $table->timestamps();
         });
     }

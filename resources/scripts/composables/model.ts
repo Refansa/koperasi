@@ -87,7 +87,10 @@ interface InstallmentProperties extends CommonProperties {
     user: UserProperties | null;
     transaction: TransactionProperties | null;
     loan: LoanProperties | null;
-    installment_tracker: InstallmentTrackerProperties | null;
+    installment_tracker: InstallmentTrackerProperties;
+    installment_of: number;
+    installment_left: number;
+    note: string | null;
 }
 
 interface InstallmentTrackerProperties extends CommonProperties {
