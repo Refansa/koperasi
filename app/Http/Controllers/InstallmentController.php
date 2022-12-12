@@ -7,6 +7,7 @@ use App\Models\Installment;
 use App\Models\Loan;
 use App\Models\Transaction;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class InstallmentController extends Controller
@@ -92,6 +93,24 @@ class InstallmentController extends Controller
 
         return inertia('admin.transaction.installment.receipt', [
             'installment' => $installment,
+        ]);
+    }
+
+    public function print(Installment $installment)
+    {
+        $pdf = Pdf::loadView('blade.receipt.installment', ['installment' => $installment]);
+        return $pdf->stream('receipt.pdf');
+    }
+
+    public function data()
+    {
+        $installments = Installment::all();
+        $installments->load('user');
+        $installments->load('loan');
+        $installments->load('transaction');
+
+        return inertia('admin.transactions.installment', [
+            'installments' => $installments,
         ]);
     }
 }

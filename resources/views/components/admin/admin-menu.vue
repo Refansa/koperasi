@@ -139,6 +139,14 @@ const menuOptions: MenuOption[] = [
                 key: 'loan-data',
                 icon: renderIcon(MoneyBillWave),
             },
+            {
+                label: renderLink(
+                    route('admin.transactions.installment'),
+                    'Transaksi Pinjam'
+                ),
+                key: 'installment-data',
+                icon: renderIcon(MoneyHand24Filled),
+            },
         ],
     },
     {
