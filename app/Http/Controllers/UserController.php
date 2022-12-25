@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Division;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +16,6 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        $user->load('division');
 
         return inertia('admin.users.index', ['user' => $user]);
     }
@@ -29,9 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $divisions = Division::all();
-
-        return inertia('admin.users.create', ['divisions' => $divisions]);
+        return inertia('admin.users.create');
     }
 
     /**
@@ -47,7 +43,6 @@ class UserController extends Controller
             'email'         => ['required', 'email', 'unique:users', 'max:255'],
             'password'      => ['required', 'string', 'min:8', 'max:24'],
             'role'          => ['required', 'string'],
-            'division_id'   => ['required', 'numeric'],
             'address'       => ['required', 'string'],
             'contact'       => ['required', 'string'],
         ]);
@@ -55,7 +50,9 @@ class UserController extends Controller
         $data['password'] = Hash::make($data['password']);
 
         User::create($data)->m_saving()->create([
-            'deposit_amount'    => 0,
+            'basic_amount'      => 0,
+            'mandatory_amount'  => 0,
+            'voluntary_amount'  => 0,
             'loan_amount'       => 0,
         ]);
 
@@ -84,12 +81,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $divisions = Division::all();
-        $user->load('division');
-
         return inertia('admin.users.edit', [
             'user'      => $user,
-            'divisions' => $divisions,
         ]);
     }
 
@@ -105,7 +98,6 @@ class UserController extends Controller
         $rules = [
             'name'      => ['required', 'string'],
             'role'      => ['required', 'string'],
-            'division'  => ['required', 'numeric'],
             'address'   => ['required', 'string'],
             'contact'   => ['required', 'string'],
         ];
@@ -119,10 +111,6 @@ class UserController extends Controller
         }
 
         $data = $request->validate($rules);
-
-        $division = Division::find($data['division']);
-        $data['division_id'] = $division->id;
-        unset($data['division']);
 
         if ($request->password) {
             $data['password'] = Hash::make($data['password']);

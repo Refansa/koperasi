@@ -5,7 +5,6 @@ import AdminMenu from '@/views/components/admin/admin-menu.vue';
 import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import {
-    DivisionProperties,
     UserProperties,
 } from '@/scripts/composables/model';
 import {
@@ -26,7 +25,6 @@ import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 import route from 'ziggy-js';
 
 const props = defineProps<{
-    divisions: DivisionProperties[];
     user: UserProperties;
 }>();
 
@@ -37,7 +35,6 @@ const form = useForm({
     email: props.user.email as string,
     password: '',
     role: props.user.role,
-    division: props.user.division?.id,
     address: props.user.address,
     contact: props.user.contact,
 });
@@ -81,14 +78,6 @@ const formRules: FormRules = {
             trigger: 'blur',
         },
     ],
-    division: [
-        {
-            type: 'number',
-            required: true,
-            message: 'Divisi diperlukan',
-            trigger: 'blur',
-        },
-    ],
     address: [
         {
             required: true,
@@ -104,13 +93,6 @@ const formRules: FormRules = {
         },
     ],
 };
-
-const divisionOptions: SelectMixedOption[] = props.divisions.map((v) => {
-    return {
-        label: v.position,
-        value: v.id,
-    } as SelectMixedOption;
-});
 
 const roleOptions: SelectMixedOption[] = [
     {
@@ -212,20 +194,6 @@ const active = 'user-data';
                             v-if="form.errors.password"
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.password }}
-                        </n-element>
-                        <n-form-item
-                            path="division"
-                            label="Divisi">
-                            <n-select
-                                v-model:value="form.division"
-                                filterable
-                                :options="divisionOptions"
-                                placeholder="Divisi Pengguna" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.division"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.division }}
                         </n-element>
                         <n-form-item
                             path="role"

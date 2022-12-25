@@ -13,13 +13,10 @@ import {
 } from '@vicons/material';
 import { Person, Settings } from '@vicons/ionicons5';
 import {
-    PersonCall20Filled,
-    Box20Filled,
     ArrowCircleDown24Filled,
     ArrowCircleUp24Filled,
     MoneyHand24Filled,
 } from '@vicons/fluent';
-import { Category } from '@vicons/carbon';
 import { MoneyCheckAlt, MoneyBillWave } from '@vicons/fa';
 
 import route from 'ziggy-js';
@@ -39,7 +36,7 @@ const menuOptions: MenuOption[] = [
         icon: renderIcon(DashboardFilled),
     },
     {
-        label: 'Pengguna',
+        label: 'Anggota',
         key: 'user',
         icon: renderIcon(Person),
         children: [
@@ -50,36 +47,11 @@ const menuOptions: MenuOption[] = [
             },
             {
                 label: renderLink(
-                    route('admin.divisions.index'),
-                    'Bagian Pengguna'
+                    route('stub'),
+                    'Data Anggota'
                 ),
                 key: 'division-data',
                 icon: renderIcon(BadgeFilled),
-            },
-        ],
-    },
-    {
-        label: renderLink(route('admin.suppliers.index'), 'Data Supplier'),
-        key: 'supplier-data',
-        icon: renderIcon(PersonCall20Filled),
-    },
-    {
-        label: 'Barang',
-        key: 'item',
-        icon: renderIcon(Box20Filled),
-        children: [
-            {
-                label: renderLink(route('admin.items.index'), 'Data Barang'),
-                key: 'item-data',
-                icon: renderIcon(Box20Filled),
-            },
-            {
-                label: renderLink(
-                    route('admin.items.categories.index'),
-                    'Kategori Barang'
-                ),
-                key: 'item-category-data',
-                icon: renderIcon(Category),
             },
         ],
     },
@@ -142,7 +114,7 @@ const menuOptions: MenuOption[] = [
             {
                 label: renderLink(
                     route('admin.transactions.installment'),
-                    'Transaksi Pinjam'
+                    'Transaksi Angsuran'
                 ),
                 key: 'installment-data',
                 icon: renderIcon(MoneyHand24Filled),

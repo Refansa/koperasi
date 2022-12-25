@@ -37,15 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('home');
 
-        Route::resource('items/categories', ItemCategoryController::class)
-            ->names('items.categories')
-            ->parameter('categories', 'itemCategory');
-
         Route::resources([
             'users'     => UserController::class,
-            'divisions' => DivisionController::class,
-            'suppliers' => SupplierController::class,
-            'items'     => ItemController::class,
+            //TODO: 'members'   => MemberConroller::class,
         ]);
 
         Route::get('deposit', [DepositController::class, 'index'])->name('deposit.index');

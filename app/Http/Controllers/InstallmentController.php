@@ -14,7 +14,7 @@ class InstallmentController extends Controller
 {
     public function index()
     {
-        $loans = Loan::all()->where('status', 'UNPAID');
+        $loans = Loan::where('status', 'UNPAID')->get();
         $loans->load('user');
         $loans->load('transaction');
         $loans->load('installment_tracker');

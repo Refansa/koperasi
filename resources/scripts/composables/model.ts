@@ -4,10 +4,6 @@ interface CommonProperties {
     updated_at: string;
 }
 
-interface DivisionProperties extends CommonProperties {
-    position: string | null;
-}
-
 interface CooperativeProperties extends CommonProperties {
     total_deposit_amount: number;
     total_loan_amount: number;
@@ -24,7 +20,6 @@ interface UserProperties extends CommonProperties {
     name: string | null;
     email: string | null;
     role: string | null;
-    division: DivisionProperties | null;
     m_saving: SavingProperties | null;
     address: string | null;
     contact: string | null;
@@ -36,23 +31,6 @@ interface SavingProperties extends CommonProperties {
     mandatory_amount: number | null;
     voluntary_amount: number | null;
     loan_amount: number | null;
-}
-
-interface SupplierProperties extends CommonProperties {
-    name: string | null;
-    address: string | null;
-    contact: string | null;
-}
-
-interface ItemCategoryProperties extends CommonProperties {
-    category: string | null;
-}
-interface ItemProperties extends CommonProperties {
-    supplier: SupplierProperties | null;
-    item_category: ItemCategoryProperties | null;
-    name: string | null;
-    stock: number | null;
-    price: number | null;
 }
 
 type DepositType = 'Pokok' | 'Wajib' | 'Sukarela' | 'Donasi';
@@ -105,14 +83,12 @@ interface TransactionProperties extends CommonProperties {
     amount: number | null;
     deposit?: DepositProperties | null;
     withdraw?: WithdrawProperties | null;
+    loan?: LoanProperties | null;
+    installment?: InstallmentProperties | null;
 }
 
 export {
     UserProperties,
-    DivisionProperties,
-    SupplierProperties,
-    ItemProperties,
-    ItemCategoryProperties,
     SavingProperties,
     TransactionProperties,
     DepositProperties,

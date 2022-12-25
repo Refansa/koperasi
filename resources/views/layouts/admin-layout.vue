@@ -40,7 +40,7 @@ const setCollapse = () => {
                 <slot name="sidebar" />
             </n-layout-sider>
             <n-layout-content
-                content-style="padding: 2rem; background-color: rgb(0, 0, 0, 0.05);">
+                content-style="padding: 2rem;">
                 <slot />
             </n-layout-content>
         </n-layout>

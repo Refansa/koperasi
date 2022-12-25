@@ -15,10 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            DivisionSeeder::class,
-            SupplierSeeder::class,
-            ItemCategorySeeder::class,
-            ItemSeeder::class,
             SavingSeeder::class,
             SettingSeeder::class,
             CooperativeSeeder::class,

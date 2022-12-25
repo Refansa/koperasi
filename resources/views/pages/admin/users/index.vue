@@ -37,22 +37,6 @@ const createColumns = (): DataTableColumns<UserProperties> => {
             sorter: 'default',
         },
         {
-            title: 'Bagian',
-            key: 'division.position',
-            sorter: (a, b) => {
-                const x = (a.division?.position ?? '').toLowerCase();
-                const y = (b.division?.position ?? '').toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            },
-            render(u) {
-                return h(NTag, { bordered: false, type: 'primary' }, [
-                    u.division?.position,
-                ]);
-            },
-        },
-        {
             title: 'Email',
             key: 'email',
             sorter: 'default',
