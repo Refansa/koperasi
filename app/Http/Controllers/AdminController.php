@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     function index()
     {
-        $user               = User::all()->count();
+        $users              = User::all()->count();
         $cooperative        = Cooperative::first();
         $today_transaction  = Transaction::where('created_at', '>=', Carbon::today())
             ->where('created_at', '<=', Carbon::tomorrow())
@@ -25,7 +25,7 @@ class AdminController extends Controller
         $today_transaction->load('installment');
 
         return inertia('admin.index', [
-            'user'              => $user,
+            'users'             => $users,
             'cooperative'       => $cooperative,
             'today_transaction' => $today_transaction,
         ]);
