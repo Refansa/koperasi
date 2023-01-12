@@ -67,4 +67,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Note To Developer
 
-1. _Refactor Code_ dan ubah alur menjadi koperasi simpan pinjam biasa.
+1. _Refactor Code_ dan ubah alur menjadi koperasi simpan pinjam biasa. [DONE]
+2. Perbarui model user untuk memiliki identitas yang lebih jelas.
