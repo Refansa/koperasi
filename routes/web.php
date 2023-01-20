@@ -15,6 +15,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,10 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('home');
 
-        Route::resources([
-            'users'     => UserController::class,
-            //TODO: 'members'   => MemberConroller::class,
-        ]);
+        Route::resource('users', UserController::class)->except(['update']);
+        Route::post('users/{user}', [UserController::class, 'update'])->name('users.update');
+
+        Route::get('savings', [UserController::class, 'savings_index'])->name('savings.index');
 
         Route::get('deposit', [DepositController::class, 'index'])->name('deposit.index');
         Route::post('deposit', [DepositController::class, 'store'])->name('deposit.store');
@@ -80,10 +81,6 @@ Route::middleware('auth')->group(function () {
 
 // Development Purpose, used as a placeholder unspecified routes.
 Route::any('/stub', fn () => abort(404))->name('stub');
-Route::any('/test', function () {
-    $user = User::find(1);
-
-    $isUserHasUnpaidLoan = $user->installment_trackers()->where('status', 'UNPAID')->count();
-
-    dd($isUserHasUnpaidLoan);
+Route::any('/test', function (Request $request) {
+    dd($request->all());
 })->name('test');

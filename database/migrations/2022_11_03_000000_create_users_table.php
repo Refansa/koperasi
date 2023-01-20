@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('picture');
+            $table->enum('gender', ['Laki-laki', 'Perempuan']);
+            $table->unsignedInteger('age');
+            $table->string('occupation');
             $table->string('address');
             $table->string('contact');
             $table->enum('role', ['anggota', 'admin']);

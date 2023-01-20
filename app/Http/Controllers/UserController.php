@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -15,9 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = User::all();
+        $users = User::all();
 
-        return inertia('admin.users.index', ['user' => $user]);
+        return inertia('admin.users.index', ['users' => $users]);
     }
 
     /**
@@ -40,14 +41,25 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name'          => ['required', 'string'],
+            'age'           => ['required', 'numeric'],
+            'gender'        => ['required', 'string'],
+            'occupation'    => ['required', 'string'],
+            'address'       => ['required', 'string'],
+            'contact'       => ['required', 'string'],
             'email'         => ['required', 'email', 'unique:users', 'max:255'],
             'password'      => ['required', 'string', 'min:8', 'max:24'],
             'role'          => ['required', 'string'],
-            'address'       => ['required', 'string'],
-            'contact'       => ['required', 'string'],
+            'picture'       => [],
         ]);
 
-        $data['password'] = Hash::make($data['password']);
+        $data['password']   = Hash::make($data['password']);
+
+        if ($request->picture) {
+            $data['picture'] = $request->picture[0]['file']->store('img/profile');
+            $data['picture'] = '/storage/' . $data['picture'];
+        } else {
+            $data['picture'] = '/images/default-profile.jpg';
+        }
 
         User::create($data)->m_saving()->create([
             'basic_amount'      => 0,
@@ -96,10 +108,14 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $rules = [
-            'name'      => ['required', 'string'],
-            'role'      => ['required', 'string'],
-            'address'   => ['required', 'string'],
-            'contact'   => ['required', 'string'],
+            'name'          => ['required', 'string'],
+            'age'           => ['required', 'numeric'],
+            'gender'        => ['required', 'string'],
+            'occupation'    => ['required', 'string'],
+            'address'       => ['required', 'string'],
+            'contact'       => ['required', 'string'],
+            'role'          => ['required', 'string'],
+            'picture'       => [],
         ];
 
         if ($request->email != $user->email) {
@@ -114,6 +130,16 @@ class UserController extends Controller
 
         if ($request->password) {
             $data['password'] = Hash::make($data['password']);
+        }
+
+        if (isset($request->picture[0]['file'])) {
+            Storage::delete(str_replace('/storage/', '', $request->oldPicture));
+            $data['picture'] = $request->picture[0]['file']->store('img/profile');
+            $data['picture'] = '/storage/' . $data['picture'];
+        } else if (!isset($request->picture[0])) {
+            $data['picture'] = '/images/default-profile.jpg';
+        } else {
+            $data['picture'] = $request->oldPicture;
         }
 
         $user->update($data);
@@ -132,11 +158,23 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->picture != '/images/default-picture.jpg') {
+            Storage::delete($user->picture);
+        }
+
         User::destroy($user->id);
 
         return back()->with([
             'alert.content' => 'Pengguna berhasil dihapus',
             'alert.type' => 'success',
         ]);
+    }
+
+    public function savings_index()
+    {
+        $users = User::all();
+        $users->load('m_saving');
+
+        return inertia('admin.savings.index', ['users' => $users]);
     }
 }

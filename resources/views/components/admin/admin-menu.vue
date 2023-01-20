@@ -10,6 +10,7 @@ import {
     DashboardFilled,
     BadgeFilled,
     AssignmentFilled,
+    SavingsFilled,
 } from '@vicons/material';
 import { Person, Settings } from '@vicons/ionicons5';
 import {
@@ -41,17 +42,17 @@ const menuOptions: MenuOption[] = [
         icon: renderIcon(Person),
         children: [
             {
-                label: renderLink(route('admin.users.index'), 'Data Pengguna'),
+                label: renderLink(route('admin.users.index'), 'Data Anggota'),
                 key: 'user-data',
-                icon: renderIcon(Person),
+                icon: renderIcon(BadgeFilled),
             },
             {
                 label: renderLink(
-                    route('stub'),
-                    'Data Anggota'
+                    route('admin.savings.index'),
+                    'Data Tabungan'
                 ),
-                key: 'division-data',
-                icon: renderIcon(BadgeFilled),
+                key: 'saving-data',
+                icon: renderIcon(SavingsFilled),
             },
         ],
     },

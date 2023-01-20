@@ -34,7 +34,7 @@ function toggleTheme() {
                 :size="72"
                 object-fit="cover"
                 round
-                src="/images/avatar-test.gif" />
+                :src="auth.user.picture ?? '/images/default-profile.jpg'" />
             <div class="flex flex-col items-center">
                 <h3 class="font-bold text-xl">{{ auth.user.name }}</h3>
                 <h4 class="font-bold mb-2">{{ auth.user.email }}</h4>

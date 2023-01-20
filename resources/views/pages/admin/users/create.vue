@@ -17,6 +17,8 @@ import {
     NAutoComplete,
     FormInst,
     NElement,
+    NUpload,
+    NInputNumber,
 } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 import route from 'ziggy-js';
@@ -26,12 +28,16 @@ const active = 'user-data';
 const formRef = ref<FormInst | null>(null);
 
 const form = useForm({
+    picture: undefined,
     name: '',
+    age: null,
+    gender: null,
+    occupation: null,
+    address: null,
+    contact: null,
     email: '',
     password: '',
     role: null,
-    address: null,
-    contact: null,
 });
 
 const formRules: FormRules = {
@@ -39,6 +45,47 @@ const formRules: FormRules = {
         {
             required: true,
             message: 'Nama diperlukan',
+            trigger: ['input', 'blur'],
+        },
+    ],
+    age: [
+        {
+            type: 'number',
+            required: true,
+            message: 'Usia diperlukan',
+            trigger: ['input', 'blur'],
+        },
+        {
+            type: 'number',
+            message: 'Hanya menerima angka',
+            trigger: 'blur',
+        },
+    ],
+    gender: [
+        {
+            required: true,
+            message: 'Jenis Kelamin diperlukan',
+            trigger: ['input', 'blur'],
+        },
+    ],
+    occupation: [
+        {
+            required: true,
+            message: 'Pekerjaan diperlukan',
+            trigger: ['input', 'blur'],
+        },
+    ],
+    address: [
+        {
+            required: true,
+            message: 'Alamat diperlukan',
+            trigger: ['input', 'blur'],
+        },
+    ],
+    contact: [
+        {
+            required: true,
+            message: 'Kontak diperlukan',
             trigger: ['input', 'blur'],
         },
     ],
@@ -78,21 +125,18 @@ const formRules: FormRules = {
             trigger: 'blur',
         },
     ],
-    address: [
-        {
-            required: true,
-            message: 'Alamat diperlukan',
-            trigger: ['input', 'blur'],
-        },
-    ],
-    contact: [
-        {
-            required: true,
-            message: 'Kontak diperlukan',
-            trigger: ['input', 'blur'],
-        },
-    ],
 };
+
+const genderOptions: SelectMixedOption[] = [
+    {
+        label: 'Laki-laki',
+        value: 'Laki-laki',
+    },
+    {
+        label: 'Perempuan',
+        value: 'Perempuan',
+    },
+];
 
 const roleOptions: SelectMixedOption[] = [
     {
@@ -153,6 +197,20 @@ const submitForm = () => {
                         :rules="formRules"
                         @submit.prevent="submitForm">
                         <n-form-item
+                            path="picture"
+                            label="Foto Profil">
+                            <n-upload
+                                v-model:file-list="form.picture"
+                                accept="image/*"
+                                list-type="image-card"
+                                :max="1" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.picture"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.picture }}
+                        </n-element>
+                        <n-form-item
                             path="name"
                             label="Nama">
                             <n-input
@@ -163,6 +221,72 @@ const submitForm = () => {
                             v-if="form.errors.name"
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.name }}
+                        </n-element>
+                        <n-form-item
+                            path="age"
+                            label="Usia">
+                            <n-input-number
+                                v-model:value="form.age"
+                                :min="0"
+                                placeholder="Usia"
+                                style="display: flex; flex: 1">
+                                <template #suffix> Tahun</template>
+                            </n-input-number>
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.age"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.age }}
+                        </n-element>
+                        <n-form-item
+                            path="gender"
+                            label="Jenis Kelamin">
+                            <n-select
+                                v-model:value="form.gender"
+                                filterable
+                                :options="genderOptions"
+                                placeholder="Jenis Kelamin" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.gender"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.gender }}
+                        </n-element>
+                        <n-form-item
+                            path="occupation"
+                            label="Pekerjaan">
+                            <n-input
+                                v-model:value="form.occupation"
+                                placeholder="Pekerjaan" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.occupation"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.occupation }}
+                        </n-element>
+                        <n-form-item
+                            path="address"
+                            label="Alamat">
+                            <n-input
+                                v-model:value="form.address"
+                                placeholder="Alamat Pengguna" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.address"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.address }}
+                        </n-element>
+                        <n-form-item
+                            path="contact"
+                            label="Kontak">
+                            <n-input
+                                v-model:value="form.contact"
+                                placeholder="Kontak Pengguna" />
+                        </n-form-item>
+                        <n-element
+                            v-if="form.errors.contact"
+                            class="text-[var(--error-color)] mb-6">
+                            {{ form.errors.contact }}
                         </n-element>
                         <n-form-item
                             path="email"
@@ -206,30 +330,6 @@ const submitForm = () => {
                             v-if="form.errors.role"
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.role }}
-                        </n-element>
-                        <n-form-item
-                            path="address"
-                            label="Alamat">
-                            <n-input
-                                v-model:value="form.address"
-                                placeholder="Alamat Pengguna" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.address"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.address }}
-                        </n-element>
-                        <n-form-item
-                            path="contact"
-                            label="Kontak">
-                            <n-input
-                                v-model:value="form.contact"
-                                placeholder="Kontak Pengguna" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.contact"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.contact }}
                         </n-element>
                         <n-button
                             :disabled="form.processing"

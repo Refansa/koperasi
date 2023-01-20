@@ -20,6 +20,10 @@ interface UserProperties extends CommonProperties {
     name: string | null;
     email: string | null;
     role: string | null;
+    picture: string | null;
+    gender: 'Laki-laki' | 'Perempuan' | null;
+    age: number | null;
+    occupation: string | null;
     m_saving: SavingProperties | null;
     address: string | null;
     contact: string | null;

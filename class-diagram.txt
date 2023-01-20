@@ -1,0 +1,138 @@
+[Form Login]
+------------------------
++ email: String
++ password: String
++ remember_me: Boolean
+------------------------
+Login
+------------------------
+
+
+[User]
+------------------------
++ id*: Int
++ nama: String
++ url_gambar: String
++ usia: Int
++ jenis_kelamin: Enum('Laki-laki', 'Perempuan')
++ pekerjaan: String
++ alamat: String
++ kontak: String
++ email: String
+- password: String
+- remember_token: String
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+Melihat Data
+Perbarui Profil
+Transaksi Simpan
+Transaksi Tarik
+Transaksi Pinjam
+Transaksi Angsur
+------------------------
+
+
+[Admin]
+------------------------
++ id*: Int
++ nama: String
++ url_gambar: String
++ usia: Int
++ jenis_kelamin: Enum('Laki-laki', 'Perempuan')
++ pekerjaan: String
++ alamat: String
++ kontak: String
++ email: String
+- password: String
+- remember_token: String
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+Melihat Data
+Perbarui Profil
+Transaksi Simpan
+Transaksi Tarik
+Transaksi Pinjam
+Transaksi Angsur
+Membuat
+Perbarui
+Hapus
+------------------------
+
+
+[Tabungan]
+------------------------
++ id*: Int
++ jumlah_pokok: Int
++ jumlah_wajib: Int
++ jumlah_sukarela: Int
++ jumlah_pinjaman: Int
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+Perbarui
+------------------------
+
+
+[Transaksi]
+------------------------
++ id*: Int
++ jumlah: String
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+
+
+[Simpan]
+------------------------
++ id*: Int
++ jenis_simpanan: Enum('Pokok', 'Wajib', 'Sukarela', 'Donasi')
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+
+
+[Tarik]
+------------------------
++ id*: Int
++ jenis_tarikan: Enum('Pokok', 'Wajib', 'Sukarela', 'Semua')
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+
+
+[Pinjam]
+------------------------
++ id*: Int
++ tenor: Int
++ bunga_pinjaman: Int
++ keterangan: String
++ status: Enum('PAID', 'UNPAID')
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+
+
+[Angsur]
+------------------------
++ id*: Int
++ angsuran_ke: Int
++ angsuran_sampai: Int
++ keterangan: String
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
+
+
+[Koperasi]
+------------------------
++ total_simpanan: Int
++ total_peminjaman: Int
++ biaya_pokok_minimal: Int
++ biaya_wajib_minimal: Int
++ jumlah_pinjaman_maksimal: Int
++ limit_tabungan_untuk_peminjaman: Int
++ dibuat_pada: Timestamp
++ diperbarui_pada: Timestamp
+------------------------
