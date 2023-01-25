@@ -26,7 +26,7 @@ const options = [
             circle>
             <n-avatar
                 round
-                :src="auth.user.picture ?? '/images/default-profile.jpg'" />
+                :src="auth.user?.picture ?? '/images/default-profile.jpg'" />
         </n-button>
     </n-dropdown>
 </template>

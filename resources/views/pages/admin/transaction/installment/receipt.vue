@@ -51,7 +51,7 @@ const active = 'installment';
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
                         <div>
                             <h3 class="underline">Koperasi:</h3>
-                            <p class="font-black">Koperasi Sekolah</p>
+                            <p class="font-black">Koperasi Jaya</p>
                             <p>Alamat: Jl. Menuju Kesuksesan</p>
                             <p>Phone: (+62) 81234567890</p>
                             <p>Email: admin@koperasi.com</p>

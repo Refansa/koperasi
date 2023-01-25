@@ -39,7 +39,7 @@
   </div>
   <div style="margin-bottom: 2.5rem;">
     <div style="text-decoration: underline;">Koperasi:</div>
-    <div style="font-weight: 600;">Koperasi Sekolah</div>
+    <div style="font-weight: 600;">Koperasi Jaya</div>
     <div>Alamat: Jl. Menuju Kesuksesan</div>
     <div>Phone: (+62) 81234567890</div>
     <div>Email: admin@koperasi.com</div>

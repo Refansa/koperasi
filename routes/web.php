@@ -2,19 +2,15 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DepositController;
-use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\InstallmentController;
-use App\Http\Controllers\ItemCategoryController;
-use App\Http\Controllers\ItemController;
 use App\Http\Controllers\LoanController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\SignOutController;
-use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,12 +25,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', [RouteController::class, 'home'])->name('home');
+
 Route::middleware('guest')->group(function () {
     Route::get('/signin', [SignInController::class, 'index'])->name('signin');
     Route::post('/signin', [SignInController::class, 'signin'])->name('signin.post');
 });
 
 Route::middleware('auth')->group(function () {
+    Route::name('account.')->prefix('account')->group(function () {
+        Route::get('/', [AccountController::class, 'index'])->name('home');
+    });
+
     Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
         Route::get('/', [AdminController::class, 'index'])->name('home');
 
@@ -73,8 +75,6 @@ Route::middleware('auth')->group(function () {
         Route::get('settings', [SettingsController::class, 'index'])->name('settings.index');
         Route::post('settings', [SettingsController::class, 'update'])->name('settings.update');
     });
-
-    Route::get('/', [RouteController::class, 'home'])->name('home');
 
     Route::post('/signout', [SignOutController::class, 'signout'])->name('signout');
 });

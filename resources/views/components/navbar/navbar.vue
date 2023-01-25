@@ -11,12 +11,6 @@ import route from 'ziggy-js';
 
 defineProps<{ type?: 'admin' }>();
 const search = ref(null);
-
-// TODO: Create a function to perform search query.
-function performSearch(e: KeyboardEvent) {
-    console.log(e);
-    console.log(search.value);
-}
 </script>
 <template>
     <div class="py-3 px-5">
@@ -35,21 +29,10 @@ function performSearch(e: KeyboardEvent) {
                     >Admin</n-tag
                 >
             </div>
-            <n-input
-                v-if="type !== 'admin'"
-                v-model:value="search"
-                style="width: 100%"
-                placeholder="Cari"
-                @keydown.enter="performSearch">
-                <template #suffix>
-                    <n-icon :component="Search" />
-                </template>
-            </n-input>
             <n-space
                 justify="end"
                 align="center"
                 :wrap="false">
-                <cart-button v-if="type !== 'admin'" />
                 <avatar-dropdown />
             </n-space>
         </n-space>

@@ -3,7 +3,7 @@ import { Link } from '@inertiajs/inertia-vue3';
 import { inject, Ref } from 'vue';
 import { useAuth } from '@/scripts/composables/auth';
 import { setTheme } from '@/scripts/composables/theme';
-import { Moon, Sunny, Person, LogOut } from '@vicons/ionicons5';
+import { Moon, Sunny, Person, LogOut, LogIn } from '@vicons/ionicons5';
 import { AdminPanelSettingsFilled } from '@vicons/material';
 import {
     NTag,
@@ -34,17 +34,24 @@ function toggleTheme() {
                 :size="72"
                 object-fit="cover"
                 round
-                :src="auth.user.picture ?? '/images/default-profile.jpg'" />
-            <div class="flex flex-col items-center">
+                :src="auth.user?.picture ?? '/images/default-profile.jpg'" />
+            <div
+                v-if="auth.user"
+                class="flex flex-col items-center">
                 <h3 class="font-bold text-xl">{{ auth.user.name }}</h3>
                 <h4 class="font-bold mb-2">{{ auth.user.email }}</h4>
                 <n-tag :bordered="false">{{ auth.user.role }}</n-tag>
+            </div>
+            <div
+                v-else
+                class="flex flex-col items-center">
+                <h3 class="font-bold text-xl">Guest</h3>
             </div>
         </n-space>
         <n-divider />
         <n-space vertical>
             <Link
-                v-if="auth.user.role === 'admin'"
+                v-if="auth.user?.role === 'admin' ?? false"
                 :href="route('admin.home')">
                 <n-button
                     style="justify-content: left"
@@ -61,8 +68,8 @@ function toggleTheme() {
                 </n-button>
             </Link>
             <Link
-                v-else
-                :href="route('stub')">
+                v-if="auth.user"
+                :href="route('account.home')">
                 <n-button
                     style="justify-content: left"
                     size="large"
@@ -96,6 +103,7 @@ function toggleTheme() {
         <n-divider />
         <n-space vertical>
             <Link
+                v-if="auth.user"
                 as="button"
                 class="w-full"
                 :href="route('signout')"
@@ -112,6 +120,25 @@ function toggleTheme() {
                         </n-icon>
                     </template>
                     Keluar
+                </n-button>
+            </Link>
+            <Link
+                v-else
+                as="button"
+                class="w-full"
+                :href="route('signin')">
+                <n-button
+                    style="justify-content: left"
+                    size="large"
+                    strong
+                    block
+                    quaternary>
+                    <template #icon>
+                        <n-icon>
+                            <log-in />
+                        </n-icon>
+                    </template>
+                    Masuk
                 </n-button>
             </Link>
         </n-space>
