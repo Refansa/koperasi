@@ -10,7 +10,7 @@ import route from 'ziggy-js';
 
 defineProps<{ users: UserProperties[] }>();
 
-const active = 'savings-data';
+const active = 'saving-data';
 
 const createColumns = (): DataTableColumns<UserProperties> => {
     return [

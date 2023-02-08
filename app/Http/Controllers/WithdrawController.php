@@ -188,4 +188,39 @@ class WithdrawController extends Controller
             'withdraws' => $withdraws,
         ]);
     }
+
+    public function account_data()
+    {
+        $withdraws = Withdraw::where('user_id', auth()->user()->id)->get();
+        $withdraws->load('user');
+        $withdraws->load('transaction');
+
+        return inertia('account.transactions.withdraw', [
+            'withdraws' => $withdraws,
+        ]);
+    }
+
+    public function account_receipt(Withdraw $withdraw)
+    {
+        if ($withdraw->user_id != auth()->user()->id and auth()->user()->role == 'anggota') {
+            return abort(403);
+        }
+
+        $withdraw->load('user');
+        $withdraw->load('transaction');
+
+        return inertia('account.transaction.withdraw.receipt', [
+            'withdraw' => $withdraw,
+        ]);
+    }
+
+    public function account_print(Withdraw $withdraw)
+    {
+        if ($withdraw->user_id != auth()->user()->id and auth()->user()->role == 'anggota') {
+            return abort(403);
+        }
+
+        $pdf = Pdf::loadView('blade.receipt.withdraw', ['withdraw' => $withdraw]);
+        return $pdf->stream('receipt.pdf');
+    }
 }

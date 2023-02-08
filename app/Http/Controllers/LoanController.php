@@ -130,4 +130,40 @@ class LoanController extends Controller
             'loans' => $loans,
         ]);
     }
+
+    public function account_receipt(Loan $loan)
+    {
+        if ($loan->user_id != auth()->user()->id and auth()->user()->role == 'anggota') {
+            return abort(403);
+        }
+
+        $loan->load('user');
+        $loan->load('transaction');
+
+        return inertia('account.transaction.loan.receipt', [
+            'loan' => $loan,
+        ]);
+    }
+
+    public function account_print(Loan $loan)
+    {
+        if ($loan->user_id != auth()->user()->id and auth()->user()->role == 'anggota') {
+            return abort(403);
+        }
+
+        $pdf = Pdf::loadView('blade.receipt.loan', ['loan' => $loan]);
+        return $pdf->stream('receipt.pdf');
+    }
+
+    public function account_data()
+    {
+        $loans = Loan::where('user_id', auth()->user()->id)->get();
+        $loans->load('user');
+        $loans->load('transaction');
+        $loans->load('installment_tracker');
+
+        return inertia('account.transactions.loan', [
+            'loans' => $loans,
+        ]);
+    }
 }

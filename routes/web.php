@@ -5,6 +5,8 @@ use App\Http\Controllers\DepositController;
 use App\Http\Controllers\InstallmentController;
 use App\Http\Controllers\LoanController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SignInController;
@@ -35,6 +37,47 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::name('account.')->prefix('account')->group(function () {
         Route::get('/', [AccountController::class, 'index'])->name('home');
+        Route::get('settings', [AccountController::class, 'settings_index'])->name('settings.index');
+        Route::post('settings', [AccountController::class, 'settings_update'])->name('settings.update');
+
+        Route::name('deposit.')->prefix('deposit')->group(function () {
+            Route::get('/', [DepositController::class, 'account_index'])->name('index');
+            Route::post('/', [DepositController::class, 'account_store'])->name('store');
+            Route::get('payment', [DepositController::class, 'account_redirect_payment'])->name('redirect');
+            Route::post('payment', [DepositController::class, 'account_payment'])->name('payment');
+            Route::get('receipt/{deposit}', [DepositController::class, 'account_receipt'])->name('receipt');
+            Route::get('print/{deposit}', [DepositController::class, 'account_print'])->name('print');
+        });
+
+        Route::name('payment.')->prefix('payment')->group(function () {
+            Route::any('/finish', [PaymentController::class, 'finish'])->name('finish');
+            Route::any('/unfinish', [PaymentController::class, 'unfinish'])->name('unfinish');
+            Route::any('/error', [PaymentController::class, 'error'])->name('error');
+        });
+
+        Route::name('transactions.')->prefix('transactions')->group(function () {
+            Route::get('deposit', [DepositController::class, 'account_data'])->name('deposit');
+            Route::get('withdraw', [WithdrawController::class, 'account_data'])->name('withdraw');
+            Route::get('loan', [LoanController::class, 'account_data'])->name('loan');
+            Route::get('installment', [InstallmentController::class, 'account_data'])->name('installment');
+        });
+
+        Route::name('withdraw.')->prefix('withdraw')->group(function () {
+            Route::get('receipt/{withdraw}', [WithdrawController::class, 'account_receipt'])->name('receipt');
+            Route::get('print/{withdraw}', [WithdrawController::class, 'account_print'])->name('print');
+        });
+
+        Route::name('loan.')->prefix('loan')->group(function () {
+            Route::get('receipt/{loan}', [LoanController::class, 'account_receipt'])->name('receipt');
+            Route::get('print/{loan}', [LoanController::class, 'account_print'])->name('print');
+        });
+
+        Route::name('installment.')->prefix('installment')->group(function () {
+            Route::get('/', [InstallmentController::class, 'account_index'])->name('index');
+            Route::post('/', [InstallmentController::class, 'account_store'])->name('store');
+            Route::get('receipt/{installment}', [InstallmentController::class, 'account_receipt'])->name('receipt');
+            Route::get('print/{installment}', [InstallmentController::class, 'account_print'])->name('print');
+        });
     });
 
     Route::name('admin.')->middleware('admin')->prefix('admin')->group(function () {
@@ -78,6 +121,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/signout', [SignOutController::class, 'signout'])->name('signout');
 });
+
+// Listener Endpoints
+Route::post('/notification/handling', [NotificationController::class, 'handle'])->name('notification.handling');
 
 // Development Purpose, used as a placeholder unspecified routes.
 Route::any('/stub', fn () => abort(404))->name('stub');

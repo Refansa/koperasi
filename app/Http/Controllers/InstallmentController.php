@@ -113,4 +113,42 @@ class InstallmentController extends Controller
             'installments' => $installments,
         ]);
     }
+
+    public function account_receipt(Installment $installment)
+    {
+        if ($installment->user_id != auth()->user()->id and auth()->user()->role == 'anggota') {
+            return abort(403);
+        }
+
+        $installment->load('user');
+        $installment->load('loan');
+        $installment->load('transaction');
+        $installment->load('installment_tracker');
+
+        return inertia('account.transaction.installment.receipt', [
+            'installment' => $installment,
+        ]);
+    }
+
+    public function account_print(Installment $installment)
+    {
+        if ($installment->user_id != auth()->user()->id and auth()->user()->role == 'anggota') {
+            return abort(403);
+        }
+
+        $pdf = Pdf::loadView('blade.receipt.installment', ['installment' => $installment]);
+        return $pdf->stream('receipt.pdf');
+    }
+
+    public function account_data()
+    {
+        $installments = Installment::where('user_id', auth()->user()->id)->get();
+        $installments->load('user');
+        $installments->load('loan');
+        $installments->load('transaction');
+
+        return inertia('account.transactions.installment', [
+            'installments' => $installments,
+        ]);
+    }
 }
