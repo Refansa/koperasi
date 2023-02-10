@@ -42,7 +42,10 @@ const menuOptions: MenuOption[] = [
                 icon: renderIcon(ArrowCircleDown24Filled),
             },
             {
-                label: renderLink(route('stub'), 'Angsuran'),
+                label: renderLink(
+                    route('account.installment.index'),
+                    'Angsuran'
+                ),
                 key: 'installment',
                 icon: renderIcon(MoneyHand24Filled),
             },

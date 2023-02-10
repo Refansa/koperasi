@@ -138,7 +138,7 @@ class DepositController extends Controller
 
         $snapParams = [
             'transaction_details' => [
-                'order_id'      => auth()->user()->id . '-' . $amount . '-' . $type . '-' . rand(),
+                'order_id'      => 'deposit' . '-' . auth()->user()->id . '-' . $amount . '-' . $type . '-' . rand(),
                 'gross_amount'  => $amount,
             ],
             'customer_details' => [
@@ -161,7 +161,7 @@ class DepositController extends Controller
 
         $snapToken = \Midtrans\Snap::getSnapToken($snapParams);
 
-        return inertia('account.transaction.payment', [
+        return inertia('account.transaction.deposit.payment', [
             'amount'            => $amount,
             'type'              => $type,
             'snapToken'         => $snapToken,

@@ -139,7 +139,7 @@ const active = 'installment-data';
                     <n-space
                         id="no-print"
                         justify="end">
-                        <Link :href="route('stub')">
+                        <Link :href="route('account.installment.index')">
                             <n-button type="primary"
                                 >Kembali (Installment)
                             </n-button>

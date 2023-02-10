@@ -151,4 +151,66 @@ class InstallmentController extends Controller
             'installments' => $installments,
         ]);
     }
+
+    public function account_index()
+    {
+        $loan = Loan::where('user_id', auth()->user()->id)->where('status', 'UNPAID')->first();
+        if ($loan) {
+            $loan->load('user');
+            $loan->load('transaction');
+            $loan->load('installment_tracker');
+        }
+
+        return inertia('account.transaction.installment', [
+            'loan' => $loan,
+        ]);
+    }
+
+    public function account_payment(Request $request)
+    {
+        $loan_id            = $request->get('loan_id');
+        $amount             = ceil($request->get('amount'));
+        $installment_of     = $request->get('installment_of');
+        $note               = $request->get('note');
+
+        $midtransServerKey  = env('MIDTRANS_SERVER_KEY');
+        $midtransClientKey  = env('MIDTRANS_CLIENT_KEY');
+
+        \Midtrans\Config::$serverKey    = $midtransServerKey;
+        \Midtrans\Config::$isSanitized  = true;
+        \Midtrans\Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        \Midtrans\Config::$is3ds        = true;
+
+        $snapParams = [
+            'transaction_details' => [
+                'order_id'      => 'installment' . '-' . $loan_id . '-' . $amount . '-' . $installment_of . '-' . $note ?? 'NULL' . '-' . rand(),
+                'gross_amount'  => $amount,
+            ],
+            'customer_details' => [
+                'first_name'    => auth()->user()->name,
+                'email'         => auth()->user()->email,
+                'address'       => auth()->user()->address,
+                'phone'         => auth()->user()->contact,
+            ],
+            'item_details' => [
+                [
+                    'id'        => auth()->user()->id,
+                    'quantity'  => 1,
+                    'price'     => $amount,
+                    'name'      => 'Transaksi Angsuran',
+                    'brand'     => 'Koperasi Jaya',
+                ]
+            ],
+        ];
+
+        $snapToken = \Midtrans\Snap::getSnapToken($snapParams);
+
+        return inertia('account.transaction.installment.payment', [
+            'loan_id'           => $loan_id,
+            'amount'            => $amount,
+            'installment_of'    => $installment_of,
+            'snapToken'         => $snapToken,
+            'midtransClientKey' => $midtransClientKey,
+        ]);
+    }
 }

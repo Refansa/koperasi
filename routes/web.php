@@ -42,7 +42,6 @@ Route::middleware('auth')->group(function () {
 
         Route::name('deposit.')->prefix('deposit')->group(function () {
             Route::get('/', [DepositController::class, 'account_index'])->name('index');
-            Route::post('/', [DepositController::class, 'account_store'])->name('store');
             Route::get('payment', [DepositController::class, 'account_redirect_payment'])->name('redirect');
             Route::post('payment', [DepositController::class, 'account_payment'])->name('payment');
             Route::get('receipt/{deposit}', [DepositController::class, 'account_receipt'])->name('receipt');
@@ -74,7 +73,8 @@ Route::middleware('auth')->group(function () {
 
         Route::name('installment.')->prefix('installment')->group(function () {
             Route::get('/', [InstallmentController::class, 'account_index'])->name('index');
-            Route::post('/', [InstallmentController::class, 'account_store'])->name('store');
+            Route::get('payment', [InstallmentController::class, 'account_redirect_payment'])->name('redirect');
+            Route::post('payment', [InstallmentController::class, 'account_payment'])->name('payment');
             Route::get('receipt/{installment}', [InstallmentController::class, 'account_receipt'])->name('receipt');
             Route::get('print/{installment}', [InstallmentController::class, 'account_print'])->name('print');
         });

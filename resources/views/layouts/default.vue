@@ -10,7 +10,6 @@ import {
     NMessageProvider,
     NDialogProvider,
     GlobalThemeOverrides,
-    NThemeEditor,
 } from 'naive-ui';
 
 const theme = useTheme();
@@ -64,9 +63,7 @@ const darkThemeOverrides: GlobalThemeOverrides = {
         <n-dialog-provider>
             <n-message-provider>
                 <messenger />
-                <n-theme-editor>
-                    <slot />
-                </n-theme-editor>
+                <slot />
             </n-message-provider>
         </n-dialog-provider>
     </n-config-provider>
