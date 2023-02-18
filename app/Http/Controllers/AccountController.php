@@ -38,7 +38,6 @@ class AccountController extends Controller
             'occupation'    => ['required', 'string'],
             'address'       => ['required', 'string'],
             'contact'       => ['required', 'string'],
-            'role'          => ['required', 'string'],
             'picture'       => [],
         ];
 

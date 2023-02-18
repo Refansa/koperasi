@@ -138,7 +138,7 @@ const autoInterest = (v: number) => {
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Simpan</title>
+        <title>Admin | Pinjam</title>
     </Head>
     <admin-layout>
         <template #header>

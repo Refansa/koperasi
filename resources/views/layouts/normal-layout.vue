@@ -8,7 +8,7 @@ import { NLayout, NLayoutHeader, NLayoutContent } from 'naive-ui';
             style="height: 64px">
             <slot name="header" />
         </n-layout-header>
-        <n-layout-content content-style="padding: 2rem;">
+        <n-layout-content>
             <slot />
         </n-layout-content>
     </n-layout>

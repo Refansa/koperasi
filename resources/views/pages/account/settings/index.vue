@@ -19,6 +19,8 @@ import {
     NUpload,
     NInputNumber,
     UploadFileInfo,
+    NAvatar,
+    NTag,
 } from 'naive-ui';
 import { SelectMixedOption } from 'naive-ui/es/select/src/interface';
 import { ref } from 'vue';
@@ -51,7 +53,6 @@ const form = useForm({
     contact: props.user.contact,
     email: props.user.email as string,
     password: '',
-    role: props.user.role,
 });
 const formRules: FormRules = {
     name: [
@@ -126,13 +127,6 @@ const formRules: FormRules = {
             trigger: ['input', 'blur'],
         },
     ],
-    role: [
-        {
-            required: true,
-            message: 'Role diperlukan',
-            trigger: 'blur',
-        },
-    ],
 };
 
 const genderOptions: SelectMixedOption[] = [
@@ -143,17 +137,6 @@ const genderOptions: SelectMixedOption[] = [
     {
         label: 'Perempuan',
         value: 'Perempuan',
-    },
-];
-
-const roleOptions: SelectMixedOption[] = [
-    {
-        label: 'Anggota',
-        value: 'anggota',
-    },
-    {
-        label: 'Admin',
-        value: 'admin',
     },
 ];
 
@@ -194,160 +177,200 @@ const submitForm = () => {
         <template #default>
             <n-space vertical>
                 <n-h1 align="center">Pengaturan Akun</n-h1>
-                <n-card class="lg:py-10 lg:px-20">
-                    <n-form
-                        ref="formRef"
-                        size="large"
-                        :model="form"
-                        :rules="formRules"
-                        @submit.prevent="submitForm">
-                        <n-form-item
-                            path="picture"
-                            label="Foto Profil">
-                            <n-upload
-                                v-model:file-list="form.picture"
-                                :default-upload="true"
-                                accept="image/*"
-                                list-type="image-card"
-                                :max="1" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.picture"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.picture }}
-                        </n-element>
-                        <n-form-item
-                            path="name"
-                            label="Nama">
-                            <n-input
-                                v-model:value="form.name"
-                                placeholder="Nama Pengguna" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.name"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.name }}
-                        </n-element>
-                        <n-form-item
-                            path="age"
-                            label="Usia">
-                            <n-input-number
-                                v-model:value="form.age"
-                                :min="0"
-                                placeholder="Usia"
-                                style="display: flex; flex: 1">
-                                <template #suffix> Tahun</template>
-                            </n-input-number>
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.age"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.age }}
-                        </n-element>
-                        <n-form-item
-                            path="gender"
-                            label="Jenis Kelamin">
-                            <n-select
-                                v-model:value="form.gender"
-                                filterable
-                                :options="genderOptions"
-                                placeholder="Jenis Kelamin" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.gender"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.gender }}
-                        </n-element>
-                        <n-form-item
-                            path="occupation"
-                            label="Pekerjaan">
-                            <n-input
-                                v-model:value="form.occupation"
-                                placeholder="Pekerjaan" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.occupation"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.occupation }}
-                        </n-element>
-                        <n-form-item
-                            path="address"
-                            label="Alamat">
-                            <n-input
-                                v-model:value="form.address"
-                                placeholder="Alamat Pengguna" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.address"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.address }}
-                        </n-element>
-                        <n-form-item
-                            path="contact"
-                            label="Kontak">
-                            <n-input
-                                v-model:value="form.contact"
-                                placeholder="Kontak Pengguna" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.contact"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.contact }}
-                        </n-element>
-                        <n-form-item
-                            path="email"
-                            label="Email">
-                            <n-auto-complete
-                                v-model:value="form.email"
-                                :options="emailOptions(form)"
-                                placeholder="Email Pengguna"
-                                type="text">
-                            </n-auto-complete>
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.email"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.email }}
-                        </n-element>
-                        <n-form-item
-                            path="password"
-                            label="Password">
-                            <n-input
-                                v-model:value="form.password"
-                                placeholder="Password Pengguna"
-                                show-password-on="click"
-                                type="password" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.password"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.password }}
-                        </n-element>
-                        <n-form-item
-                            path="role"
-                            label="Role">
-                            <n-select
-                                v-model:value="form.role"
-                                filterable
-                                :options="roleOptions"
-                                placeholder="Role Pengguna" />
-                        </n-form-item>
-                        <n-element
-                            v-if="form.errors.role"
-                            class="text-[var(--error-color)] mb-6">
-                            {{ form.errors.role }}
-                        </n-element>
-                        <n-button
-                            :disabled="form.processing"
-                            :loading="form.processing"
-                            attr-type="submit"
-                            size="large"
-                            block
-                            type="success"
-                            >Edit
-                        </n-button>
-                    </n-form>
-                </n-card>
+                <div class="flex gap-8">
+                    <div class="w-1/3">
+                        <n-card
+                            class="w-full"
+                            title="Preview">
+                            <n-space
+                                vertical
+                                align="center"
+                                justify="center">
+                                <n-avatar
+                                    bordered
+                                    :size="72"
+                                    object-fit="cover"
+                                    round
+                                    :src="
+                                        user?.picture ??
+                                        '/images/default-profile.jpg'
+                                    " />
+                                <div class="flex flex-col items-center">
+                                    <h3 class="font-bold text-xl">
+                                        {{ form.name }}
+                                    </h3>
+                                </div>
+                            </n-space>
+                            <n-space
+                                vertical
+                                align="center"
+                                justify="center">
+                                <n-text depth="3">{{ form.email }}</n-text>
+                                <n-tag :bordered="false">{{ user.role }}</n-tag>
+                            </n-space>
+                            <n-space vertical>
+                                <div class="flex flex-col">
+                                    <n-text>Usia:</n-text>
+                                    <n-text>{{ form.age }} Tahun</n-text>
+                                </div>
+                                <div class="flex flex-col">
+                                    <n-text>Jenis Kelamin:</n-text>
+                                    <n-text>{{ form.gender }}</n-text>
+                                </div>
+                                <div class="flex flex-col">
+                                    <n-text>Alamat:</n-text>
+                                    <n-text>{{ form.address }}</n-text>
+                                </div>
+                                <div class="flex flex-col">
+                                    <n-text>Kontak:</n-text>
+                                    <n-text>{{ form.contact }}</n-text>
+                                </div>
+                            </n-space>
+                        </n-card>
+                    </div>
+                    <div class="w-2/3">
+                        <n-card class="lg:py-10 lg:px-20">
+                            <n-form
+                                ref="formRef"
+                                size="large"
+                                :model="form"
+                                :rules="formRules"
+                                @submit.prevent="submitForm">
+                                <n-form-item
+                                    path="picture"
+                                    label="Foto Profil">
+                                    <n-upload
+                                        v-model:file-list="form.picture"
+                                        :default-upload="true"
+                                        accept="image/*"
+                                        list-type="image-card"
+                                        :max="1" />
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.picture"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.picture }}
+                                </n-element>
+                                <n-form-item
+                                    path="name"
+                                    label="Nama">
+                                    <n-input
+                                        v-model:value="form.name"
+                                        placeholder="Nama Pengguna" />
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.name"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.name }}
+                                </n-element>
+                                <n-form-item
+                                    path="age"
+                                    label="Usia">
+                                    <n-input-number
+                                        v-model:value="form.age"
+                                        :min="0"
+                                        placeholder="Usia"
+                                        style="display: flex; flex: 1">
+                                        <template #suffix> Tahun</template>
+                                    </n-input-number>
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.age"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.age }}
+                                </n-element>
+                                <n-form-item
+                                    path="gender"
+                                    label="Jenis Kelamin">
+                                    <n-select
+                                        v-model:value="form.gender"
+                                        filterable
+                                        :options="genderOptions"
+                                        placeholder="Jenis Kelamin" />
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.gender"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.gender }}
+                                </n-element>
+                                <n-form-item
+                                    path="occupation"
+                                    label="Pekerjaan">
+                                    <n-input
+                                        v-model:value="form.occupation"
+                                        placeholder="Pekerjaan" />
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.occupation"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.occupation }}
+                                </n-element>
+                                <n-form-item
+                                    path="address"
+                                    label="Alamat">
+                                    <n-input
+                                        v-model:value="form.address"
+                                        placeholder="Alamat Pengguna" />
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.address"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.address }}
+                                </n-element>
+                                <n-form-item
+                                    path="contact"
+                                    label="Kontak">
+                                    <n-input
+                                        v-model:value="form.contact"
+                                        placeholder="Kontak Pengguna" />
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.contact"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.contact }}
+                                </n-element>
+                                <n-form-item
+                                    path="email"
+                                    label="Email">
+                                    <n-auto-complete
+                                        v-model:value="form.email"
+                                        :options="emailOptions(form)"
+                                        placeholder="Email Pengguna"
+                                        type="text">
+                                    </n-auto-complete>
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.email"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.email }}
+                                </n-element>
+                                <n-form-item
+                                    path="password"
+                                    label="Password">
+                                    <n-input
+                                        v-model:value="form.password"
+                                        placeholder="Password Pengguna"
+                                        show-password-on="click"
+                                        type="password" />
+                                </n-form-item>
+                                <n-element
+                                    v-if="form.errors.password"
+                                    class="text-[var(--error-color)] mb-6">
+                                    {{ form.errors.password }}
+                                </n-element>
+                                <n-button
+                                    :disabled="form.processing"
+                                    :loading="form.processing"
+                                    attr-type="submit"
+                                    size="large"
+                                    block
+                                    type="success"
+                                    >Edit
+                                </n-button>
+                            </n-form>
+                        </n-card>
+                    </div>
+                </div>
             </n-space>
         </template>
     </user-layout>

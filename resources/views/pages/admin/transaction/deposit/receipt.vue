@@ -19,7 +19,7 @@ const active = 'deposit';
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Kuitansi</title>
+        <title>Admin | Kuitansi Simpan</title>
     </Head>
     <admin-layout>
         <template #header>

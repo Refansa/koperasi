@@ -95,7 +95,7 @@ const submitForm = () => {
 </script>
 <template layout="default">
     <Head>
-        <title>Simpan</title>
+        <title>Angsuran</title>
     </Head>
     <user-layout>
         <template #header>

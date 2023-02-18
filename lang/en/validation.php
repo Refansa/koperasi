@@ -154,7 +154,7 @@ return [
 
     'custom' => [
         'email' => [
-            'unique' => 'Email ini sudah dipakai.',
+            'unique' => 'Email ini sudah terdaftar.',
         ],
     ],
 

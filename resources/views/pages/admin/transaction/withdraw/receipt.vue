@@ -19,7 +19,7 @@ const active = 'withdraw';
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Kuitansi</title>
+        <title>Admin | Kuitansi Tarik</title>
     </Head>
     <admin-layout>
         <template #header>

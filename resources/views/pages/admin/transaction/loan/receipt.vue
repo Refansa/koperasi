@@ -19,7 +19,7 @@ const active = 'loan';
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Kuitansi</title>
+        <title>Admin | Kuitansi Pinjam</title>
     </Head>
     <admin-layout>
         <template #header>

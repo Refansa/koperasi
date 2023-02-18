@@ -19,7 +19,7 @@ const active = 'installment';
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Kuitansi</title>
+        <title>Admin | Kuitansi Angsuran</title>
     </Head>
     <admin-layout>
         <template #header>

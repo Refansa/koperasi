@@ -11,6 +11,7 @@ use App\Http\Controllers\RouteController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SignInController;
 use App\Http\Controllers\SignOutController;
+use App\Http\Controllers\SignUpController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WithdrawController;
 use Illuminate\Http\Request;
@@ -32,6 +33,7 @@ Route::get('/', [RouteController::class, 'home'])->name('home');
 Route::middleware('guest')->group(function () {
     Route::get('/signin', [SignInController::class, 'index'])->name('signin');
     Route::post('/signin', [SignInController::class, 'signin'])->name('signin.post');
+    Route::post('/signup', [SignUpController::class, 'signup'])->name('signup.post');
 });
 
 Route::middleware('auth')->group(function () {
