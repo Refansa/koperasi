@@ -55,7 +55,7 @@ const typeOptions: SelectMixedOption[] = [
         label: 'Pokok',
         value: 'Pokok',
         disabled:
-            props.user.m_saving?.basic_amount ==
+            (props?.user.m_saving?.basic_amount ?? 0) >=
             props.setting.minimum_basic_cost,
     },
     {
@@ -66,10 +66,16 @@ const typeOptions: SelectMixedOption[] = [
     {
         label: 'Sukarela',
         value: 'Sukarela',
+        disabled:
+            (props.user?.m_saving?.basic_amount ?? 0) <
+            props.setting.minimum_basic_cost,
     },
     {
         label: 'Donasi',
         value: 'Donasi',
+        disabled:
+            (props.user?.m_saving?.basic_amount ?? 0) <
+            props.setting.minimum_basic_cost,
     },
 ];
 
@@ -130,7 +136,7 @@ const autoAmount = (v: string) => {
                     <n-space vertical>
                         <n-alert
                             v-if="
-                                user.m_saving?.basic_amount !=
+                                (user.m_saving?.basic_amount ?? 0) <
                                 setting.minimum_basic_cost
                             "
                             type="warning"

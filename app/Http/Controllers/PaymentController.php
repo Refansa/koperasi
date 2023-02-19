@@ -148,11 +148,11 @@ class PaymentController extends Controller
 
     public function unfinish(Request $request)
     {
-        return dd($request->all());
+        return redirect()->route('home');
     }
 
     public function error(Request $request)
     {
-        return dd($request->all());
+        return redirect()->route('home');
     }
 }

@@ -211,6 +211,7 @@ class InstallmentController extends Controller
             'installment_of'    => $installment_of,
             'snapToken'         => $snapToken,
             'midtransClientKey' => $midtransClientKey,
+            'note'              => $note,
         ]);
     }
 }
