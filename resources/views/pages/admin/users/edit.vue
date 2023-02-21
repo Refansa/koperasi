@@ -185,7 +185,7 @@ const active = 'user-data';
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Edit Pengguna</title>
+        <title>Admin | Edit Anggota</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -196,7 +196,7 @@ const active = 'user-data';
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Edit Pengguna</n-h1>
+                <n-h1 align="center">Edit Anggota</n-h1>
                 <Link :href="route('admin.users.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>

@@ -174,7 +174,7 @@ const submitForm = () => {
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Pengguna Baru</title>
+        <title>Admin | Anggota Baru</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -185,7 +185,7 @@ const submitForm = () => {
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Pengguna Baru</n-h1>
+                <n-h1 align="center">Anggota Baru</n-h1>
                 <Link :href="route('admin.users.index')">
                     <n-button type="primary">Kembali</n-button>
                 </Link>
