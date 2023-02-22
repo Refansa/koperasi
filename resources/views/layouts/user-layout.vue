@@ -1,6 +1,14 @@
 <script setup lang="ts">
-import { ref, provide } from 'vue';
-import { NLayout, NLayoutSider, NLayoutHeader, NLayoutContent } from 'naive-ui';
+import { ref, provide, inject, Ref } from 'vue';
+import {
+    NLayout,
+    NLayoutSider,
+    NLayoutHeader,
+    NLayoutContent,
+    GlobalTheme,
+} from 'naive-ui';
+
+const theme: Ref<GlobalTheme> | undefined = inject('theme');
 
 const sidebarCollapsed = ref(
     localStorage.getItem('user-sidebar-collapse') === 'true' ? true : false
@@ -39,7 +47,12 @@ const setCollapse = () => {
                 @expand="setCollapse">
                 <slot name="sidebar" />
             </n-layout-sider>
-            <n-layout-content content-style="padding: 2rem;">
+            <n-layout-content
+                :content-style="`padding: 2rem; ${
+                    theme?.name == 'light'
+                        ? 'background-color: rgb(0, 125, 0, 0.1);'
+                        : ''
+                }`">
                 <slot />
             </n-layout-content>
         </n-layout>

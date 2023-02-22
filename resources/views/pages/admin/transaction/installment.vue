@@ -114,7 +114,7 @@ const autoFill = (v: number) => {
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Angsuran</title>
+        <title>Admin | Transaksi Angsuran</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -125,7 +125,7 @@ const autoFill = (v: number) => {
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Angsuran</n-h1>
+                <n-h1 align="center">Transaksi Angsuran</n-h1>
                 <n-card class="lg:py-10 lg:px-20">
                     <n-form
                         ref="formRef"

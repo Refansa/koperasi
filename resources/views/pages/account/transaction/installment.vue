@@ -95,7 +95,7 @@ const submitForm = () => {
 </script>
 <template layout="default">
     <Head>
-        <title>Angsuran</title>
+        <title>Transaksi Angsuran</title>
     </Head>
     <user-layout>
         <template #header>
@@ -106,7 +106,7 @@ const submitForm = () => {
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Angsuran</n-h1>
+                <n-h1 align="center">Transaksi Angsuran</n-h1>
                 <n-alert
                     title="Perhatian"
                     type="warning">

@@ -200,7 +200,7 @@ const submitForm = () => {
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Tarik</title>
+        <title>Admin | Transaksi Tarik</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -211,7 +211,7 @@ const submitForm = () => {
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Tarik</n-h1>
+                <n-h1 align="center">Transaksi Tarik</n-h1>
                 <n-card class="lg:py-10 lg:px-20">
                     <n-form
                         ref="formRef"

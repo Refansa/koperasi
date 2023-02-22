@@ -14,6 +14,7 @@ import {
     NTag,
 } from 'naive-ui';
 import route from 'ziggy-js';
+import dayjs from 'dayjs';
 
 defineProps<{ loans: LoanProperties[] }>();
 
@@ -134,6 +135,14 @@ const createColumns = (): DataTableColumns<LoanProperties> => {
             sorter: 'default',
         },
         {
+            title: 'Tanggal Peminjaman',
+            key: 'created_at',
+            sorter: 'default',
+            render(u) {
+                return dayjs(u.created_at).format('DD MMM YYYY');
+            },
+        },
+        {
             title: 'Status Peminjaman',
             key: 'status',
             align: 'center',
@@ -191,7 +200,7 @@ const columns = createColumns();
                     :single-line="false"
                     :columns="columns"
                     :data="loans"
-                    :scroll-x="1600"
+                    :scroll-x="1800"
                     :pagination="{ pageSize: 10 }" />
             </n-space>
         </template>

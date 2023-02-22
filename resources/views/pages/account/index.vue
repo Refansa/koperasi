@@ -151,6 +151,18 @@ const active = 'dashboard';
                                 </n-text>
                             </n-card>
                         </n-grid-item>
+                        <n-grid-item>
+                            <n-card title="Uang Pinjaman">
+                                <n-text class="text-2xl">
+                                    Rp.
+                                    {{
+                                        (
+                                            saving.loan_amount ?? 0
+                                        ).toLocaleString('id-ID')
+                                    }}
+                                </n-text>
+                            </n-card>
+                        </n-grid-item>
                     </n-grid>
                 </div>
             </div>

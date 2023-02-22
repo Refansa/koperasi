@@ -138,7 +138,7 @@ const autoInterest = (v: number) => {
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Pinjam</title>
+        <title>Admin | Transaksi Pinjam</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -171,7 +171,7 @@ const autoInterest = (v: number) => {
                         }}
                     </p>
                 </n-alert>
-                <n-h1 align="center">Pinjam</n-h1>
+                <n-h1 align="center">Transaksi Pinjam</n-h1>
                 <n-card class="lg:py-10 lg:px-20">
                     <n-form
                         ref="formRef"

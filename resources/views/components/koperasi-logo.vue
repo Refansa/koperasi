@@ -33,8 +33,10 @@ const stroke = () => (theme?.value.name === 'dark' ? '#63E2B7' : '#18A058');
                 stroke-linecap="round" />
         </svg>
         <span class="flex uppercase font-bold text-xl">
-            <n-element style="color: var(--text-color-1)">Kope</n-element>
-            <n-element style="color: var(--primary-color)">rasi</n-element>
+            <n-element style="color: var(--text-color-1)">Maju</n-element>
+            <n-element style="color: var(--primary-color)">
+                &nbsp;Bersama
+            </n-element>
         </span>
     </div>
 </template>

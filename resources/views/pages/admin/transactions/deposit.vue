@@ -7,6 +7,7 @@ import Navbar from '@/views/components/navbar/navbar.vue';
 import AdminLayout from '@/views/layouts/admin-layout.vue';
 import { NH1, NSpace, NDataTable, DataTableColumns, NButton } from 'naive-ui';
 import route from 'ziggy-js';
+import dayjs from 'dayjs';
 
 defineProps<{ deposits: DepositProperties[] }>();
 
@@ -50,6 +51,14 @@ const createColumns = (): DataTableColumns<DepositProperties> => {
                 return `Rp. ${(u.transaction?.amount ?? 0).toLocaleString(
                     'id-ID'
                 )}`;
+            },
+        },
+        {
+            title: 'Tanggal Transaksi',
+            key: 'created_at',
+            sorter: 'default',
+            render(u) {
+                return dayjs(u.created_at).format('DD MMM YYYY');
             },
         },
         {

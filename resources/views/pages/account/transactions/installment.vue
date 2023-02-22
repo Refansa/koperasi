@@ -7,6 +7,7 @@ import Navbar from '@/views/components/navbar/navbar.vue';
 import UserLayout from '@/views/layouts/user-layout.vue';
 import { NH1, NSpace, NDataTable, DataTableColumns, NButton } from 'naive-ui';
 import route from 'ziggy-js';
+import dayjs from 'dayjs';
 
 defineProps<{ installments: InstallmentProperties[] }>();
 
@@ -28,17 +29,6 @@ const createColumns = (): DataTableColumns<InstallmentProperties> => {
             sorter: (a, b) => (a.loan?.id ?? 0) - (b.loan?.id ?? 0),
             render(u) {
                 return `P-${u.loan?.id}`;
-            },
-        },
-        {
-            title: 'Nama Pengguna',
-            key: 'user.name',
-            sorter: (a, b) => {
-                const x = (a.user?.name ?? '').toLowerCase();
-                const y = (b.user?.name ?? '').toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
             },
         },
         {
@@ -66,6 +56,14 @@ const createColumns = (): DataTableColumns<InstallmentProperties> => {
             title: 'Keterangan',
             key: 'note',
             sorter: 'default',
+        },
+        {
+            title: 'Tanggal Transaksi',
+            key: 'created_at',
+            sorter: 'default',
+            render(u) {
+                return dayjs(u.created_at).format('DD MMM YYYY');
+            },
         },
         {
             title: 'Aksi',

@@ -14,6 +14,7 @@ import {
     NTag,
 } from 'naive-ui';
 import route from 'ziggy-js';
+import dayjs from 'dayjs';
 
 defineProps<{ loans: LoanProperties[] }>();
 
@@ -34,17 +35,6 @@ const createColumns = (): DataTableColumns<LoanProperties> => {
             key: 'loan_period',
             sorter: (a, b) => a.loan_period - b.loan_period,
             render: (u) => `${u.loan_period} Bulan`,
-        },
-        {
-            title: 'Nama Pengguna',
-            key: 'user.name',
-            sorter: (a, b) => {
-                const x = (a.user?.name ?? '').toLowerCase();
-                const y = (b.user?.name ?? '').toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            },
         },
         {
             title: 'Bunga',
@@ -132,6 +122,14 @@ const createColumns = (): DataTableColumns<LoanProperties> => {
             title: 'Keterangan',
             key: 'note',
             sorter: 'default',
+        },
+        {
+            title: 'Tanggal Peminjaman',
+            key: 'created_at',
+            sorter: 'default',
+            render(u) {
+                return dayjs(u.created_at).format('DD MMM YYYY');
+            },
         },
         {
             title: 'Status Peminjaman',

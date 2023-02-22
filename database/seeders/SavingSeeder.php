@@ -18,7 +18,7 @@ class SavingSeeder extends Seeder
     {
         Saving::factory()->create([
             'user_id' => User::factory()->create([
-                'name'      => 'Koperasi Jaya',
+                'name'      => 'Koperasi Maju Bersama',
                 'email'     => 'admin@koperasi.com',
                 'password'  => bcrypt('super-rahasia'),
                 'address'   => 'Jl. Menuju Kesuksesan',

@@ -120,7 +120,7 @@ const autoAmount = (v: string) => {
 </script>
 <template layout="default">
     <Head>
-        <title>Simpan</title>
+        <title>Transaksi Simpan</title>
     </Head>
     <user-layout>
         <template #header>

@@ -110,7 +110,7 @@ const autoAmount = (v: string) => {
 </script>
 <template layout="default">
     <Head>
-        <title>Admin | Simpan</title>
+        <title>Admin | Transaksi Simpan</title>
     </Head>
     <admin-layout>
         <template #header>
@@ -121,7 +121,7 @@ const autoAmount = (v: string) => {
         </template>
         <template #default>
             <n-space vertical>
-                <n-h1 align="center">Simpan</n-h1>
+                <n-h1 align="center">Transaksi Simpan</n-h1>
                 <n-card class="lg:py-10 lg:px-20">
                     <n-form
                         ref="formRef"
@@ -143,7 +143,9 @@ const autoAmount = (v: string) => {
                             class="text-[var(--error-color)] mb-6">
                             {{ form.errors.user_id }}
                         </n-element>
-                        <n-form-item path="type" label="Jenis Simpanan">
+                        <n-form-item
+                            path="type"
+                            label="Jenis Simpanan">
                             <n-select
                                 v-model:value="form.type"
                                 @update:value="autoAmount"

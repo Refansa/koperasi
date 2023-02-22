@@ -7,6 +7,7 @@ import Navbar from '@/views/components/navbar/navbar.vue';
 import UserLayout from '@/views/layouts/user-layout.vue';
 import { NH1, NSpace, NDataTable, DataTableColumns, NButton } from 'naive-ui';
 import route from 'ziggy-js';
+import dayjs from 'dayjs';
 
 defineProps<{ withdraws: WithdrawProperties[] }>();
 
@@ -28,17 +29,6 @@ const createColumns = (): DataTableColumns<WithdrawProperties> => {
             sorter: 'default',
         },
         {
-            title: 'Nama Pengguna',
-            key: 'user.name',
-            sorter: (a, b) => {
-                const x = (a.user?.name ?? '').toLowerCase();
-                const y = (b.user?.name ?? '').toLowerCase();
-                if (x < y) return -1;
-                if (x > y) return 1;
-                return 0;
-            },
-        },
-        {
             title: 'Jumlah Tarik',
             key: 'transaction.amount',
             sorter: (a, b) => {
@@ -50,6 +40,14 @@ const createColumns = (): DataTableColumns<WithdrawProperties> => {
                 return `Rp. ${(u.transaction?.amount ?? 0).toLocaleString(
                     'id-ID'
                 )}`;
+            },
+        },
+        {
+            title: 'Tanggal Transaksi',
+            key: 'created_at',
+            sorter: 'default',
+            render(u) {
+                return dayjs(u.created_at).format('DD MMM YYYY');
             },
         },
         {
