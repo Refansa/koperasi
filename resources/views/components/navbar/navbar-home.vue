@@ -6,8 +6,6 @@ import KoperasiLogo from '@/views/components/koperasi-logo.vue';
 import AvatarDropdown from '@/views/components/navbar/navbar-avatar.vue';
 import { NTag, NSpace } from 'naive-ui';
 import route from 'ziggy-js';
-
-defineProps<{ type?: 'admin' }>();
 </script>
 <template>
     <div class="py-3 px-5">
@@ -20,16 +18,16 @@ defineProps<{ type?: 'admin' }>();
                     <logo class="flex sm:hidden" />
                     <koperasi-logo class="hidden sm:flex" />
                 </Link>
-                <n-tag
-                    v-if="type === 'admin'"
-                    :bordered="false"
-                    >Admin</n-tag
-                >
             </div>
             <n-space
                 justify="end"
                 align="center"
                 :wrap="false">
+                <div class="hidden md:flex gap-5 mr-10 font-bold">
+                    <Link href="#feature">Fitur Kami</Link>
+                    <Link href="#about">Tentang Kami</Link>
+                    <Link href="#contact">Kontak Kami</Link>
+                </div>
                 <avatar-dropdown />
             </n-space>
         </n-space>

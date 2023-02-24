@@ -2,6 +2,8 @@
 import { Ref, inject } from 'vue';
 import { GlobalTheme } from 'naive-ui';
 
+defineProps<{ width?: number; height?: number }>();
+
 const theme: Ref<GlobalTheme> | undefined = inject('theme');
 
 const stroke = () => (theme?.value.name === 'dark' ? '#63E2B7' : '#18A058');
@@ -9,8 +11,8 @@ const stroke = () => (theme?.value.name === 'dark' ? '#63E2B7' : '#18A058');
 <template>
     <div class="flex gap-2 justify-center items-center">
         <svg
-            width="30"
-            height="30"
+            :width="width ?? 30"
+            :height="height ?? 30"
             viewBox="0 0 30 30"
             fill="none"
             xmlns="http://www.w3.org/2000/svg">

@@ -9,7 +9,7 @@ import 'vfonts/Lato.css';
 import 'vfonts/FiraCode.css';
 
 createInertiaApp({
-    title: (title) => `Koperasi - ${title}`,
+    title: (title) => `Koperasi Maju Bersama - ${title}`,
     resolve: async (name) =>
         await resolvePageComponent(
             name,
